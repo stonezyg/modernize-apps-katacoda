@@ -1,0 +1,6 @@
+web:
+  build: .
+  environment:
+    VIRTUAL_HOST: 'unknown.openshift.com'
+    CERT_NAME: 'openshift-roadshow'
+  restart: always
