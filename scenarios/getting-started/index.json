@@ -9,6 +9,7 @@
         "steps": [
             {
                 "title": "Explore Maven Projects",
+                "code": "foreground.sh",
                 "text": "02-maven-projects.md"
             }
         ],

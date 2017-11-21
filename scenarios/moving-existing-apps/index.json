@@ -9,6 +9,7 @@
         "steps": [
             {
                 "title": "Analying a Java EE app using Red Hat Application Migration Toolkit",
+                "code": "foreground.sh",
                 "text": "01-analyze-with-rhamt.md"
             }
         ],
