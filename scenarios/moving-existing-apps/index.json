@@ -9,28 +9,35 @@
         "steps": [
             {
                 "title": "Analying a Java EE app using Red Hat Application Migration Toolkit",
-                "code": "foreground.sh",
                 "text": "01-analyze-with-rhamt.md"
             }
         ],
         "intro": {
             "courseData": "run-init.sh",
+            "code": "set-env.sh",
             "text": "00-intro.md"
         },
         "finish": {
           "text": "99-outro.md"
         }
     },
+    "files": [
+
+    ],
+    "assets": {
+        "host01": [{"file": "volumes.json", "target": "~/"}]
+    },
     "environment": {
-        "uilayout": "terminal-iframe",
-        "uisettings": "javascript",
+        "uilayout": "editor-terminal",
+        "uisettings": "java",
+        "uieditorpath": "/root/projects/modernize-apps-labs/monolith",
         "showdashboard": true,
         "hideintro": false,
-        "dashboard": "Dashboard",
+        "dashboards": [{"name":"Local Web Browser","port":8080},{"name":"OpenShift Console","port":8443}],
         "uimessage1": "\u001b[32mYour Interactive Bash Terminal. A safe place to learn and execute commands.\u001b[m\r\n"
     },
     "backend": {
-        "imageid": "openshift-roadshow",
+        "imageid": "openshift-middleware",
         "port": 8443
     }
 }
