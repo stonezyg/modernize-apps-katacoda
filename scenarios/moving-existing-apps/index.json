@@ -21,7 +21,12 @@
           "text": "99-outro.md"
         },
         "assets": {
-            "host01": [{"file": "volumes.json", "target": "~/"}]
+            "host01": [
+                {"file": "deploy.sh", "target": "~/"},
+                {"file": "volumes.json", "target": "~/"},
+                {"file": "sso-app-secret.json", "target": "~/"},
+                {"file": "eap-app-secret.json", "target": "~/"}
+            ]
         }
     },
     "files": [
