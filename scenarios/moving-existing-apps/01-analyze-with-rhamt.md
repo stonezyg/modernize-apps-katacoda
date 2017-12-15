@@ -6,7 +6,7 @@ Run the next command to wait for the deployment to be ready (which should take a
 
 ``oc rollout status dc/rhamt-web-console``{{execute}}
 
-Next, click [Red Hat Application Migration Toolkit Web Console](http://rhamt-web-console-rhamt.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/rhamt-web/projects)
+Next, click [Red Hat Application Migration Toolkit Web Console](http://rhamt-web-console-rhamt.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/rhamt-web/project-list/)
 to login to the console with these credentials:
 
 * Username: `rhamt`
