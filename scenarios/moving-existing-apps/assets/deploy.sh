@@ -21,7 +21,7 @@ oc new-app registry.access.redhat.com/rhscl/postgresql-95-rhel7 \
    --name="sso" \
             -e DB_SERVICE_PREFIX_MAPPING=rhamt-postgresql=DB     \
             -e DB_JNDI='java:jboss/datasources/KeycloakDS'     \
-            -e JAVA_OPTS_APPEND='-Djava.net.preferIPv4Stack=true'     \
+            -e JAVA_OPTS_APPEND='-Djava.net.preferIPv4Stack=true -Dkeycloak.migration.strategy=OVERWRITE_EXISTING'     \
             -e DB_USERNAME=postgresuser     \
             -e DB_PASSWORD=postgrespassword     \
             -e DB_DATABASE=WindupServicesDS     \
@@ -50,12 +50,18 @@ oc new-app registry.access.redhat.com/rhscl/postgresql-95-rhel7 \
             -e SSO_TRUSTSTORE_PASSWORD=''
 
 oc expose svc/sso
+oc volume dc/sso --add -m /etc/eap-secret-volume -t secret --secret-name=sso-app-secret
+oc volume dc/sso --add -m /etc/sso-secret-volume -t secret --secret-name=sso-app-secret
+
+## TODO: disable psql ssl_required for master realm
+## TODO: update REALM set ssl_required='NONE' where id = 'master';
 
 SSO_HOSTNAME="$(oc get route --no-headers -o=custom-columns=HOST:.spec.host sso)"
 SSO_URL="http://${SSO_HOSTNAME}/auth"
 SSO_PUBLIC_KEY='MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhlI4WQ3tbIFE71M0HAO3TfvJFxH0P16wdOSzc/Fr9l8/tOn8cN5sgkGpnyEWcawgv2z4nouUkpV92/vo9fadKr3KVUMVaE3EaR3BmsC0Ct6TY7mYD+sz/yGoSWqwmGYocEJRIXAuMCX3jCu6CKMSV+1qjpcyYqzRaVWTB/EV76Sx+CSh9rEMLl8mE6owxNWQck03KgvWCA70l/LAu1M1bWy1aozoUKiTryX0nTxbHbj4qg3vvHC6igYndJ4zLr30QlCVn1iQ1jXC1MQUJ+Mwc8yZlkhaoAfDS1iM9I8NUcpcQAIn2baD8/aBrS1F9woYYRvo0vFH5N0+Rw4xjgSDlQIDAQAB'
 
 oc new-app docker.io/schtool/m2m-web \
+ --name="rhamt-web-console" \
  -e             DB_SERVICE_PREFIX_MAPPING=rhamt-postgresql=DB \
  -e             DB_JNDI='java:jboss/datasources/WindupServicesDS' \
  -e             DB_USERNAME=postgresuser \
@@ -85,3 +91,4 @@ oc new-app docker.io/schtool/m2m-web \
  -e             SSO_DISABLE_SSL_CERTIFICATE_VALIDATION='true' \
  -e             SSO_TRUSTSTORE_DIR=/etc/sso-secret-volume
 
+oc expose svc/rhamt-web-console
