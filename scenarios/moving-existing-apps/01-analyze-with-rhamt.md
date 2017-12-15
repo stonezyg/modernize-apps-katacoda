@@ -2,11 +2,11 @@ First, execute this working but hacky script to install RHAMT. It will take a fe
 
 ``sh ~/deploy.sh``{{execute}}
 
-Run the next command to wait for the deployment to be ready:
+Run the next command to wait for the deployment to be ready (which should take anywhere from 30 seconds to 2 minutes):
 
 ``oc rollout status dc/rhamt-web-console``{{execute}}
 
-Next, click [Red Hat Application Migration Toolkit Web Console](http://rhamt-web-console-rhamt.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/)
+Next, click [Red Hat Application Migration Toolkit Web Console](http://rhamt-web-console-rhamt.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/rhamt-web/projects)
 to login to the console with these credentials:
 
 * Username: `rhamt`
