@@ -57,7 +57,7 @@ oc volume dc/sso --add -m /etc/sso-secret-volume -t secret --secret-name=sso-app
 ## TODO: update REALM set ssl_required='NONE' where id = 'master';
 
 SSO_HOSTNAME="$(oc get route --no-headers -o=custom-columns=HOST:.spec.host sso)"
-SSO_URL="http://${SSO_HOSTNAME}/auth"
+SSO_URL="https://${SSO_HOSTNAME}/auth"
 SSO_PUBLIC_KEY='MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhlI4WQ3tbIFE71M0HAO3TfvJFxH0P16wdOSzc/Fr9l8/tOn8cN5sgkGpnyEWcawgv2z4nouUkpV92/vo9fadKr3KVUMVaE3EaR3BmsC0Ct6TY7mYD+sz/yGoSWqwmGYocEJRIXAuMCX3jCu6CKMSV+1qjpcyYqzRaVWTB/EV76Sx+CSh9rEMLl8mE6owxNWQck03KgvWCA70l/LAu1M1bWy1aozoUKiTryX0nTxbHbj4qg3vvHC6igYndJ4zLr30QlCVn1iQ1jXC1MQUJ+Mwc8yZlkhaoAfDS1iM9I8NUcpcQAIn2baD8/aBrS1F9woYYRvo0vFH5N0+Rw4xjgSDlQIDAQAB'
 
 oc new-app docker.io/schtool/m2m-web \
@@ -92,3 +92,9 @@ oc new-app docker.io/schtool/m2m-web \
  -e             SSO_TRUSTSTORE_DIR=/etc/sso-secret-volume
 
 oc expose svc/rhamt-web-console
+oc volume dc/rhamt-web-console --add -m /etc/eap-secret-volume -t secret --secret-name=eap-app-secret
+oc volume dc/rhamt-web-console --add -m /etc/sso-secret-volume -t secret --secret-name=eap-app-secret
+
+API_HOSTNAME="$(oc get route --no-headers -o=custom-columns=HOST:.spec.host rhamt-web-console)"
+API_URL="https://${API_HOSTNAME}/rhamt-web/api"
+oc set env dc/rhamt-web-console "RHAMT_API_SERVER_URL=${API_URL}"
