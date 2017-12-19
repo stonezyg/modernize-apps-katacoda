@@ -5,9 +5,9 @@ Follow the instructions to complete the scenario.
 
 ## Executing Commands
 
-Occasionally you'll see an executable command such as:
+Occasionally you'll see an executable command with a little arrow on the right, such as:
 
-``echo "Hello World!"``{{execute}}
+``echo 'Hello World!'``{{execute}}
 
 You can manually type this command into the terminal on the right, or you can
 click the command itself to automatically copy and paste and execute
@@ -16,7 +16,7 @@ the command in the terminal (which is a fully functional Linux terminal!)
 ## Links
 
 Links are [highlighted](http://redhat.com) and can be clicked to open
-a separate tab in your browser.
+a separate tab in your browser. You can then continue the scenario by returning to this tab (be sure not to close it!)
 
 ## Opening files
 
