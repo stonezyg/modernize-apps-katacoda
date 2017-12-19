@@ -8,8 +8,8 @@
     "details": {
         "steps": [
             {
-                "title": "Create",
-                "text": "01-create.md"
+                "title": "Login to OpenShift",
+                "text": "01-login.md"
             },
             {
                 "title": "Read",
