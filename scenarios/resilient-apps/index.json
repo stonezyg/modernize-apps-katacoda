@@ -1,19 +1,15 @@
 {
     "pathwayTitle": "Modernizing Legacy Apps",
     "icon": "fa-java",
-    "title": "Getting Started",
-    "description": "Understand concepts in this workshop",
-    "difficulty": "beginner",
-    "time": "10-15 minutes",
+    "title": "Resilient Apps",
+    "description": "How to prevent cascading failures in a distributed environment, how to detect misbehaving services. How to avoid having to implement resiliency and monitoring in your business logic",
+    "difficulty": "intermediate",
+    "time": "20-30 minutes",
     "details": {
         "steps": [
             {
-                "title": "Create",
-                "text": "01-create.md"
-            },
-            {
-                "title": "Read",
-                "text": "02-read.md"
+                "title": "Deploying Initial App",
+                "text": "01-deploy.md"
             }
         ],
         "intro": {
@@ -23,6 +19,11 @@
         },
         "finish": {
           "text": "99-outro.md"
+        },
+        "assets": {
+            "host01": [
+                {"file": "volumes.json", "target": "~/"}
+            ]
         }
     },
     "files": [
@@ -38,7 +39,7 @@
         "uimessage1": "\u001b[32mYour Interactive Bash Terminal. A safe place to learn and execute commands.\u001b[m\r\n"
     },
     "backend": {
-        "imageid": "openshift-roadshow",
+        "imageid": "openshift-3-7",
         "port": 8443
     }
 }

@@ -13,9 +13,25 @@
       "title": "Moving existing apps to the cloud"
     },
     {
+    {
       "pathway_id": "scenarios",
-      "course_id": "resiliant-apps",
-      "title": "How to prevent and detect issues in a distributed system"
+      "course_id": "developer-intro",
+      "title": "A Developer Introduction to OpenShift"
+    },
+    {
+      "pathway_id": "scenarios",
+      "course_id": "mono-to-micro",
+      "title": "Transforming an existing monolith"
+    },
+    {
+      "pathway_id": "scenarios",
+      "course_id": "reactive-microservices",
+      "title": "Building Reactive Microservices"
+    },
+    {
+      "pathway_id": "scenarios",
+      "course_id": "resilient-apps",
+      "title": "Prevent and detect issues in a distributed system"
     }
   ]
 }

@@ -1,10 +1,10 @@
 {
     "pathwayTitle": "Modernizing Legacy Apps",
     "icon": "fa-java",
-    "title": "Getting Started",
-    "description": "Understand concepts in this workshop",
-    "difficulty": "beginner",
-    "time": "10-15 minutes",
+    "title": "Resiliant Apps",
+    "description": "Prevent and detect issues in a distributed system",
+    "difficulty": "intermediate",
+    "time": "20-30 minutes",
     "details": {
         "steps": [
             {

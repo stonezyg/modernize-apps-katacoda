@@ -1,10 +1,10 @@
 {
     "pathwayTitle": "Modernizing Legacy Apps",
     "icon": "fa-java",
-    "title": "Getting Started",
-    "description": "Understand concepts in this workshop",
-    "difficulty": "beginner",
-    "time": "10-15 minutes",
+    "title": "Monolith to Microservices",
+    "description": "Showing developers and architects how Red Hat jumpstarts modernization",
+    "difficulty": "intermediate",
+    "time": "20-30 minutes",
     "details": {
         "steps": [
             {
