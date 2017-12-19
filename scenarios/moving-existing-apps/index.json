@@ -8,8 +8,24 @@
     "details": {
         "steps": [
             {
-                "title": "Analying a Java EE app using Red Hat Application Migration Toolkit",
+                "title": "Analyzing a Java EE app using Red Hat Application Migration Toolkit",
                 "text": "01-analyze-with-rhamt.md"
+            },
+            {
+                "title": "Migrate Application Startup Code",
+                "text": "02-migrate-startup.md"
+            },
+            {
+                "title": "Migrate Logging",
+                "text": "03-migrate-logging.md"
+            },
+            {
+                "title": "Migrate JMS Topic",
+                "text": "04-migrate-jms.md"
+            },
+            {
+                "title": "Re-Run the RHAMT report",
+                "text": "05-rerun-rhamt.md"
             }
         ],
         "intro": {
@@ -19,14 +35,6 @@
         },
         "finish": {
           "text": "99-outro.md"
-        },
-        "assets": {
-            "host01": [
-                {"file": "deploy.sh", "target": "~/"},
-                {"file": "volumes.json", "target": "~/"},
-                {"file": "sso-app-secret.json", "target": "~/"},
-                {"file": "eap-app-secret.json", "target": "~/"}
-            ]
         }
     },
     "files": [
