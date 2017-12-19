@@ -26,6 +26,10 @@
             {
                 "title": "Re-Run the RHAMT report",
                 "text": "05-rerun-rhamt.md"
+            },
+            {
+                "title": "Migrate and run the project",
+                "text": "06-run-the-migrated-application.md"
             }
         ],
         "intro": {
