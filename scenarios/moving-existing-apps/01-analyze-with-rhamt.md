@@ -33,7 +33,7 @@ migration paths include **IBM® WebSphere® Application Server** and **JBoss EAP
 
 The RHAMT CLI generates an HTML report. To view the report, first startup a simple web server:
 
-```docker run nginx -v ~/rhamt-report:/usr/share/nginx/html:ro -p 9000:80 -it nginx```{{execute}}
+```docker run -v ~/rhamt-report:/usr/share/nginx/html:ro -p 9000:80 -it nginx```{{execute}}
 
 Then [click to view the report](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/)
 
