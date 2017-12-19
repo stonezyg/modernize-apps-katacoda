@@ -11,6 +11,11 @@
       "pathway_id": "scenarios",
       "course_id": "moving-existing-apps",
       "title": "Moving existing apps to the cloud"
+    },
+    {
+      "pathway_id": "scenarios",
+      "course_id": "resiliant-apps",
+      "title": "How to prevent and detect issues in a distributed system"
     }
   ]
 }
