@@ -24,8 +24,7 @@ to execute the RHAMT CLI and analyze the existing project:
   --overwrite \
   --source weblogic \
   --target eap:7
-```
-{{execute}}
+```{{execute}}
 
 > Note the use of the ``--source`` and ``--target`` options. This allows you to target specific migration paths supported by RHMAT. Other
 migration paths include **IBM® WebSphere® Application Server** and **JBoss EAP** 5/6/7.
