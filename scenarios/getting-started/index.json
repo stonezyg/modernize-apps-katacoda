@@ -8,11 +8,11 @@
     "details": {
         "steps": [
             {
-                "title": "Login to OpenShift",
-                "text": "01-login.md"
+                "title": "Understanding the Workshop Environment",
+                "text": "01-env.md"
             },
             {
-                "title": "Read",
+                "title": "Executing ",
                 "text": "02-read.md"
             }
         ],
