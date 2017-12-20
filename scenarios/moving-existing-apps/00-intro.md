@@ -17,6 +17,15 @@ We will then take the following steps to migrate (lift & shift) an existing Java
 
 Red Hat Application Migration Toolkit (RHAMT) is an extensible and customizable rule-based tool that helps simplify migration of Java applications.
 
+It is used by organizations for:
+
+* Planning and work estimation
+* Identifying migration issues and providing solutions
+* Detailed reporting
+* Using built-in rules and migration paths
+* Rule extension and customizability
+* Ability to analyze source code or application archives
+
 RHAMT examines application artifacts, including project source directories and application archives, then produces an HTML report that highlights areas needing changes. RHAMT can be used to migrate Java applications from previous versions of Red Hat JBoss Enterprise Application Platform or from other containers, such as Oracle® WebLogic Server or IBM® WebSphere® Application Server.
 
 # How Does Red Hat Application Migration Toolkit Simplify Migration?

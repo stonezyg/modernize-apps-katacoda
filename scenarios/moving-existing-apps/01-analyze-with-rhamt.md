@@ -3,13 +3,31 @@ Oracle® WebLogic Server (WLS). This application is a Java EE application
 using a number of different technologies, including standard Java EE APIs
 as well as proprietary Weblogic APIs and best practices.
 
-The Red Hat Application Migration Toolkit can be used in a few different ways, including a web interface, a command line interface (CLI), and an Eclipse plugin. You will use the CLI to analyze.
+The Red Hat Application Migration Toolkit can be installed and used in a few different ways:
 
-The CLI is a command-line tool in the Red Hat Application Migration Toolkit that allows users to assess and prioritize migration and modernization efforts for applications. It provides numerous reports that highlight the analysis results. The CLI is for users looking for fine-grained control of RHAMT analysis options or to integrate with external automation tools.
+* **Web Console** - The web console for Red Hat Application Migration Toolkit is a web-based system that allows a team of users to assess and prioritize migration and modernization efforts for a large number of applications. It allows you to group applications into projects for analysis and provides numerous reports that highlight the results.
+* **Command Line Interface** - The CLI is a command-line tool that allows users to assess and prioritize migration and modernization efforts for applications. It provides numerous reports that highlight the analysis results.
+* **Eclipse Plugin** - The Eclipse plugin for Red Hat Application Migration Toolkit provides assistance directly in Eclipse and Red Hat JBoss Developer Studio for developers making changes for a migration or modernization effort. It analyzes your projects using RHAMT, marks migration issues in the source code, provides guidance to fix the issues, and offers automatic code replacement when possible.
+
+For this scenario, we will use the CLI as you are the only one that will run RHAMT in this system. For multi-user use, the Web Console would be a good option.
 
 **1. Unzip the Red Hat Application Migration Toolkit CLI**
 
-_TBD, possibly not needed_
+Installing the CLI is the first step. The CLI is distributed as a downloadable archive that can be installed
+using the following command:
+
+```unzip -d ~ /some/path/to/rhamt-cli.zip```{{execute}}
+
+To verify that the tool was properly installed, run:
+
+```~/rhamt-cli-4.0.0.Beta4/bin/rhamt-cli```{{execute}}
+
+You should see:
+
+```console
+Using RHAMT at /root/rhamt-cli-4.0.0.Beta4
+> Red Hat Application Migration Toolkit (RHAMT) CLI, version 4.0.0.Beta4.
+```
 
 **2. Run the RHAMT CLI against the project**
 
