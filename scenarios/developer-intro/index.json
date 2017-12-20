@@ -8,12 +8,28 @@
     "details": {
         "steps": [
             {
-                "title": "Create",
-                "text": "01-create.md"
+                "title": "Developer Concepts",
+                "text": "01-developer-concepts.md"
             },
             {
-                "title": "Read",
-                "text": "02-read.md"
+                "title": "Verifying the Dev Environment",
+                "text": "02-verifying-dev.md"
+            },
+            {
+                "title": "Making Changes on the Fly",
+                "text": "03-making-changes.md"
+            },
+            {
+                "title": "Debugging the App",
+                "text": "04-debugging.md"
+            },
+            {
+                "title": "Deploying the Production Environment",
+                "text": "05-deploy-prod.md"
+            },
+            {
+                "title": "Promoting Apps Across Environments with Pipelines",
+                "text": "06-pipeline-promotion.md"
             }
         ],
         "intro": {
