@@ -44,7 +44,7 @@ Next we are going to add some configuration. First we need to point to our JBoss
 
 Since our application is using a Database we also configuration that by adding the following at the ```<-- TODO: Add Datasource definition here -->``` comment
 
-<pre class="file" data-filename="pom.xml" data-target="insert" data-marker="<!-- TODO: TODO: Add Datasource definition here -->">
+<pre class="file" data-filename="pom.xml" data-target="insert" data-marker="<!-- TODO: Add Datasource definition here -->">
                         &lt;resource&gt;
                             &lt;addIfAbsent&gt;true&lt;/addIfAbsent&gt;
                             &lt;address&gt;subsystem=datasources,data-source=java:jboss/CoolstoreDS&lt;/address&gt;
@@ -92,7 +92,7 @@ We are now ready to deploy the application
 
 ## Test the application
 
-Access the application by clicking [here](https://[[HOST_SUBDOMAIN]]-8080-[[KATACODA_HOST]].environments.katacoda.com/)
+Access the application by clicking [here](https://[[HOST_SUBDOMAIN]]-8080-[[KATACODA_HOST]].environments.katacoda.com/) and shop around for some cool stuff.
 
 
 
