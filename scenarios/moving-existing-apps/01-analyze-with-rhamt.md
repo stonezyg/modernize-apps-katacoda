@@ -16,11 +16,11 @@ For this scenario, we will use the CLI as you are the only one that will run RHA
 Installing the CLI is the first step. The CLI is distributed as a downloadable archive that can be installed
 using the following command:
 
-```unzip -d ~ /some/path/to/rhamt-cli.zip```{{execute}}
+```unzip -d ${HOME} /some/path/to/rhamt-cli.zip```{{execute}}
 
 To verify that the tool was properly installed, run:
 
-```~/rhamt-cli-4.0.0.Beta4/bin/rhamt-cli```{{execute}}
+```${HOME}/rhamt-cli-4.0.0.Beta4/bin/rhamt-cli```{{execute}}
 
 You should see:
 
