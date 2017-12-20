@@ -104,7 +104,7 @@ import javax.ejb.MessageDriven;
 @MessageDriven(name = "InventoryNotificationMDB", activationConfig = {
 	@ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "topic/orders"),
 	@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic"),
-	@ActivationConfigProperty(propertyName = "transactionTimeout", propertyValue = 30),
+	@ActivationConfigProperty(propertyName = "transactionTimeout", propertyValue = "30"),
 	@ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge")})
 public class OrderServiceMDB implements MessageListener {
 
