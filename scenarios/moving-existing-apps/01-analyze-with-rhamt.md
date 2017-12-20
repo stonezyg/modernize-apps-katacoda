@@ -20,11 +20,11 @@ using the following command:
 
 To verify that the tool was properly installed, run:
 
-```${HOME}/rhamt-cli-4.0.0.Beta4/bin/rhamt-cli```{{execute}}
+`${HOME}/rhamt-cli-4.0.0.Beta4/bin/rhamt-cli`{{execute}}
 
 You should see:
 
-```console
+```
 Using RHAMT at /root/rhamt-cli-4.0.0.Beta4
 > Red Hat Application Migration Toolkit (RHAMT) CLI, version 4.0.0.Beta4.
 ```
