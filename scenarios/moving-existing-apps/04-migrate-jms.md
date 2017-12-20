@@ -78,7 +78,7 @@ at the updated report.
 While we're at it, let's remove the stub weblogic implementation classes added as part of the scenario.
 Run or click on this command to remove them:
 
-`rm -f src/main/java/weblogic`{{execute}}
+`rm -rf src/main/java/weblogic`{{execute}}
 
 **5. Remove unneeded class variables and methods**
 
