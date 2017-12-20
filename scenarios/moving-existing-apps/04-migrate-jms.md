@@ -5,8 +5,8 @@ Our application uses [JMS](https://en.wikipedia.org/wiki/Java_Message_Service) t
 a JMS Topic, which is then consumed by listeners (subscribers) to that topic to process the order using [Message-driven beans](https://docs.oracle.com/javaee/6/tutorial/doc/gipko.html), a form
 of Enterprise JavaBeans (EJBs) that allow Java EE applications to process messages asynchronously.
 
-In this case, the `InventoryNotificationMDB` is subscribed to and listening for messages from the `ShoppingCartService`. When
-an order comes through the ShoppingCartService, a message is placed on the JMS Topic. At that point, the `InventoryNotificationMDB`
+In this case, the `src/main/java/com/redhat/coolstore/service/InventoryNotificationMDB.java`{{open}} is subscribed to and listening for messages from the class in `src/main/java/com/redhat/coolstore/service/ShoppingCartService.java`{{open}}. When
+an order comes through the `ShoppingCartService`, a message is placed on the JMS Topic. At that point, the `InventoryNotificationMDB`
 receives a message and if the inventory service is below a pre-defined threshold, sends a message to the log indicating that
 the supplier of the product needs to be notified.
 

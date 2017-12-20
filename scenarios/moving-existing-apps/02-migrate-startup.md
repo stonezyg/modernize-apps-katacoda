@@ -1,16 +1,14 @@
 In this step we will migrate some Weblogic-specific code in the app to use standard Java EE interfaces.
 
+**1. Open the file**
+
+Open the file `src/main/java/com/redhat/coolstore/utils/StartupListener.java`{{open}} using this link.
 The first issue we will tackle is the one reporting the use of _Weblogic ApplicationLifecyleEvent_ and
-_Weblogic LifecycleListener_.  The WebLogic `ApplicationLifecycleListener` abstract class is used to perform functions or schedule jobs at Oracle WebLogic Server start and stop. In this case we have
+_Weblogic LifecycleListener_ in this file.
+The WebLogic `ApplicationLifecycleListener` abstract class is used to perform functions or schedule jobs at Oracle WebLogic Server start and stop. In this case we have
 code in the `postStart` and `preStop` methods which are executed after Weblogic starts up and before it shuts down, respectively.
 
-In JBoss Enterprise Application Platform, there is no equivalent to intercept these events, but you can get equivelant functionality using a _Singleton EJB_ with standard annotations.
-We will use the `@Startup` annotation to tell the container to initialize the singleton session
-bean at application start. We will similarly use the @PostConstruct and `@PreDestroy` annotations to specify the
-methods to invoke at the start and end of the application lifecyle achieving the same result but without
-using proprietary interfaces.
-
-**1. Select the issue related to `ApplicationLifecycleListener`**
+**1. Review the issue related to `ApplicationLifecycleListener`**
 
 [Open the report](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/) and then
 click on monolith and navigate to the **Issues** tab:
@@ -19,26 +17,30 @@ click on monolith and navigate to the **Issues** tab:
 
 RHAMT provides helpful links to understand the issue deeper and offer guidance for the migration.
 
-**2. Open the file**
+In JBoss Enterprise Application Platform, there is no equivalent to intercept these events, but you can get equivalent functionality using a _Singleton EJB_ with standard annotations,
+as suggested in the issue in the RHAMT report.
 
-Click here to open the offending file `src/main/java/com/redhat/coolstore/utils/StartupListener.java`{{open}}
+We will use the `@Startup` annotation to tell the container to initialize the singleton session
+bean at application start. We will similarly use the @PostConstruct and `@PreDestroy` annotations to specify the
+methods to invoke at the start and end of the application lifecyle achieving the same result but without
+using proprietary interfaces.
 
 **2. Remove weblogic-specific `import` statements and inheritance**
 
-The first step is to remove all instances of `import weblogic.x.y.z` at the top of the file. This ensures that our code will
+In `src/main/java/com/redhat/coolstore/utils/StartupListener.java`{{open}},
+the first step is to remove all instances of `import weblogic.x.y.z` at the top of the file. This ensures that our code will
 not compile or run until we complete the migration. Remove the import statements for `weblogic.application.ApplicationLifecycleEvent` and
 `weblogic.application.ApplicationLifecycleListener`.
 
 Next, remove the inherited class by removing `extends ApplicationLifecycleListener` from the class definition. We no longer need it.
 
 Finally change the method signatures for the `postStart` and `preStop` methods to remove the weblogic arguments and the `@Override`
-annotations since our methods no longer override the Weblogic-specific super class.
+annotations since our methods no longer override the Weblogic-specific super class. The methods should look like:
 
 ```
 public void postStart() { ... }
 public void preStop() { ... }
 ```
-
 
 **3. Annotate the class**
 
