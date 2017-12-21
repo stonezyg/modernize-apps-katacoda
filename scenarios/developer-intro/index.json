@@ -16,20 +16,24 @@
                 "text": "02-verifying-dev.md"
             },
             {
-                "title": "Making Changes on the Fly",
+                "title": "Making Changes to Containers",
                 "text": "03-making-changes.md"
             },
             {
+                "title": "Live Synchronization of Project Files",
+                "text": "04-live-sync.md"
+            },
+            {
                 "title": "Debugging the App",
-                "text": "04-debugging.md"
+                "text": "05-debugging.md"
             },
             {
                 "title": "Deploying the Production Environment",
-                "text": "05-deploy-prod.md"
+                "text": "06-deploy-prod.md"
             },
             {
                 "title": "Promoting Apps Across Environments with Pipelines",
-                "text": "06-pipeline-promotion.md"
+                "text": "07-pipeline-promotion.md"
             }
         ],
         "intro": {
