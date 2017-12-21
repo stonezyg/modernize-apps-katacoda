@@ -27,25 +27,16 @@ You can review the above resources in the OpenShift Web Console or using `oc des
 > of **imagestream**, **dc** instead of **deploymentconfig** and **svc** instead of **service**.
 
 
-```
-oc describe bc coolstore
-```{{execute}}
+`oc describe bc coolstore`{{execute}}
 
-```
-oc describe is coolstore
-```{{execute T1}}
+`
+oc describe is coolstore`{{execute}}
 
-```
-oc describe dc coolstore
-```{{execute T1}}
+`oc describe dc coolstore`{{execute}}
 
-```
-oc describe svc coolstore
-```{{execute T1}}
+`oc describe svc coolstore`{{execute}}
 
-```
-oc describe route www
-```{{execute T1}}
+`oc describe route www`{{execute T1}}
 
 Verify that you can access the monolith by clicking on the
 [exposed OpenShift route](http://www-coolstore-monolith-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
@@ -72,10 +63,7 @@ You can log into the running Postgres container using the following:
 
 Once logged in, use the following command to show some content from the database:
 
-```
-psql -h $HOSTNAME -U $POSTGRESQL_USER $POSTGRESQL_DATABASE \
--c 'select name from PRODUCT_CATALOG;'
-```{{execute}}
+`psql -h $HOSTNAME -U $POSTGRESQL_USER $POSTGRESQL_DATABASE -c 'select name from PRODUCT_CATALOG;'`{{execute}}
 
 * Password: `coolstore123`
 

@@ -16,7 +16,7 @@ versions of the app after code changes and deploying them to the development env
 In a real project on OpenShift, _dev_, _test_ and _production_ environments would typically use different
 OpenShift projects and perhaps even different OpenShift clusters.
 
-For simplicity in this scenaro we will only use a _dev_ and _prod_ environment, and no test/QA
+For simplicity in this scenario we will only use a _dev_ and _prod_ environment, and no test/QA
 environment.
 
 

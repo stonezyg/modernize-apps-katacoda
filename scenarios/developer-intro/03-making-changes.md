@@ -34,21 +34,25 @@ Let's copy the EAP configuration in use so that we can inspect it. To copy files
 on OpenShift, we'll use the `oc rsync` command. This command expects the name of the pod to copy from,
 which can be seen with this command:
 
-`oc get pods --show-all=false`{{execute}}
+`oc get pods --selector deploymentconfig=coolstore --show-all=false`{{execute}}
 
 The output should show you the name of the pod:
 
 ```console
 NAME                           READY     STATUS    RESTARTS   AGE
 coolstore-2-bpkkc              1/1       Running   0          32m
-coolstore-postgresql-1-jpcb8   1/1       Running   0          36m
 ```
 
 The name of my running coolstore monolith pod is `coolstore-2-bpkkc` but yours will be different.
 
-Next, run the `oc rsync` command in your terminal window, substituting the name of *your* pod for `[POD]`:
+Save the name of the pod into an environment variable called `COOLSTORE_DEV_POD_NAME` so that we can use it for future
+commands:
 
-`oc rsync [POD]:/opt/eap/standalone/configuration/standalone-openshift.xml .`
+`export COOLSTORE_DEV_POD_NAME=$(oc get pods --selector deploymentconfig=coolstore -o jsonpath='{.items[?(@.status.phase=="Running")].metadata.name}')`{{execute}}
+
+Next, run the `oc rsync` command in your terminal window, using the new variable to refer to the name of the pod running our coolstore:
+
+`oc rsync $COOLSTORE_DEV_POD_NAME:/opt/eap/standalone/configuration/standalone-openshift.xml /tmp`{{execute}}
 
 The output will show that the file was downloaded:
 
@@ -60,7 +64,7 @@ sent 30 bytes  received 31,253 bytes  62,566.00 bytes/sec
 total size is 31,152  speedup is 1.00
 ```
 
-Now you can open the file locally using this link: `standalone-openshift.xml`{{open}} and inspect
+Now you can open the file locally using this link: `/tmp/standalone-openshift.xml`{{open}} and inspect
 its contents. This is useful for verifying that the contents of files in your applications are what you expect.
 
 You can also upload files using the same `oc rsync` command but

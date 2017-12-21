@@ -50,6 +50,10 @@ that you want to remotely debug. This will pass additional variables to the JVM 
 
 This will cause a re-deployment of the app to enable the remote debugging agent on TCP port 8787.
 
+Wait for the re-deployment to complete before continuing by executing:
+
+`oc rollout status dc/coolstore`{{execute}}
+
 ## Expose debug port locally
 
 Next, let's use `oc port-forward` to enable us to connect to `localhost:8787` to debug. Without this,
@@ -58,9 +62,7 @@ will just open it for ourselves with `oc port-forward`.
 
 Execute:
 
-`oc port-forward [POD] 8787 &`{{execute}}
-
-> Be sure to replace `[POD]` with the name of the pod which you can get from `oc get pods --show-all=false`{{execute}}
+`oc port-forward $COOLSTORE_DEV_POD_NAME 8787 &`{{execute}}
 
 This will forward traffic to/from the container's port 8787 to your `localhost` port 8787.
 
@@ -203,9 +205,7 @@ With our code fix in place, let's re-build the application to test it out. To re
 
 Let's use our new `oc rsync` skills to re-deploy the app to the running container. Execute:
 
-`oc rsync deployments/ [POD]:/deployments --no-perms`{{execute}}
-
-> Be sure to replace `[POD]` with the name of the pod which you can get from `oc get pods --show-all=false`{{execute}}
+`oc rsync deployments/ $COOLSTORE_DEV_POD_NAME:/deployments --no-perms`{{execute}}
 
 After a few seconds, reload the [Coolstore Application](http://www-coolstore-monolith-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com) in your browser
 and notice now the application behaves properly and displays `Inventory Unavailable` whereas before it was totally and confusingly blank.
@@ -214,8 +214,8 @@ Well done and congratulations for completing this scenario!
 
 ## Before continuing
 
-Let's kill the `oc rsync` and `oc port-forward` processes we started earlier in the background. Execute:
+Let's kill the `oc port-forward` processes we started earlier in the background. Execute:
 
-`kill %1 %2`{{execute}}
+`kill %1`{{execute}}
 
 On to the next challenge!

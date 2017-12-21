@@ -29,9 +29,9 @@ to open the application in a browser tab so you can watch changes.
 
 Turn on **Live sync** by executing this command:
 
-`oc rsync deployments/ [POD]:/deployments --watch --no-perms &`{{execute}}
+`oc rsync deployments/ $COOLSTORE_DEV_POD_NAME:/deployments --watch --no-perms &`{{execute}}
 
-> Be sure to replace `[POD]` with the name of the pod which you can get from `oc get pods --show-all=false`{{execute}}
+> The `&` character at the end places the command into the background. We will kill it at the end of this step.
 
 Now `oc` is watching the `deployments/` directory for changes to the `ROOT.war` file. Anytime that file changes,
 `oc` will copy it into the running container and we should see the changes immediately (or after a few seconds). This is
@@ -86,7 +86,7 @@ It's blue! You can do this as many times as you wish, which is great for speedy 
 
 ## Before continuing
 
-Let's kill the `oc port-forward` processes we started earlier in the background. Execute:
+Let's kill the `oc rsync` processes we started earlier in the background. Execute:
 
 `kill %1`{{execute}}
 
