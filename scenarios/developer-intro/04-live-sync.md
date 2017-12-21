@@ -70,7 +70,7 @@ You should now see the red header:
 
 Repeat the process, but replace the background color to be blue (click **Copy to Editor** to do this automatically):
 
-<pre class="file" data-filename="src/main/webapp/app/css/coolstore.css" data-target="replace" data-marker="background: #CC0000">
+<pre class="file" data-filename="src/main/webapp/app/css/coolstore.css" data-target="insert" data-marker="background: #CC0000">
 
 background: blue
 

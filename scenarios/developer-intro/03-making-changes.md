@@ -1,10 +1,10 @@
 In this step you will learn how to transfer files between your local machine and a running
 container.
 
-One of the properties of container images is that they are immutable. That is, although you can
-make changes to the local container filesystem of a running image, the changes are not permanent.
-When that container is stopped, any changes are discarded. When a new container is started from
-the same container image, it reverts back to what was originally built into the image.
+One of the properties of container images is that they are **immutable**. That is, although you can
+make changes to the local container filesystem of a running image, the changes are _not permanent_.
+When that container is stopped, _any changes are discarded_. When a new container is started from
+the same container image, it _reverts back_ to what was originally built into the image.
 
 Although any changes to the local container filesystem are discarded when the container is stopped,
 it can sometimes be convenient to be able to upload files into a running container. One example of
@@ -19,11 +19,16 @@ files. During development these may be data files or log files created by the ap
 
 As you recall from the last step, we can use `oc rsh` to execute commands inside the running pod.
 
-For our Coolstore Monolith running with JBoss EAP, the application is installed in the `/opt/eap` directory:
+For our Coolstore Monolith running with JBoss EAP, the application is installed in the `/opt/eap` directory in the running
+container.
 
 `oc rsh dc/coolstore ls -l /opt/eap`{{execute}}
 
 You should see a listing of files in this directory **in the running container**.
+
+> It is very important to remember where commands are executed! If you think you are in a container and in fact are on some other machine,
+destructive commands may do real harm, so be careful! In general it is not a good idea to operate inside immutable containers outsode of the
+development environment. But for doing testing and debugging it's OK.
 
 Let's copy the EAP configuration in use so that we can inspect it. To copy files from a running container
 on OpenShift, we'll use the `oc rsync` command. This command expects the name of the pod to copy from,

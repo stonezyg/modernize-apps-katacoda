@@ -75,8 +75,7 @@ Once logged in, use the following command to show some content from the database
 ```
 psql -h $HOSTNAME -U $POSTGRESQL_USER $POSTGRESQL_DATABASE \
 -c 'select name from PRODUCT_CATALOG;'
-```
-{{execute}}
+```{{execute}}
 
 * Password: `coolstore123`
 
