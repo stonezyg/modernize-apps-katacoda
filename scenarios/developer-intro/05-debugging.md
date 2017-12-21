@@ -193,18 +193,20 @@ of the `getProductByItemId` method (or simply click **Copy to Editor** to do it 
             i.setQuantity(0);
             entity.setInventory(i);
         }
-        return Transformers.toProduct(entity);
 </pre>
 
-## Re-build the application
+## Re-build and redeploy the application
 
 With our code fix in place, let's re-build the application to test it out. To rebuild, execute:
 
 `mvn package -Popenshift`{{execute}}
 
-Since we left the `oc rsync` process running earlier, as soon as the build completes our app will be
-automatically updated in the running container. Nice!
-p
+Let's use our new `oc rsync` skills to re-deploy the app to the running container. Execute:
+
+`oc rsync deployments/ [POD]:/deployments --no-perms`{{execute}}
+
+> Be sure to replace `[POD]` with the name of the pod which you can get from `oc get pods --show-all=false`{{execute}}
+
 After a few seconds, reload the [Coolstore Application](http://www-coolstore-monolith-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com) in your browser
 and notice now the application behaves properly and displays `Inventory Unavailable` whereas before it was totally and confusingly blank.
 

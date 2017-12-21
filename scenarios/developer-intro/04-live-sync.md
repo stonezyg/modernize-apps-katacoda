@@ -84,6 +84,10 @@ Re-visit the app by reloading the Coolstore webpage (or clicking again on the [C
 
 It's blue! You can do this as many times as you wish, which is great for speedy development and testing.
 
-We'll leave the Live Sync monitor up and running for the moment, and use it in the next
-step, where we'll turn our attention to debugging the running Java application.
+## Before continuing
 
+Let's kill the `oc port-forward` processes we started earlier in the background. Execute:
+
+`kill %1`{{execute}}
+
+On to the next challenge!
