@@ -1,1 +1,1 @@
-In this scenario you used Istio.
+TBD
