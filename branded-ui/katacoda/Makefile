@@ -27,4 +27,4 @@ dev:
 	  golang:1.7
 
 start:	release
-	docker-compose -p openshift-roadshow up -d
+	docker-compose -p openshift-modernize-apps up -d
