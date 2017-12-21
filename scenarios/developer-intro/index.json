@@ -1,10 +1,10 @@
 {
     "pathwayTitle": "Modernizing Legacy Apps",
     "icon": "fa-java",
-    "title": "Resiliant Apps",
-    "description": "Prevent and detect issues in a distributed system",
+    "title": "A Developer Introduction to OpenShift",
+    "description": "Learn how developing apps is easy and fun",
     "difficulty": "intermediate",
-    "time": "20-30 minutes",
+    "time": "45-60 minutes",
     "details": {
         "steps": [
             {
