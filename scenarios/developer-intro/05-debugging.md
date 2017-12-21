@@ -66,7 +66,7 @@ This will forward traffic to/from the container's port 8787 to your `localhost` 
 
 You are all set now to start debugging using the tools of you choice.
 
-Remote debugging can be done using the prevalently available
+Remote debugging can be done using the widely available
 Java Debugger (`jdb`) command line or any modern IDE like **JBoss
 Developer Studio (Eclipse)** and **IntelliJ IDEA**.
 
@@ -183,8 +183,9 @@ a sensible value for an Inventory in case it is not there. To make this change, 
 of the `getProductByItemId` method (or simply click **Copy to Editor** to do it for you):
 
 
-<pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/ProductService.java" data-target="replace" data-marker="return Transformers.toProduct(entity);">
-if (entity.getInventory() == null) {
+<pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/ProductService.java" data-target="insert" data-marker="// Return the entity">
+        // Add inventory if needed and return entity
+        if (entity.getInventory() == null) {
             InventoryEntity i = new InventoryEntity();
             i.setItemId(itemId);
             i.setLink("http://redhat.com");
@@ -203,7 +204,7 @@ With our code fix in place, let's re-build the application to test it out. To re
 
 Since we left the `oc rsync` process running earlier, as soon as the build completes our app will be
 automatically updated in the running container. Nice!
-
+p
 After a few seconds, reload the [Coolstore Application](http://www-coolstore-monolith-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com) in your browser
 and notice now the application behaves properly and displays `Inventory Unavailable` whereas before it was totally and confusingly blank.
 
