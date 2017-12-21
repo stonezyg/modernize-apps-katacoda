@@ -88,4 +88,16 @@ security, such as TLS, for the _Route_. If you want your _Services_, and, by
 extension, your _Pods_,  to be accessible to the outside world, you need to
 create a _Route_.
 
+## Templates
+
+Templates contain a collection of object definitions (BuildConfigs, DeploymentConfigs,
+Services, Routes, etc) that compose an entire working project. They are useful for packaging
+up an entire collection of runtime objects into a somewhat portable representation of a
+running application, including the configuration of the elements.
+
+You will use several pre-defined templates to initialize different environments for the
+application. You've already used one in the previous scenario to deploy the application
+into a _dev_ environment, and you'll use more in this scenario to provision the _production_
+environment as well.
+
 Consult the [OpenShift documentation](https://docs.openshift.com) for more details on these and other concepts.

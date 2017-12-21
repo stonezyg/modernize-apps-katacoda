@@ -34,6 +34,10 @@
             {
                 "title": "Promoting Apps Across Environments with Pipelines",
                 "text": "07-pipeline-promotion.md"
+            },
+            {
+                "title": "Adding Pipeline Approval Steps",
+                "text": "08-pipeline-approval.md"
             }
         ],
         "intro": {
