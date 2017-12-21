@@ -1,6 +1,5 @@
 web:
   build: .
   environment:
-    VIRTUAL_HOST: 'unknown.openshift.com'
-    CERT_NAME: 'openshift-roadshow'
+    VIRTUAL_HOST: 'openshift-modernize-apps.katacoda.com'
   restart: always
