@@ -1,5 +1,5 @@
-NAME = openshift-roadshow/cloud-native-katacoda
-INSTANCE = openshift-roadshow-cloud-native
+NAME = openshift-roadshow/modernize-apps-katacoda
+INSTANCE = openshift-roadshow-modernize-apps
 
 .PHONY: default buildrelease build copy debug run release dev push
 
@@ -27,4 +27,4 @@ dev:
 	  golang:1.7
 
 start:	release
-	docker-compose -p openshift-roadshow up -d
+	docker-compose -p openshift-modernize-apps up -d

@@ -37,7 +37,7 @@ to execute the RHAMT CLI and analyze the existing project:
 ```
 ~/rhamt-cli-4.0.0.Beta4/bin/rhamt-cli \
   --sourceMode \
-  --input ~/projects/modernize-apps-labs/monolith \
+  --input ~/monolith \
   --output ~/rhamt-report \
   --overwrite \
   --source weblogic \

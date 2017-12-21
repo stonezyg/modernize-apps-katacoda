@@ -31,7 +31,7 @@
     "environment": {
         "uilayout": "editor-terminal",
         "uisettings": "java",
-        "uieditorpath": "/root/projects/modernize-apps-labs/monolith",
+        "uieditorpath": "/root/monolith",
         "showdashboard": true,
         "hideintro": false,
         "dashboards": [{"name":"Local Web Browser","port":8080},{"name":"OpenShift Console","port":8443}],
