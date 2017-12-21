@@ -49,7 +49,7 @@ their specific requirements.  For detailed information about the REST API, check
 
 During this workshop, you will be using both the command line tool and the web console.  However, it
 should be noted that there are plugins for several integrated development environments as well.
-For example, to use OpenShift from the Eclipse IDE, you would want to use the official [https://tools.jboss.org/features/openshift.html](JBoss Tools) plugin.
+For example, to use OpenShift from the Eclipse IDE, you would want to use the official [JBoss Tools](https://tools.jboss.org/features/openshift.html) plugin.
 
 ### The Environment
 
