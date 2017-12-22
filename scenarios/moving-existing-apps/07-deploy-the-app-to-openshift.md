@@ -60,7 +60,7 @@ Login from the command line:
 
 ``mvn clean package -Popenshift``{{execute}}
 
-``oc login -u developer -p developer``{{execute}}
+``oc login [[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com -u developer -p developer``{{execute}}
 
 ``oc start-build coolstore-dev --from-file=deployments/ROOT.war``{{execute}}
 

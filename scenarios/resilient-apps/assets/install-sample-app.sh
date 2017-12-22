@@ -2,9 +2,9 @@
 
 ISTIO_VERSION=0.4.0
 ISTIO_HOME=${HOME}/istio-${ISTIO_VERSION}
+export PATH="$PATH:${ISTIO_HOME}/bin"
 
 cd ${ISTIO_HOME}
 
 oc project istio-system
-oc apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo.yaml)
-
+istioctl kube-inject -f samples/bookinfo/kube/bookinfo.yaml | oc apply -f -

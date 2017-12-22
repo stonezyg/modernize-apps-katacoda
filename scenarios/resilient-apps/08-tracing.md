@@ -89,8 +89,7 @@ spec:
       percent: 25
       httpStatus: 503
 EOF
-```
-{{execute T1}
+```{{execute T1}
 
 This new rule uses the `httpFault` element to fail (HTTP 503) requests going to the `ratings` service 25% of the time.
 
@@ -114,8 +113,7 @@ spec:
       attempts: 5
       perTryTimeout: 2s
 EOF
-```
-{{execute T1}}
+```{{execute T1}}
 
 Now that we have a badly-behaving application, pretend we didn't know what was happening, all we know is that some users are reporting
 a slow user experience. Let's take a look at the tracing.

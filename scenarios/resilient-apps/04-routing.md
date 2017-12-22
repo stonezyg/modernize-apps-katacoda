@@ -91,7 +91,7 @@ Lets enable the ratings service a test user “jason” by routing `productpage`
 
 Confirm the rule is created:
 
-`oc get routerule reviews-test-v2 -o yaml`
+`oc get routerule reviews-test-v2 -o yaml`{{execute T1}}
 
 Notice the `match` element:
 

@@ -5,7 +5,7 @@ user will need to run things in a privileged way, or even with containers as roo
 
 Run the following to login as admin:
 
-`oc login -u admin -p admin`{{execute}}
+`oc login [[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com -u admin -p admin`{{execute}}
 
 **If you are unable to login as admin or get any failures, ask an instructor for help.**
 
