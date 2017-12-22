@@ -1,1 +1,1 @@
-cd ${HOME}/monolith
+cd ${HOME}/projects/monolith
