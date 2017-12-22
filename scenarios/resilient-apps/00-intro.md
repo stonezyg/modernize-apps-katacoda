@@ -28,9 +28,9 @@ a much more robust, reliable, and resilient application in the face of the new w
 
 ![Logo](../../assets/resilient-apps/istio-logo.png)
 
-Istio provides a complete solution to satisfy the diverse requirements of microservice applications by providing
-behavioral insights and operational control over the service mesh as a whole. It provides a number of key
-capabilities uniformly across a network of services:
+Istio is an open, platform-independent service mesh designed to manage communications between microservices and
+applications in a transparent way.It provides behavioral insights and operational control over the service mesh
+as a whole. It provides a number of key capabilities uniformly across a network of services:
 
 * **Traffic Management** - Control the flow of traffic and API calls between services, make calls more reliable, and make the network more robust in the face of adverse conditions.
 

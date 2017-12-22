@@ -1,1 +1,2 @@
-cd ${HOME}/monolith
+#!/usr/bin/env bash
+cd ${HOME}

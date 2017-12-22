@@ -24,8 +24,9 @@ oc apply -f install/kubernetes/istio.yaml
 oc create -f install/kubernetes/addons/prometheus.yaml
 oc create -f install/kubernetes/addons/grafana.yaml
 oc create -f install/kubernetes/addons/servicegraph.yaml
-oc create -f install/kubernetes/addons/zipkin.yaml
+oc apply -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
 oc expose svc grafana
 oc expose svc servicegraph
-oc expose svc zipkin
+oc expose svc jaeger-query
 oc expose svc istio-ingress
+oc expose svc prometheus

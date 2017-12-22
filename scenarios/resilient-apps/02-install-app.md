@@ -14,7 +14,7 @@ The BookInfo application is broken into four separate microservices:
 
 There are 3 versions of the reviews microservice:
 
-* Version v1 doesn’t call the ratings service.
+* Version v1 does not call the ratings service.
 * Version v2 calls the ratings service, and displays each rating as 1 to 5 black stars.
 * Version v3 calls the ratings service, and displays each rating as 1 to 5 red stars.
 
@@ -31,7 +31,7 @@ Run the following command:
 The application consists of the usual objects like Deployments, Services, and Routes.
 
 As part of the installation, we use Istio to "decorate" the application with additional
-components (called _Sidecars_)s.
+components (the Envoy Sidecars you read about in the previous step).
 
 Let's wait for our application to finish deploying.
 Execute the following commands to wait for the deployment to complete and result `successfully rolled out`:
@@ -43,5 +43,23 @@ Execute the following commands to wait for the deployment to complete and result
  oc rollout status deployment/details-v1 && \
  oc rollout status deployment/ratings-v1`{{execute}}
 
-Once all of the above deployments are complete, we're ready to move on!
+## Access Bookinfo
+
+Open the application in your browser to make sure it's working:
+
+* [Bookinfo Application running with Istio](http://istio-ingress-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/productpage)
+
+It should look something like:
+
+[SCREENSHOT]
+
+Reload the page multiple times. The three different versions of the Reviews service
+show the star ratings differently - `v1` shows no stars at all, `v2` shows black stars,
+and `v3` shows red stars:
+
+[SCREENSHOT]
+
+Now that we have our application deployed and linked into the Istio service mesh, let's take a look at the
+immediate value we can get out of it without touching the application code itself!
+
 

@@ -30,6 +30,14 @@
             {
                 "title": "Traffic Shifting",
                 "text": "06-traffic-shifting.md"
+            },
+            {
+                "title": "Rate Limiting",
+                "text": "07-rate-limiting.md"
+            },
+            {
+                "title": "Tracing",
+                "text": "07-tracing.md"
             }
         ],
         "intro": {
