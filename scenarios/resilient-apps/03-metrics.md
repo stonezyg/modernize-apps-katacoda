@@ -24,9 +24,6 @@ a high-level telemetry showing the rate at which services are accessed.
 To get a better idea of the power of metrics, let's setup an endless loop that will continually access
 the application and generate load. We'll open up a separate terminal just for this purpose. Execute this command:
 
- while true; do curl -o /dev/null -s -w "%{http_code}\n" http://istio-ingress-default.apps.127.0.0.1.nip.io/productpage; done
-
-
 `while true; do
   curl -o /dev/null -s -w "%{http_code}\n" \
   http://istio-ingress-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/productpage
@@ -56,14 +53,9 @@ You should see a listing of each of the application's services along with a coun
 
 Other expressions to try:
 
-###### Total count of all requests to `productpage` service:
-`istio_request_count{destination_service=~"productpage.*"}`
-
-###### Total count of all requests to `v3` of the `reviews` service:
-`istio_request_count{destination_service=~"reviews.*", destination_version="v3"}`
-
-###### Rate of requests over the past 5 minutes to all `productpage` services:
-`rate(istio_request_count{destination_service=~"productpage.*", response_code="200"}[5m])`
+* Total count of all requests to `productpage` service: `istio_request_count{destination_service=~"productpage.*"}`
+* Total count of all requests to `v3` of the `reviews` service: `istio_request_count{destination_service=~"reviews.*", destination_version="v3"}`
+* Rate of requests over the past 5 minutes to all `productpage` services: `rate(istio_request_count{destination_service=~"productpage.*", response_code="200"}[5m])`
 
 There are many, many different queries you can perform to extract the data you need. Consult the
 [Prometheus documentation](https://prometheus.io/docs) for more detail.

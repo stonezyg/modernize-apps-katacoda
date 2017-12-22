@@ -89,7 +89,7 @@ spec:
       percent: 25
       httpStatus: 503
 EOF
-```{{execute T1}
+```{{execute T1}}
 
 This new rule uses the `httpFault` element to fail (HTTP 503) requests going to the `ratings` service 25% of the time.
 

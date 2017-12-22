@@ -2,11 +2,11 @@ This task shows you how to configure dynamic request routing based on weights an
 
 _Route rules_ control how requests are routed within an Istio service mesh. Route rules provide:
 
-* Timeouts
-* Bounded retries with timeout budgets and variable jitter between retries
-* Limits on number of concurrent connections and requests to upstream services
-* Active (periodic) health checks on each member of the load balancing pool
-* Fine-grained circuit breakers (passive health checks) – applied per instance in the load balancing pool
+* **Timeouts**
+* **Bounded retries** with timeout budgets and variable jitter between retries
+* **Limits** on number of concurrent connections and requests to upstream services
+* **Active (periodic) health checks** on each member of the load balancing pool
+* **Fine-grained circuit breakers** (passive health checks) – applied per instance in the load balancing pool
 
 Requests can be routed based on
 the source and destination, HTTP header fields, and weights associated with individual service versions.
@@ -18,7 +18,7 @@ For example, when all instances in a load balancing pool have failed, Istio will
 the responsibility of the application to implement any fallback logic that is needed to handle the HTTP
 503 error code from an upstream service.
 
-If your application already provides some defensive measures (e.g. using Netflix Hystrix), then that's OK:
+If your application already provides some defensive measures (e.g. using [Netflix Hystrix](https://github.com/Netflix/Hystrix)), then that's OK:
 Istio is completely transparent to the application. A failure response returned by Istio would not be
 distinguishable from a failure response returned by the upstream service to which the call was made.
 
