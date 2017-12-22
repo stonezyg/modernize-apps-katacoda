@@ -8,14 +8,12 @@ The Servicegraph service is an example service that provides endpoints for gener
 
 ## Examine Service Graph
 
-The Service Graph addon provides a visualization of the different services and how they are connected. Open the links:
+The Service Graph addon provides a visualization of the different services and how they are connected. Open the link:
 
 * [Bookinfo Service Graph (Dotviz)](http://servicegraph-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/dotviz)
-* [Bookinfo Service Graph (Dotgraph)](http://servicegraph-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/dotgraph)
 
 It should look like:
 
-[SCREENSHOT]
 [SCREENSHOT]
 
 As you add and remove services over time in your projects, you can use this to verify the connections between services and provides
@@ -59,10 +57,10 @@ You should see a listing of each of the application's services along with a coun
 Other expressions to try:
 
 ###### Total count of all requests to `productpage` service:
-`istio_request_count{destination_service="productpage"}`
+`istio_request_count{destination_service=~"productpage.*"}`
 
 ###### Total count of all requests to `v3` of the `reviews` service:
-`istio_request_count{destination_service="reviews", destination_version="v3"}`
+`istio_request_count{destination_service=~"reviews.*", destination_version="v3"}`
 
 ###### Rate of requests over the past 5 minutes to all `productpage` services:
 `rate(istio_request_count{destination_service=~"productpage.*", response_code="200"}[5m])`
@@ -78,7 +76,7 @@ metrics extracted from the Istio data plane and can be used to quickly spot prob
 
 Open the Grafana Dashboard:
 
-* [Grafana Dashboard](http://grafana-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
+* [Grafana Dashboard](http://grafana-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/dashboard/db/istio-dashboard)
 
 [SCREENSHOT]
 

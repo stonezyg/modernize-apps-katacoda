@@ -18,18 +18,21 @@ Execute the following command:
 This configuration specifies a default 1 qps (query per second) rate limit. Traffic reaching
 the `ratings` service is subject to a 1qps rate limit. Verify this with Grafana:
 
-* [Grafana Dashboard](http://grafana-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
+* [Grafana Dashboard](http://grafana-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/dashboard/db/istio-dashboard)
 
 Scroll down to the `reviews` service and observe that you are seeing that some of the requests sent
 from `reviews:v3` service to the `ratings` service are returning HTTP Code 429 (Too Many Requests).
 
 [SCREENSHOT]
 
+In addition, at the top of the dashboard, the '4xxs' report shows an increase in 4xx HTTP codes. We are being
+rate-limited to 1 query per second.
+
 ## Inspect the rule
 
 Take a look at the new rule:
 
-`oc get memquota handler`{{execute T1}}
+`oc get memquota handler -o yaml`{{execute T1}}
 
 In particular, notice the _dimension_ that causes the rate limit to be applied:
 
@@ -59,10 +62,9 @@ Before moving on, execute the following to remove our rate limit:
 
 Verify that the rate limit is no longer in effect. Open the dashboard:
 
-* [Grafana Dashboard](http://grafana-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
+* [Grafana Dashboard](http://grafana-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/dashboard/db/istio-dashboard)
 
-Scroll down to the `reviews` service and observe that all of the requests sent
-from `reviews:v3` service to the `ratings` service are returning HTTP Code 200 (Success):
+Notice at the top that the `4xx`s dropped back down to zero.
 
 [SCREENSHOT]
 

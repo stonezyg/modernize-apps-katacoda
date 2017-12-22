@@ -40,21 +40,29 @@ With our application up and our script running to generate loads, visit the Jaeg
 
 [SCREENSHOT]
 
+Select `istio-ingress` from the _Service_ dropdown menu, change the value of **Limit Results** to `200` and click **Find Traces**:
+
+[SCREENSHOT]
+
+In the top right corner, a duration vs. time scatter plot gives a visual representation of the results, showing how and when
+each service was accessed, with drill-down capability. The bottom right includes a list of all spans that were traced over the last
+hour (limited to 200).
+
 If you click on the top (most recent) trace, you should see the details corresponding
-to your latest refresh of the `/productpage`. The page should look something like this:
+to a recent access to `/productpage`. The page should look something like this:
 
 [SCREENSHOT]
 
 As you can see, the trace is comprised of spans, where each span corresponds to a
-BookInfo service invoked during the execution of a `/productpage` request. Although
-every service has the same label, `istio-proxy`, because the tracing is being done by
-the Istio sidecar (Envoy proxy) which wraps the call to the actual service, the label
-of the destination (to the right) identifies the service for which the time is
-represented by each line.
+BookInfo service invoked during the execution of a `/productpage` request.
 
-The first line represents the external call to the `productpage` service. Each line below
+The first line represents the external call to the entry point of our application controlled by
+ `istio-ingress`. It in thrn calls the `productpage` service. Each line below
 represents the internal calls to the other services to construct the result, including the
 time it took for each service to respond.
+
+[SCREENSHOT]
+
 
 To demonstrate the value of tracing, let's inject some faults into our app and discover them via tracing!
 
@@ -116,13 +124,27 @@ Open the Jaeger console once again:
 
 * [Jaeger Query Dashboard](http://jaeger-query-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
 
-Notice that some of the spans take much more time than others:
+Select the following:
+* Service: `reviews`
+* Tags: `error:true` (type it into the field)
 
 [SCREENSHOT]
 
-It is these spans that are showing our failures and retry behavior.
+Then click **Find Traces**:
 
-## TBD
+[SCREENSHOT]
+
+It is these spans that are showing our failures and retry behavior. Click on the first one to expand the trace detail:
+
+[SCREENSHOT]
+
+And then click on the `reviews` service with the `!` symbol:
+
+[SCREENSHOT]
+
+and finally, click on the `+` button next to _Tags_ to show the `503` was indeed received by the `reviews` service:
+
+So now we know which service is causing us problems!
 
 ## Before moving on
 

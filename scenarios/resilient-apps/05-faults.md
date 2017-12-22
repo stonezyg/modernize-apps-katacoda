@@ -16,7 +16,10 @@ or TCP connection failures.
 
 ## Inject a fault
 To test our application microservices for resiliency, we will inject a 7 second delay between the
-`reviews:v2` and `ratings` microservices, for user `jason`. Since the `reviews:v2` service has a
+`reviews:v2` and `ratings` microservices, for user `jason`. This will be a simulated bug in the code which
+we will discover later.
+
+Since the `reviews:v2` service has a
 built-in 10 second timeout for its calls to the ratings service, we expect the end-to-end flow
 to continue without any errors. Execute:
 
@@ -43,10 +46,14 @@ Now, [access the application](http://istio-ingress-istio-system.[[HOST_SUBDOMAIN
 If the application’s front page was set to correctly handle delays, we expect it to load within
 approximately 7 seconds. To see the web page response times, open the Developer Tools menu in
 IE, Chrome or Firefox (typically, key combination Ctrl+Shift+I or Alt+Cmd+I), tab Network,
-and reload the productpage web page.
+and reload the `productpage` web page.
 
-You will see that the webpage loads in about 6 seconds. The reviews section will show Sorry,
-product reviews are currently unavailable for this book:
+You will see that the webpage loads in about 6 seconds:
+
+[SCREENSHOT]
+
+The reviews section will show "Sorry,
+product reviews are currently unavailable for this book":
 
 [SCREENSHOT]
 

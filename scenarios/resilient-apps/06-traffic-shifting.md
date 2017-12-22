@@ -17,7 +17,7 @@ and verify that no matter how many times you reload your browser, you'll always 
 
 Open the Grafana dashboard and verify this:
 
-* [Grafana Dashboard](http://grafana-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
+* [Grafana Dashboard](http://grafana-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/dashboard/db/istio-dashboard)
 
 Scroll down to the `reviews` service and observe that all traffic to `reviews:v2` and `reviews:v3` have stopped,
 and everything is going to `reviews:v1` which is a known working configuration.
@@ -33,7 +33,7 @@ the `reviews-default` rule with a new rule:
 
 Inspect the new rule:
 
-`oc get routerule reviews-default`{{execute T1}}
+`oc get routerule reviews-default -o yaml`{{execute T1}}
 
 Notice the new `weight` elements:
 
@@ -49,7 +49,7 @@ Notice the new `weight` elements:
 
 Open the Grafana dashboard and verify this:
 
-* [Grafana Dashboard](http://grafana-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
+* [Grafana Dashboard](http://grafana-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/dashboard/db/istio-dashboard)
 
 Scroll down to the `reviews` service and observe that half the traffic goes to each of `v1` and `v3` and none goes
 to `v2`:
@@ -66,7 +66,7 @@ We are now happy with the new version `v3` and want to migrate everyone to it. E
 
 Once again, open the Grafana dashboard and verify this:
 
-* [Grafana Dashboard](http://grafana-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
+* [Grafana Dashboard](http://grafana-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/dashboard/db/istio-dashboard)
 
 Scroll down to the `reviews` service and observe that all traffic is now going to `v3`:
 

@@ -78,7 +78,7 @@ Now, access the application and reload several times - you should not see any ra
 
 To verify this, open the Grafana Dashboard:
 
-* [Grafana Dashboard](http://grafana-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
+* [Grafana Dashboard](http://grafana-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/dashboard/db/istio-dashboard)
 
 Scroll down to the `ratings` service and notice that the requests coming from the reviews service have stopped:
 
@@ -111,7 +111,10 @@ Now, [access the application](http://istio-ingress-istio-system.[[HOST_SUBDOMAIN
 * Password: `jason`
 
 Once you login, refresh a few times - you should always see the black ratings stars coming from `ratings:v2`. If you logout,
-you'll return to the `reviews:v1` version which shows no stars.
+you'll return to the `reviews:v1` version which shows no stars. You may even see a small blip of access to `ratings:v2` on the
+Grafana dashboard if you refresh quickly 5-10 times.
+
+[SCREENSHOT]
 
 ## Congratulations!
 

@@ -1,6 +1,15 @@
 In this step, we'll install Istio into our OpenShift platform.
 
-Run the following command:
+In order to install Istio, you must be logged in as `admin`. This is required as this
+user will need to run things in a privileged way, or even with containers as root.
+
+Run the following to login as admin:
+
+`oc login -u admin -p admin`{{execute}}
+
+**If you are unable to login as admin or get any failures, ask an instructor for help.**
+
+Next, run the following command:
 
 `sh ~/install-istio.sh`{{execute}}
 
@@ -15,7 +24,7 @@ This command:
 We'll use the above components througout this scenario, so don't worry if you don't know what they do!
 
 Istio consists of a number of components, and you should wait for it to be completely initialized before continuing.
-Execute the following commands to wait for the deployment to complete and result `successfully rolled out`:
+Execute the following commands to wait for the deployment to complete and result `deployment xxxxxx successfully rolled out` for each deployment:
 
 `oc rollout status deployment/istio-pilot && \
  oc rollout status deployment/istio-mixer && \
@@ -26,7 +35,7 @@ Execute the following commands to wait for the deployment to complete and result
  oc rollout status deployment/servicegraph && \
  oc rollout status deployment/jaeger-deployment`{{execute}}
 
-While you wait for the command to report success you can read a bit more about the [Istio](https://istio.io/docs) architecture!
+While you wait for the command to report success you can read a bit more about the [Istio](https://istio.io/docs) architecture below:
 
 ## Istio Details
 

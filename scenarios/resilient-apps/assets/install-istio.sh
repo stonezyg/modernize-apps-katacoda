@@ -8,8 +8,10 @@ export PATH="$PATH:${ISTIO_HOME}/bin"
 cd ${ISTIO_HOME}
 
 # workaround bug
-sed -i 's/mtlsExcludedServices/#mtlsExcludedServices/' install/kubernetes/istio.yaml
+sed -i '' 's/mtlsExcludedServices/#mtlsExcludedServices/' install/kubernetes/istio.yaml
 
+# make sure we are admin
+oc login -u admin -p admin
 oc new-project istio-system
 oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account
 oc adm policy add-scc-to-user privileged -z istio-ingress-service-account
