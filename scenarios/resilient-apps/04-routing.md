@@ -44,7 +44,7 @@ Because the BookInfo sample deploys 3 versions of the reviews microservice, we n
 
 First, let's set an environment variable to point to Istio:
 
-`export ISTIO_VERSION=0.3.0; export ISTIO_HOME=${HOME}/istio-${ISTIO_VERSION}; cd ${ISTIO_HOME}`{{execute T1}}
+`export ISTIO_VERSION=0.4.0; export ISTIO_HOME=${HOME}/istio-${ISTIO_VERSION}; cd ${ISTIO_HOME}`{{execute T1}}
 
 Now let's install a default set of routing rules which will direct all traffic to the `reviews:v1` service version:
 

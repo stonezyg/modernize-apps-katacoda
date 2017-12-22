@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ISTIO_VERSION=0.3.0
+ISTIO_VERSION=0.4.0
 ISTIO_HOME=${HOME}/istio-${ISTIO_VERSION}
 
 curl -kL https://git.io/getLatestIstio | sed 's/curl/curl -k /g' | ISTIO_VERSION=${ISTIO_VERSION} sh -
