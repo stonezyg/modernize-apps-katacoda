@@ -1,7 +1,7 @@
 {
     "pathwayTitle": "Modernizing Legacy Apps",
     "icon": "fa-java",
-    "title": "Monolith to Microservices",
+    "title": "Monolith to Microservices (Part 2)",
     "description": "Showing developers and architects how Red Hat jumpstarts modernization",
     "difficulty": "intermediate",
     "time": "20-30 minutes",
@@ -31,7 +31,7 @@
     "environment": {
         "uilayout": "editor-terminal",
         "uisettings": "java",
-        "uieditorpath": "/root/projects/monolith",
+        "uieditorpath": "/root/projects/catalog",
         "showdashboard": true,
         "hideintro": false,
         "dashboards": [{"name":"Local Web Browser","port":8080},{"name":"OpenShift Console","port":8443}],

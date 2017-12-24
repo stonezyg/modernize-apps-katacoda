@@ -19,8 +19,13 @@
     },
     {
       "pathway_id": "scenarios",
-      "course_id": "mono-to-micro",
-      "title": "Transforming an existing monolith"
+      "course_id": "mono-to-micro-part-1",
+      "title": "Transforming an existing monolith (Part 1)"
+    },
+    {
+      "pathway_id": "scenarios",
+      "course_id": "mono-to-micro-part-2",
+      "title": "Transforming an existing monolith (Part 2)"
     },
     {
       "pathway_id": "scenarios",
