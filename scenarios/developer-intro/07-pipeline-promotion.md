@@ -18,7 +18,8 @@ in a GitHub repository we've been using at [https://github.com/RedHat-Middleware
 This repository has been copied locally to your environment and you've been using it ever since!
 
 You can see the changes you've personally made using `git --no-pager status`{{execute}} and
-`git --no-pager diff`{{execute}} to show the code changes you've made.
+`git --no-pager diff`{{execute}} to show the code changes you've made using the Git command (part of the
+[Git source code management system](https://git-scm.com/)).
 
 ## Pipelines
 
@@ -43,7 +44,7 @@ like test or production.
 Our pipeline is somewhat simplified for the purposes of this Workshop. Inspect the contents of the
 pipeline using the following command:
 
-`oc describe bc/bc/monolith-pipeline`{{execute}}
+`oc describe bc/monolith-pipeline`{{execute}}
 
 You can see the Jenkinsfile definition of the pipeline in the output:
 
@@ -57,7 +58,7 @@ Jenkinsfile contents:
     sleep 10
 
     stage 'Deploy to PROD'
-    openshiftTag(sourceStream: 'coolstore', sourceTag: 'latest', namespace: 'dev-coolstore-monolith', destinationStream: 'coolstore', destinationTag: 'prod', destinationNamespace: '')
+    openshiftTag(sourceStream: 'coolstore', sourceTag: 'latest', namespace: 'coolstore-dev', destinationStream: 'coolstore', destinationTag: 'prod', destinationNamespace: 'coolstore-prod')
     sleep 10
 
     stage 'Run Tests in PROD'
@@ -82,7 +83,7 @@ created using a tag which will trigger deployment in the production environment.
 You can use the _oc_ command line to invoke the build pipeline, or the Web Console. Let's use the
 Web Console. Open the production project in the web console:
 
-* [Web Console - Coolstore Monolith Prod](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/prod-coolstore-monolith)
+* [Web Console - Coolstore Monolith Prod](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/coolstore-prod)
 
 Next, navigate to _Builds -> Pipelines_ and click __Start Pipeline__ next to the `coolstore-monolith` pipeline:
 
@@ -93,7 +94,7 @@ take as much time as the Jenkins infrastructure will already be warmed up). You 
 
 [SCREENSHOT]
 
-Once the pipeline completes, return to the [Prod Project Overview](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/prod-coolstore-monolith)
+Once the pipeline completes, return to the [Prod Project Overview](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/coolstore-prod)
 and notice that the application is now deployed and running!
 
 [SCREENSHOT]

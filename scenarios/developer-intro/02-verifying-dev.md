@@ -20,7 +20,7 @@ or IP).
 * Route: **www** route registers the service on the built-in external load-balancer
 and assigns a public DNS name to it so that it can be reached from outside OpenShift cluster.
 
-You can review the above resources in the OpenShift Web Console or using `oc describe` command:
+You can review the above resources in the OpenShift Web Console or using the `oc describe` command:
 
 > **bc** is the short-form of **buildconfig** and can be interchangeably used
 > instead of it with the OpenShift CLI. The same goes for **is** instead
@@ -29,17 +29,16 @@ You can review the above resources in the OpenShift Web Console or using `oc des
 
 `oc describe bc coolstore`{{execute}}
 
-`
-oc describe is coolstore`{{execute}}
+`oc describe is coolstore`{{execute}}
 
 `oc describe dc coolstore`{{execute}}
 
 `oc describe svc coolstore`{{execute}}
 
-`oc describe route www`{{execute T1}}
+`oc describe route www`{{execute}}
 
 Verify that you can access the monolith by clicking on the
-[exposed OpenShift route](http://www-coolstore-monolith-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
+[exposed OpenShift route](http://www-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
 to open up the sample application in a separate browser tab.
 
 You should also be able to see both the CoolStore monolith and its database
@@ -61,7 +60,7 @@ You can log into the running Postgres container using the following:
 
 `oc rsh dc/coolstore-postgresql`{{exec}}
 
-Once logged in, use the following command to show some content from the database:
+Once logged in, use the following command to execute an SQL statement to show some content from the database:
 
 `psql -h $HOSTNAME -U $POSTGRESQL_USER $POSTGRESQL_DATABASE -c 'select name from PRODUCT_CATALOG;'`{{execute}}
 

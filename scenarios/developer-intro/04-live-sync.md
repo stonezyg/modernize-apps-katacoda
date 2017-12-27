@@ -22,7 +22,7 @@ recommended, which automates the process (see [these docs](https://tools.jboss.o
 
 For this workshop, we'll Live synchronize the WAR file.
 
-First, click on the [Coolstore application link](http://www-coolstore-monolith-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
+First, click on the [Coolstore application link](http://www-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
 to open the application in a browser tab so you can watch changes.
 
 **1. Turn on Live Sync**
@@ -35,14 +35,14 @@ Turn on **Live sync** by executing this command:
 
 Now `oc` is watching the `deployments/` directory for changes to the `ROOT.war` file. Anytime that file changes,
 `oc` will copy it into the running container and we should see the changes immediately (or after a few seconds). This is
-much faster than waiting for a full re-build and re-deploy.
+much faster than waiting for a full re-build and re-deploy of the container image.
 
 **2. Make a change to the UI**
 
 Next, let's make a change to the app that will be obvious in the UI.
 
 First, open `src/main/webapp/app/css/coolstore.css`{{open}}, which contains the CSS stylesheet for the
-Coolstore app.
+CoolStore app.
 
 Add the following CSS to turn the header bar background to Red Hat red (click **Copy To Editor** to automatically add it):
 
@@ -62,7 +62,7 @@ Let's re-build the application using this command:
 
 This will update the ROOT.war file and cause the application to change.
 
-Re-visit the app by reloading the Coolstore webpage (or clicking again on the [Coolstore application link](http://www-coolstore-monolith-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)).
+Re-visit the app by reloading the Coolstore webpage (or clicking again on the [Coolstore application link](http://www-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)).
 
 You should now see the red header:
 
@@ -80,7 +80,7 @@ Again, re-build the app:
 
 This will update the ROOT.war file again and cause the application to change.
 
-Re-visit the app by reloading the Coolstore webpage (or clicking again on the [Coolstore application link](http://www-coolstore-monolith-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)).
+Re-visit the app by reloading the Coolstore webpage (or clicking again on the [Coolstore application link](http://www-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)).
 
 It's blue! You can do this as many times as you wish, which is great for speedy development and testing.
 

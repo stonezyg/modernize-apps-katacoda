@@ -25,7 +25,7 @@ WARNING [com.redhat.coolstore.utils.Transformers] (default task-83) Inventory fo
 Invoke the Product Catalog API using `curl` for the suspect product id to see what actually
 happens when the UI tries to get the catalog:
 
-`curl -v http://www-coolstore-monolith-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/services/products/444437`{{execute}}
+`curl -v http://www-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/services/products/444437`{{execute}}
 
 The response clearly shows that the inventory values for `location` and `link` and `quantity` are not being returned properly (they should not be `null`):
 
@@ -53,6 +53,14 @@ This will cause a re-deployment of the app to enable the remote debugging agent 
 Wait for the re-deployment to complete before continuing by executing:
 
 `oc rollout status dc/coolstore`{{execute}}
+
+The re-deployment also invoked a new pod, so let's update our environment variable again:
+
+`export COOLSTORE_DEV_POD_NAME=$(oc get pods --selector deploymentconfig=coolstore -o jsonpath='{.items[?(@.status.phase=="Running")].metadata.name}')`{{execute}}
+
+Verify the variable holds the name of your new pod with:
+
+`echo $COOLSTORE_DEV_POD_NAME`{{execute}}
 
 ## Expose debug port locally
 
@@ -104,7 +112,7 @@ In order to pause code execution at the breakpoint, you have to invoke the REST 
 
 Click this link to invoke the REST API from your browser:
 
-* [Coolstore REST API](http://www-coolstore-monolith-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/services/products/444437)
+* [Coolstore REST API](http://www-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/services/products/444437)
 
 The code execution pauses at the `getProductByItemId()` method. You can verify it
 using the `list`{{execute}} command to see the source code in the terminal window where
@@ -207,7 +215,7 @@ Let's use our new `oc rsync` skills to re-deploy the app to the running containe
 
 `oc rsync deployments/ $COOLSTORE_DEV_POD_NAME:/deployments --no-perms`{{execute}}
 
-After a few seconds, reload the [Coolstore Application](http://www-coolstore-monolith-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com) in your browser
+After a few seconds, reload the [Coolstore Application](http://www-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com) in your browser
 and notice now the application behaves properly and displays `Inventory Unavailable` whereas before it was totally and confusingly blank.
 
 Well done and congratulations for completing this scenario!

@@ -14,7 +14,7 @@ use the Web Console.
 Open the `monolith-pipeline` configuration page in the Web Console (you can navigate to it from
 _Builds -> Pipelines_ but here's a quick link):
 
-* [Pipeline Config page](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/prod-coolstore-monolith/browse/pipelines/monolith-pipeline?tab=configuration)
+* [Pipeline Config page](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/coolstore-prod/browse/pipelines/monolith-pipeline?tab=configuration)
 
 On this page you can see the pipeline definition. Click _Actions -> Edit_ to edit the pipeline.
 
@@ -53,21 +53,21 @@ Next, re-build the project in the dev environment:
 
 And re-deploy it to the dev environment:
 
-`oc start-build -n dev-coolstore-monolith coolstore-dev --from-file=deployments/ROOT.war`{{execute}}
+`oc start-build -n coolstore-dev coolstore --from-file=deployments/ROOT.war`{{execute}}
 
 Now wait for it to complete the deployment:
 
-`oc -n dev-coolstore-monolith rollout status dc/coolstore-dev`{{execute}}
+`oc -n coolstore-dev rollout status dc/coolstore`{{execute}}
 
 And verify that the green header is visible in the dev application:
 
-* [Coolstore - Dev](http://dev-www-coolstore-monolith.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
+* [Coolstore - Dev](http://www-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
 
 [SCREENSHOT]
 
 While the production application is still the original color:
 
-* [Coolstore - Prod](http://www-prod-coolstore-monolith.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
+* [Coolstore - Prod](http://www-coolstore-prod.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
 
 [SCREENSHOT]
 
@@ -75,7 +75,7 @@ We're happy with this change, so let's promote the new change, using the new app
 
 **3. Run the pipeline again**
 
-Invoke the pipeline once more by clicking **Start Pipeline** on the [Pipeline Config page](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/prod-coolstore-monolith/browse/pipelines/monolith-pipeline)
+Invoke the pipeline once more by clicking **Start Pipeline** on the [Pipeline Config page](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/coolstore-prod/browse/pipelines/monolith-pipeline)
 
 The same pipeline progress will be shown, however before deploying to prod, you will see a prompt:
 
@@ -100,11 +100,11 @@ Once you click **Proceed**, you will see the log file from Jenkins showing the f
 
 Wait for the production deployment to complete:
 
-`oc rollout status dc/coolstore-prod`{{execute}}
+`oc rollout -n coolstore-prod status dc/coolstore`{{execute}}
 
 Once it completes, verify that the production application has the new change:
 
-* [Coolstore - Prod](http://www-prod-coolstore-monolith.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
+* [Coolstore - Prod](http://www-coolstore-prod.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
 
 [SCREENSHOT]
 

@@ -43,11 +43,11 @@ At the `<!-- TODO: Add OpenShift profile here -->` we are going to add a the fol
 ![OpenShift Console](../../assets/default-picture.jpg)
 1. Click create new project
 ![OpenShift Console](../../assets/default-picture.jpg)
-1. Give the project the **Name:** `dev-coolstore-monolith` and **Display Name:**`Coolstore Monolith - Dev`, leave the **Description** empty.
+1. Give the project the **Name:** `coolstore-dev` and **Display Name:**`Coolstore Monolith - Dev`, leave the **Description** empty.
 ![OpenShift Console](../../assets/default-picture.jpg)
 1. Click the **Add to project** button
 ![OpenShift Console](../../assets/default-picture.jpg)
-1. Search for Coolstore Dev template.
+1. Search for `Coolstore Monolith using binary build` template.
 ![OpenShift Console](../../assets/default-picture.jpg)
 1. Click Next.
 
@@ -62,9 +62,11 @@ Login from the command line:
 
 ``oc login [[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com -u developer -p developer``{{execute}}
 
-``oc start-build coolstore-dev --from-file=deployments/ROOT.war``{{execute}}
+``oc project coolstore-dev``{{execute}}
 
-``oc rollout status dc/coolstore-dev``{{execute}}
+``oc start-build coolstore --from-file=deployments/ROOT.war``{{execute}}
+
+``oc rollout status dc/coolstore``{{execute}}
 
 Check the OpenShift console
 ![OpenShift Console](../../assets/default-picture.jpg)

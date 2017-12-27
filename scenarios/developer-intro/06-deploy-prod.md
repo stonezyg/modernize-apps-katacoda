@@ -1,5 +1,5 @@
 In the previous scenarios, you deployed the Coolstore monolith using an
-OpenShift Template into the `dev-coolstore-monolith` Project. The template
+OpenShift Template into the `coolstore-dev` Project. The template
 created the necessary objects (BuildConfig, DeploymentConfig, ImageStreams, Services, and Routes)
 and gave you as a Developer a "playground" in which to run the app, make
 changes and debug.
@@ -10,7 +10,7 @@ the developer (that's YOU!) to production with less downtime and greater consist
 
 ## Prod vs. Dev
 
-The existing `dev-coolstore-monolith` build and deployment is used as a developer environment for building new
+The existing `coolstore-dev` project is used as a developer environment for building new
 versions of the app after code changes and deploying them to the development environment.
 
 In a real project on OpenShift, _dev_, _test_ and _production_ environments would typically use different
@@ -18,7 +18,6 @@ OpenShift projects and perhaps even different OpenShift clusters.
 
 For simplicity in this scenario we will only use a _dev_ and _prod_ environment, and no test/QA
 environment.
-
 
 ## Create the production environment
 
@@ -29,9 +28,9 @@ in a separate OpenShift project.
 
 Execute the following `oc` command to create a new project:
 
-`oc new-project prod-coolstore-monolith --display-name='Coolstore Monolith - Prod'`{{execute}}
+`oc new-project coolstore-prod --display-name='Coolstore Monolith - Production'`{{execute}}
 
-This will create a new OpenShift project from which our production application will run.
+This will create a new OpenShift project called `coolstore-prod` from which our production application will run.
 
 **2. Add the production elements**
 
@@ -41,6 +40,9 @@ equivalent process with the `oc` command. Execute:
 
 `oc new-app --template=coolstore-monolith-pipeline-build`{{execute}}
 
+This will use an OpenShift Template called `coolstore-monolith-pipeline-build` to construct the production application.
+As you probably guessed it will also include a Jenkins Pipeline to control the production application (more on this later!)
+
 Navigate to the Web Console to see your new app and the components:
 
 [SCREENSHOT]
@@ -49,5 +51,5 @@ You can see the production database, and the other elements, but there is no run
 app just yet. The only running app is back in the _dev_ environment, where you used a binary
 build to run the app.
 
-In the next step, we'll _promote_ the running app from the _dev_ environment to the _production_
+In the next step, we'll _promote_ the app from the _dev_ environment to the _production_
 environment. Let's get going!

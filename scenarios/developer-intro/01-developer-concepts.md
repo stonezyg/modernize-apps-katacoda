@@ -12,7 +12,7 @@ and limits on resources, etc). Projects act as a wrapper around all the
 application services and endpoints you (or your teams) are using for your work.
 
 ## Containers
-The basic units of OpenShift applications are called containers.
+The basic units of OpenShift applications are called containers (sometimes called Linux Containers).
 [Linux container technologies](https://access.redhat.com/articles/1353593) are lightweight mechanisms for isolating running processes
 so that they are limited to interacting with only their designated resources.
 

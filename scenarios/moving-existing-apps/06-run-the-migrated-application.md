@@ -2,7 +2,7 @@ Now that we migrated the application you are probably eager to test it. To test 
 
 Run the following command in the terminal window.
 
-``unzip $HOME/Downloads/jboss-eap-7.1.zip -d $HOME``{{execute}}
+``unzip -d $HOME $HOME/jboss-eap-7.1.0.zip``{{execute}}
 
 We should also set the `JBOSS_HOME` environment variable like this:
 
