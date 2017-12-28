@@ -45,11 +45,10 @@ spec:
       httpMaxPendingRequests: 1
       httpConsecutiveErrors: 1
       sleepWindow: 15m
-      httpDetectionInterval: 1s
+      httpDetectionInterval: 10s
       httpMaxEjectionPercent: 100
 EOF
-```
-execute
+```{{execute T1}}
 
 We set the `ratings` service's maximum connections to 1 and maximum pending requests to 1. Thus, if we send more
 than 2 requests within a short period of time to the reviews service, 1 will go through, 1 will be pending,
@@ -63,11 +62,13 @@ for more details on what each configuration parameter does.
 Let's use some simple `curl` commands to send multiple concurrent requests to our application, and witness the
 circuit breaker kicking in opening the circuit. Execute this to simulate 5 users attampting to access the application:
 
-``curl  'http://istio-ingress-istio-system.apps.127.0.0.1.nip.io/productpage?foo=[1-1000]' >& /dev/null & ; \
-  curl  'http://istio-ingress-istio-system.apps.127.0.0.1.nip.io/productpage?foo=[1-1000]' >& /dev/null & ; \
-  curl  'http://istio-ingress-istio-system.apps.127.0.0.1.nip.io/productpage?foo=[1-1000]' >& /dev/null & ; \
-  curl  'http://istio-ingress-istio-system.apps.127.0.0.1.nip.io/productpage?foo=[1-1000]' >& /dev/null & ; \
-  curl  'http://istio-ingress-istio-system.apps.127.0.0.1.nip.io/productpage?foo=[1-1000]' >& /dev/null &``{{execute T2}}
+```
+curl  'http://istio-ingress-istio-system.apps.127.0.0.1.nip.io/productpage?foo=[1-1000]' >& /dev/null & ; \
+curl  'http://istio-ingress-istio-system.apps.127.0.0.1.nip.io/productpage?foo=[1-1000]' >& /dev/null & ; \
+curl  'http://istio-ingress-istio-system.apps.127.0.0.1.nip.io/productpage?foo=[1-1000]' >& /dev/null & ; \
+curl  'http://istio-ingress-istio-system.apps.127.0.0.1.nip.io/productpage?foo=[1-1000]' >& /dev/null & ; \
+curl  'http://istio-ingress-istio-system.apps.127.0.0.1.nip.io/productpage?foo=[1-1000]' >& /dev/null &
+```{{execute T2}}
 
 Due to the very conservative circuit breaker, many of these calls will fail with HTTP 503 (Server Unavailable). To see this,
 open the Grafana console:
@@ -84,7 +85,28 @@ breaker in action, limiting the number of requests to the service. In practice y
 In addition to limiting the traffic, Istio can also forcibly eject pods out of service if they are running slowly
 or not at all. To see this, let's deploy a pod that doesn't work (has a bug).
 
-First, deploy a new instance of the `ratings` service which has been misconfigured and will return a failure
+First, let's define a new circuit breaker, very similar to the previous one but without the arbitrary connection
+limits. To do this, execute:
+
+```
+oc replace -f - <<EOF
+apiVersion: config.istio.io/v1alpha2
+kind: DestinationPolicy
+metadata:
+  name: ratings-cb
+spec:
+  destination:
+    name: ratings
+  circuitBreaker:
+    simpleCb:
+      httpConsecutiveErrors: 1
+      sleepWindow: 15m
+      httpDetectionInterval: 10s
+      httpMaxEjectionPercent: 100
+EOF
+```{{execute T1}}
+
+Next, deploy a new instance of the `ratings` service which has been misconfigured and will return a failure
 (HTTP 500) value for any request. Execute:
 
 `istioctl kube-inject -f ~/projects/ratings/broken.yaml | oc create -f -`{{execute T1}}
@@ -154,7 +176,13 @@ to avoid it.
 
 In the next step you'll apply rate limiting to realize different service levels for different client types.
 
-More references:
+#### Before moving on
+
+Before moving on, in case your simulated user loads are still running, kill them with:
+
+`kill %1 %2 %3 %4 %5`{{execute T2}}
+
+## More references
 
 * [Istio Documentation](https://istio.io/docs)
 * [Christian Post's Blog on Envoy and Circuit Breaking](http://blog.christianposta.com/microservices/01-microservices-patterns-with-envoy-proxy-part-i-circuit-breaking/)
