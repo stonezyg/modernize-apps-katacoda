@@ -32,12 +32,16 @@
                 "text": "06-traffic-shifting.md"
             },
             {
+                "title": "Circuit Breaking",
+                "text": "07-circuit-breaking.md"
+            },
+            {
                 "title": "Rate Limiting",
-                "text": "07-rate-limiting.md"
+                "text": "08-rate-limiting.md"
             },
             {
                 "title": "Tracing",
-                "text": "08-tracing.md"
+                "text": "09-tracing.md"
             }
         ],
         "intro": {
