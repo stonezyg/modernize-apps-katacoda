@@ -1,7 +1,26 @@
-This step shows how to inject delays and test the resiliency of your application.
+This step shows how to inject faults and test the resiliency of your application.
+
+Istio provides a set of failure recovery features that can be taken advantage of by the services
+in an application. Features include:
+
+* Timeouts
+* Bounded retries with timeout budgets and variable jitter between retries
+* Limits on number of concurrent connections and requests to upstream services
+* Active (periodic) health checks on each member of the load balancing pool
+* Fine-grained circuit breakers (passive health checks) – applied per instance in the load balancing pool
+
+These features can be dynamically configured at runtime through Istio’s traffic management rules.
+
+A combination of active and passive health checks minimizes the chances of accessing an unhealthy service.
+When combined with platform-level health checks (such as readiness/liveness probes in OpenShift), applications
+can ensure that unhealthy pods/containers/VMs can be quickly weeded out of the service mesh, minimizing the
+request failures and impact on latency.
+
+Together, these features enable the service mesh to tolerate failing nodes and prevent localized failures
+from cascading instability to other nodes.
 
 ## Fault Injection
-While Istio provides a host of failure recovery mechanisms, it is still imperative to test the
+While Istio provides a host of failure recovery mechanisms outlined above, it is still imperative to test the
 end-to-end failure recovery capability of the application as a whole. Misconfigured failure
 recovery policies (e.g., incompatible/restrictive timeouts across service calls) could result
 in continued unavailability of critical services in the application, resulting in poor user experience.
@@ -52,16 +71,18 @@ You will see that the webpage loads in about 6 seconds:
 
 [SCREENSHOT]
 
-The reviews section will show "Sorry,
-product reviews are currently unavailable for this book":
+The reviews section will show "Sorry, product reviews are currently unavailable for this book":
 
 [SCREENSHOT]
 
+## Use tracing to identify the bug
 The reason that the entire reviews service has failed is because our BookInfo application has
-a bug. The timeout between the `productpage` and `reviews` service is less (3s + 1 retry = 6s total)
+a bug. The timeout between the `productpage` and `reviews` service is less (3s times 2 retries == 6s total)
 than the timeout between the reviews and ratings service (10s). These kinds of bugs can occur in
 typical enterprise applications where different teams develop different microservices independently.
-Istio’s fault injection rules help you identify such anomalies without impacting end users.
+
+Identifying this timeout mismatch is not so easy by observing the application, but is very easy when using
+Istio's built-in tracing capabilities. We will explore tracing in depth later on in this scenario.
 
 ## Fixing the bug
 At this point we would normally fix the problem by either increasing the `productpage` timeout or

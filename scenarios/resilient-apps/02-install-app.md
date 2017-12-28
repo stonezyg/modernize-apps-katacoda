@@ -3,7 +3,9 @@ is included in Istio itself for demonstrating various aspects of it, but the app
 isn't tied exclusively to Istio - it's an ordinary microservice application that could be
 installed to any OpenShift instance with or without Istio.
 
-The sample application is called _Bookinfo_, a simple application that displays information about a book, similar to a single catalog entry of an online book store. Displayed on the page is a description of the book, book details (ISBN, number of pages, and so on), and a few book reviews.
+The sample application is called _Bookinfo_, a simple application that displays information about a
+book, similar to a single catalog entry of an online book store. Displayed on the page is a
+description of the book, book details (ISBN, number of pages, and so on), and a few book reviews.
 
 The BookInfo application is broken into four separate microservices:
 
@@ -58,6 +60,18 @@ show the star ratings differently - `v1` shows no stars at all, `v2` shows black
 and `v3` shows red stars:
 
 [SCREENSHOT]
+
+That's because there are 3 versions of reviews deployment for our reviews service. Istio’s
+load-balancer is using a _round-robin_ algorithm to iterate through the 3 instances of this service.
+
+You should now have your OpenShift Pods running and have an Envoy sidecar in each of them
+alongside the microservice. The microservices are productpage, details, ratings, and
+reviews. Note that you'll have three versions of the reviews microservice:
+
+`oc get pods`{{execute}}
+
+Notice that each of them shows 2 containers ready for each service (one for the service and one for its
+sidecar).
 
 Now that we have our application deployed and linked into the Istio service mesh, let's take a look at the
 immediate value we can get out of it without touching the application code itself!

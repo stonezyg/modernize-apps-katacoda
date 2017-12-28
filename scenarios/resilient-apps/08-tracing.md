@@ -1,5 +1,6 @@
-This step shows you how Istio-enabled applications can be configured to collect
-_trace spans_ using Jaeger. After completing this task, you should
+This step shows you how Istio-enabled applications automatically collect
+_trace spans_ telemetry and can visualize it with tools like using Jaeger or Zipkin.
+After completing this task, you should
 understand all of the assumptions about your application and how to have it
 participate in tracing, regardless of what language/framework/platform you
 use to build your application.
@@ -18,7 +19,7 @@ about distinct pieces of a now-distributed system, etc.
 #### What is a trace?
 At the highest level, a trace tells the story of a transaction or workflow as
 it propagates through a (potentially distributed) system. A trace is a directed
-acyclic graph (DAG) of "spans": named, timed operations representing a
+acyclic graph (DAG) of _spans_: named, timed operations representing a
 contiguous segment of work in that trace.
 
 Each component (microservice) in a distributed trace will contribute its
@@ -63,86 +64,40 @@ time it took for each service to respond.
 
 [SCREENSHOT]
 
+To demonstrate the value of tracing, let's re-visit our earlier timeout bug! If you recall, we had
+injected a 7 second delay in the `ratings` microservice for our user _jason_. So when we loaded the
+web page it should have taken 7 seconds before showing the star ratings.
 
-To demonstrate the value of tracing, let's inject some faults into our app and discover them via tracing!
+In reality, the webpage loaded in 6 seconds and we saw no rating stars! Why did this happen? We know
+from earlier that it was because the timeout from `reviews`->`ratings` was much shorter than the `ratings`
+timeout itself, so it prematurely failed the access to `ratings` after 2 retries (of 3 seconds each), resulting
+in a failed webpage after 6 seconds. But can we see this in the tracing? Yes, we can!
 
-## Add some failures
-
-Let's make the ratings service fail 25% of the time. In this case, fail means return an HTTP
-503 (Service Unavailable).
-
-```
-oc replace -f - <<EOF
-apiVersion: config.istio.io/v1alpha2
-kind: RouteRule
-metadata:
-  name: ratings-default
-spec:
-  destination:
-    name: ratings
-  precedence: 1
-  route:
-  - labels:
-      version: v1
-  httpFault:
-    abort:
-      percent: 25
-      httpStatus: 503
-EOF
-```{{execute T1}}
-
-This new rule uses the `httpFault` element to fail (HTTP 503) requests going to the `ratings` service 25% of the time.
-
-Now, let's add in an automatic retry (which in the past would have to be implemented by a developer in the application business logic!).
-Execute:
-
-```
-oc create -f - <<EOF
-apiVersion: config.istio.io/v1alpha2
-kind: RouteRule
-metadata:
-  name: retries
-spec:
-  destination:
-    name: ratings
-  match:
-    source: reviews
-  precedence: 1
-  httpFault:
-    simpleRetry:
-      attempts: 5
-      perTryTimeout: 2s
-EOF
-```{{execute T1}}
-
-Now that we have a badly-behaving application, pretend we didn't know what was happening, all we know is that some users are reporting
-a slow user experience. Let's take a look at the tracing.
-
-Open the Jaeger console once again:
+To see this bug, open the Jaeger tracing console:
 
 * [Jaeger Query Dashboard](http://jaeger-query-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
 
-Select the following:
-* Service: `reviews`
-* Tags: `error:true` (type it into the field)
+Since users of our application were reporting lengthy waits of 5 seconds or more, let's look for traces
+that took at least 5 seconds. Select these options for the query:
 
-[SCREENSHOT]
+*  **Service**: `istio-ingress`
+* **Min Duration**: `5s`
 
 Then click **Find Traces**:
 
 [SCREENSHOT]
 
-It is these spans that are showing our failures and retry behavior. Click on the first one to expand the trace detail:
+The result should be a single span called `istio-ingress: productpage-default`. Click on the span to open the
+span details:
 
 [SCREENSHOT]
 
-And then click on the `reviews` service with the `!` symbol:
+Here you can see the `reviews` service takes 2 attempts to access the `ratings` service, with each attempt
+timing out after 3 seconds. After the second attempt, it gives up and returns a failure back to the product
+page. Meanwhile, each of the attempts to get ratings finally succeeds after its fault-injected 7 second delay,
+but it's too late as the reviews service has already given up by that point.
 
-[SCREENSHOT]
-
-and finally, click on the `+` button next to _Tags_ to show the `503` was indeed received by the `reviews` service:
-
-So now we know which service is causing us problems!
+Istio’s fault injection rules and tracing capabilities help you identify such anomalies without impacting end users.
 
 ## Before moving on
 
@@ -153,5 +108,5 @@ Let's stop the load generator running against our app. Navigate to **Terminal 2*
 
 Distributed tracing speeds up troubleshooting by allowing developers to quickly understand
 how different services contribute to the overall end-user perceived latency. In addition,
-it can be a valuable tool to diagnosis and troubleshooting in distributed applications.
+it can be a valuable tool to diagnose and troubleshoot distributed applications.
 
