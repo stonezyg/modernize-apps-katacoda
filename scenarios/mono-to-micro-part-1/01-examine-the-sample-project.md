@@ -39,9 +39,13 @@ Once the application is done initializing you should see:
 INFO  [org.wildfly.swarm] (main) WFSWARM99999: WildFly Swarm is Ready
 ```
 
+Running locally using `wildfly-swarm:run` will use an in-memory database with default credentials. In a production application you
+will use an external source for credentials using an OpenShift _secret_ in later steps, but for now this will work for development and
+testing.
+
 **3. Test the application**
 
-To begin, click on the **Local Web Browser** tab in the console frame of this browser window. This will open another tab or window of your browser pointing to port 8080 on your client.
+To test the running application, click on the **Local Web Browser** tab in the console frame of this browser window. This will open another tab or window of your browser pointing to port 8080 on your client.
 
 ![Local Web Browser Tab](../../assets/mono-to-micro-part-1/web-browser-tab.png)
 
@@ -51,7 +55,7 @@ You should now see a html page that looks like this
 
 ![App](../../assets/mono-to-micro-part-1/app.png)
 
-This is a simple webpage that will access the inventory *every 2 seconds* and refresh the table of products.
+This is a simple webpage that will access the inventory *every 2 seconds* and refresh the table of product inventories.
 
 You can also click the **Fetch Inventory** button to force it to refresh at any time.
 
