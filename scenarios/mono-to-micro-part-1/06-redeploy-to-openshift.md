@@ -19,19 +19,33 @@ To verify that everything is started, run the following command and wait for it 
 ``oc rollout status dc/healthcheck``{{execute}}
 
 Once the project is deployed, you should be able to access the health check logic
- at the `/services/infra/health` endpoint using a simple _curl_ command.
+ at the `/health` endpoint using a simple _curl_ command.
  
 This is the same API that OpenShift will repeatedly poll to determine application health.
 
 Click here to try it (you may need to try a few times until the project is fully deployed):
 
-``curl http://inventory-coolstore-microservice.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/services/infra/health``{{execute}}
+``curl http://inventory-coolstore-microservice.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/health``{{execute}}
 
 You should see a JSON response like:
 
 ```
-{"id":"server-state","result":"UP"}
+{"checks": [
+{"id":"service-state","result":"UP"}],
+"outcome": "UP"
+}
 ```
+
+You can see the definition of the health check from the perspective of OpenShift:
+
+`oc describe dc/inventory | egrep 'Readiness|Liveness'`{{execute}}
+
+You should see:
+
+'''console
+    Liveness:	http-get http://:8080/health delay=180s timeout=1s period=10s #success=1 #failure=3
+    Readiness:	http-get http://:8080/health delay=10s timeout=1s period=10s #success=1 #failure=3
+'''
 
 **2. Adjust probe timeout**
 
@@ -40,5 +54,17 @@ we don't have to wait 3 minutes for it to be activated. Use the **oc** command t
 probe to wait 20 seconds before starting to poll the probe:
 
 ```oc set probe dc/inventory --liveness --initial-delay-seconds=20```{{execute}}
+
+And verify it's been changed (look at the `delay=` value for the Liveness probe):
+
+`oc describe dc/inventory | egrep 'Readiness|Liveness'`{{execute}}
+
+```console
+    Liveness:	http-get http://:8080/health delay=20s timeout=1s period=10s #success=1 #failure=3
+    Readiness:	http-get http://:8080/health delay=10s timeout=1s period=10s #success=1 #failure=3
+```
+
+> You can also edit health checks from the OpenShift Web Console, for example click on [this link](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/coolstore-microservice/edit/health-checks?kind=DeploymentConfig&name=inventory)
+to access the health check edit page for the Inventory deployment.
 
 In the next step we'll exercise the probe and watch as it fails and OpenShift recovers the application.

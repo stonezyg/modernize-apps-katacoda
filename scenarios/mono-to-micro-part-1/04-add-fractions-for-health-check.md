@@ -69,7 +69,6 @@ application when it is included as a fraction in the project. Click **Copy To Ed
 into the `pom.xml` file:
 
 <pre class="file" data-filename="pom.xml" data-target="insert" data-marker="<!-- Add monitor fraction -->">
-        &lt;!-- Add monitor fraction --&gt;
         &lt;dependency&gt;
             &lt;groupId&gt;org.wildfly.swarm&lt;/groupId&gt;
             &lt;artifactId&gt;monitor&lt;/artifactId&gt;

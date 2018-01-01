@@ -11,8 +11,8 @@ This is a minimal Java EE project which implements a RESTful microservice which 
 from the CoolStore monolith. Click the links below to open each file and inspect its contents:
 
 * `pom.xml`{{open}} - Maven project file describing how to build the project
-* `src/main/java/com/redhat/coolstore/model/Inventory`{{open}} -  POJO declaring the Inventory entity type
-* `src/main/java/com/redhat/coolstore/service/InventoryService`{{open}} - Stateless service to access the Inventory database
+* `src/main/java/com/redhat/coolstore/model/Inventory.java`{{open}} -  POJO declaring the Inventory entity type
+* `src/main/java/com/redhat/coolstore/service/InventoryService.java`{{open}} - Stateless service to access the Inventory database
 * `src/main/java/com/redhat/coolstore/rest/RestApplication.java`{{open}} - Declares the RESTful resource base path (`/services`)
 * `src/main/java/com/redhat/coolstore/rest/InventoryEndpoint.java`{{open}} - Declares RESTful endpoints of `/services/inventory` and `/services/inventory/{itemId}`
 
