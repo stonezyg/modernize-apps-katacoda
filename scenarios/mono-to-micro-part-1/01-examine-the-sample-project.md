@@ -16,7 +16,7 @@ another Java EE standard that provides Java developers with an
 object/relational mapping facility for managing relational data in Java applications.
 
 This project currently contains no code other than the main class for exposing a single
-RESTful application defined in `RestApplication.java`.
+RESTful application defined in `src/main/java/com/redhat/coolstore/rest/RestApplication.java`{{open}}.
 
 Run the Maven build to make sure the skeleton project builds successfully. You
 should get a **BUILD SUCCESS** message in the logs, otherwise the build has failed.
