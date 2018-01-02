@@ -91,7 +91,9 @@ We are now ready to deploy the application
 
 Access the application by clicking [here](https://[[HOST_SUBDOMAIN]]-8080-[[KATACODA_HOST]].environments.katacoda.com/) and shop around for some cool stuff.
 
+## Shutdown the application
 
+Before moving on, click in the **Terminal** window and type CTRL-C to stop the running WildFly server.
 
 
 

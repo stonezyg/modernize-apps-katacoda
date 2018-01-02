@@ -7,7 +7,7 @@ Click on the below command to re-execute the RHAMT CLI and analyze the new proje
 ```
 ~/rhamt-cli-4.0.0.Beta4/bin/rhamt-cli \
   --sourceMode \
-  --input ~/monolith \
+  --input ~/projects/monolith \
   --output ~/rhamt-report \
   --overwrite \
   --source weblogic \
