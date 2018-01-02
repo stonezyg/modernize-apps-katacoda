@@ -62,7 +62,6 @@
         }
     },
     "files": [
-        "./src/main/java/com/redhat/coolstore/rest/RestApplication.java",
         "./src/main/java/com/redhat/coolstore/model/Inventory.java",
         "./src/main/java/com/redhat/coolstore/service/InventoryService.java",
         "./src/main/java/com/redhat/coolstore/rest/InventoryEndpoint.java"
