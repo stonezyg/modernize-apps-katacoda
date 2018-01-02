@@ -45,7 +45,7 @@ that is that we currently don't have any liveness check configured, but we will 
 
 This sample project includes a simple UI that allows you to access the Inventory API. This is the same
 UI that you previously accessed outside of OpenShift which shows the CoolStore inventory. Click on the
-[route URL](http://inventory-coolstore-microservice.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
+[route URL](http://inventory-inventory.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
 to access the sample UI.
 
 > You can also access the application through the link on the OpenShift Web Console Overview page. ![Overview link](../../assets/mono-to-micro-part-1/routelink.png)
@@ -54,7 +54,7 @@ The UI will refresh the inventory table every 2 seconds, as before.
 
 Click on the below link to access the Deployment details page to see details on the currently deployed application:
 
-* [LINK]
+* [Inventory Deployment Details](http://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/projects/inventory/browse/rc/inventory-1?tab=details)
 
 Notice OpenShift is warning you that the inventory application has no health checks:
 

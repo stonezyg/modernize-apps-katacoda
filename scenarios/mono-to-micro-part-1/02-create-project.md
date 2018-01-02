@@ -6,13 +6,17 @@ that offers multi-tenancy. This means that developers can have their own persona
 verify applications before committing them to a shared code repository.
 
 We have already deployed our coolstore monolith to OpenShift, but now we are working on re-architecting it to be
-microservices-based, so let's create a separate project to house it and keep it separate from our monolith.
+microservices-based.
+
+In this step we will create our first microservice that implements the _inventory_ for our CoolStore application,
+so let's create a separate project to house it and keep it separate from our monolith and our other microservices we will
+create later on.
 
 **1. Create project**
 
-For this scenario, let's create a project that you will use for your new microservices.
+Create a new project for the _inventory_ service:
 
-```oc new-project coolstore-microservice --display-name="CoolStore Microservice Application"```{{execute interrupt}}
+```oc new-project inventory --display-name="CoolStore Inventory Microservice Application"```{{execute interrupt}}
 
 **3. Open the OpenShift Web Console**
 
@@ -35,7 +39,7 @@ list of projects that your user has permission to work with.
 
 ![Web Console Projects](../../assets/mono-to-micro-part-1/projects.png)
 
-Click on the `CoolStore Microservice Application` to be taken to the project overview page
+Click on the `CoolStore Inventory Microservice Application` to be taken to the project overview page
 which will list all of the routes, services, deployments, and pods that you have
 running as part of your project:
 
