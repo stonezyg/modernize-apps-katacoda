@@ -12,7 +12,7 @@ microservices-based, so let's create a separate project to house it and keep it 
 
 For this scenario, let's create a project that you will use for your new microservices.
 
-```oc new-project coolstore-microservice --display-name="CoolStore Microservice Application"```{{execute}}
+```oc new-project coolstore-microservice --display-name="CoolStore Microservice Application"```{{execute interrupt}}
 
 **3. Open the OpenShift Web Console**
 

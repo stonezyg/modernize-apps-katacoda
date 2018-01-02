@@ -16,14 +16,14 @@ Click on the below command to re-execute the RHAMT CLI and analyze the new proje
 
 **2. View the results**
 
-The RHAMT CLI generates an HTML report. To view the updated report, startup the simple web server again:
+The RHAMT CLI generates an updated HTML report.
 
-```docker run -v ~/rhamt-report:/usr/share/nginx/html:ro -p 9000:80 -it nginx```{{execute}}
-
-Then [click to view the report](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/)
+To view the updated report, [reload the report web page](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/)
 
 Click on the **Issues** tab and ensure that all of the Weblogic-specific issues are gone! You have successfully migrated
 this app to JBoss EAP, congratulations!
+
+[SCREENSHOT]
 
 > You can ignore the remaining issues, as they are for informational purposes only.
 
@@ -33,3 +33,7 @@ this app to JBoss EAP, congratulations!
 
 Now that we've migrated the app, let's deploy it and test it out and start to explore some of the features that JBoss EAP
 plus Red Hat OpenShift bring to the table.
+
+## Before moving on
+
+Stop the report web server by clicking in **Terminal 2** and type CTRL-C to stop the server.

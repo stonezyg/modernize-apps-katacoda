@@ -58,7 +58,7 @@ In this development project we have selected to use a process called binary buil
 Login from the command line:
 
 
-``mvn clean package -Popenshift``{{execute}}
+``mvn clean package -Popenshift``{{execute interrupt}}
 
 ``oc login [[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com -u developer -p developer``{{execute}}
 
