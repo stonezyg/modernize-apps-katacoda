@@ -8,7 +8,7 @@ verify applications before committing them to a shared code repository.
 We have already deployed our coolstore monolith to OpenShift, but now we are working on re-architecting it to be
 microservices-based.
 
-In this step we will create our first microservice that implements the _inventory_ for our CoolStore application,
+In this step we will deploy our new Inventory microservice for our CoolStore application,
 so let's create a separate project to house it and keep it separate from our monolith and our other microservices we will
 create later on.
 
