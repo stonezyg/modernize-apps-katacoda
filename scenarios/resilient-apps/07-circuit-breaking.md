@@ -151,7 +151,7 @@ console:
 
 * [Prometheus UI](http://prometheus-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
 
-In the “Expression” input box at the top of the web page, enter the text: `envoy_cluster_out_ratings_istio_system_svc_cluster_local_http_version_v1_outlier_detection_ejections_active` and click
+In the “Expression” input box at the top of the web page, enter the text: `envoy_cluster_out_ratings_istio_system_svc_cluster_local_http_outlier_detection_ejections_active` and click
 **Execute**. This expression refers to the number of _active ejections_ of pods that have failed more than the value of the `httpConsecutiveErrors` which
 we have set to 1 (one).
 

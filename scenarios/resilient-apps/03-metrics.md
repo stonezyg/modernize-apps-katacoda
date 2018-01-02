@@ -25,9 +25,14 @@ To get a better idea of the power of metrics, let's setup an endless loop that w
 the application and generate load. We'll open up a separate terminal just for this purpose. Execute this command:
 
 `while true; do
-  curl -o /dev/null -s -w "%{http_code}\n" \
-  http://istio-ingress-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/productpage
-  done`{{execute T2}}
+  COUNT=0
+  while [ $COUNT -lt 3 ] ; do
+    curl -o /dev/null -s -w "%{http_code}\n" \
+      http://istio-ingress-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/productpage
+  COUNT=$[$COUNT+1]
+  done
+  sleep 1
+ done`{{execute T2}}
 
 This command will endlessly access the application and report the HTTP status result in a separate terminal window.
 

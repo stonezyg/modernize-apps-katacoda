@@ -14,9 +14,9 @@ During build and deploy, you'll notice WildFly Swarm adding in health checks for
 ```
 
 To verify that everything is started, run the following command and wait for it report
-`replication controller "healthcheck-3" successfully rolled out`
+`replication controller "inventory-xxxx" successfully rolled out`
 
-``oc rollout status dc/healthcheck``{{execute}}
+``oc rollout status dc/inventory``{{execute}}
 
 Once the project is deployed, you should be able to access the health check logic
  at the `/health` endpoint using a simple _curl_ command.
@@ -25,7 +25,7 @@ This is the same API that OpenShift will repeatedly poll to determine applicatio
 
 Click here to try it (you may need to try a few times until the project is fully deployed):
 
-``curl http://inventory-coolstore-microservice.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/health``{{execute}}
+``curl http://inventory-inventory.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/health``{{execute}}
 
 You should see a JSON response like:
 
@@ -64,7 +64,7 @@ And verify it's been changed (look at the `delay=` value for the Liveness probe)
     Readiness:	http-get http://:8080/health delay=10s timeout=1s period=10s #success=1 #failure=3
 ```
 
-> You can also edit health checks from the OpenShift Web Console, for example click on [this link](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/coolstore-microservice/edit/health-checks?kind=DeploymentConfig&name=inventory)
+> You can also edit health checks from the OpenShift Web Console, for example click on [this link](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/inventory/edit/health-checks?kind=DeploymentConfig&name=inventory)
 to access the health check edit page for the Inventory deployment.
 
 In the next step we'll exercise the probe and watch as it fails and OpenShift recovers the application.
