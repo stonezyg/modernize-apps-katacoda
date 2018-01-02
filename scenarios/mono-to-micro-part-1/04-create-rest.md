@@ -52,10 +52,12 @@ The above REST services defines two endpoints:
 for example **/services/inventory/329299** with
 the last path parameter being the product id which we want to check its inventory status.
 
-Build and package the Inventory service again using Maven
+The code also injects our new **InventoryService** using the [CDI @Inject](https://docs.oracle.com/javaee/7/tutorial/partcdi.htm) annotation, which gives
+us a runtime handle to the service we defined in the previous steps that we can use to query
+the database when the RESTful APIs are invoked.
 
-```
-mvn package
-```{{execute}}
+Build and package the Inventory service again using Maven:
+
+`mvn clean package`{{execute}}
 
 You should see a **BUILD SUCCESS** in the build logs.

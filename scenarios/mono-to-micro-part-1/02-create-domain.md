@@ -118,6 +118,6 @@ steps will be replaced with a PostgreSQL database with credentials coming from a
 
 Build and package the Inventory service using Maven to make sure you code compiles:
 
-`mvn package`{{execute}}
+`mvn clean package`{{execute}}
 
 If builds successfully, continue to the next step to create a new service.

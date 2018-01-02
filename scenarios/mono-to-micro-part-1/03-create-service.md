@@ -66,15 +66,7 @@ later on when implementing a RESTful endpoint.
 
 Re-Build and package the Inventory service using Maven to make sure your code compiles:
 
-`mvn package`{{execute}}
-
-If builds successfully, continue to the next step to create a RESTful service.
-
-Build and package the Inventory service again using Maven
-
-```
-mvn package
-```{{execute}}
+`mvn clean package`{{execute}}
 
 You should see a **BUILD SUCCESS** in the build logs. If builds successfully, continue to the next step to
 create a new RESTful endpoint that uses this service.
