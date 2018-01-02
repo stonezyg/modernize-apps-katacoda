@@ -2,18 +2,15 @@ Now that we migrated the application you are probably eager to test it. To test 
 
 Run the following command in the terminal window.
 
-``unzip -d $HOME $HOME/jboss-eap-7.1.0.zip``{{execute}}
+``unzip -d $HOME $HOME/jboss-eap-7.1.0.zip``{{execute T1}}
 
 We should also set the `JBOSS_HOME` environment variable like this:
 
-``export JBOSS_HOME=$HOME/jboss-eap-7.1``{{execute}}
+``export JBOSS_HOME=$HOME/jboss-eap-7.1``{{execute T1}}
 
 Done! That is how easy it is to install JBoss EAP. 
 
-
-
-Open the `pom.xml` file.
-``pom.xml``{{open}}
+Open the `pom.xml`{{open}} file.
 
 ## The maven-wildfly-plugin
 JBoss EAP comes with a nice maven-plugin tool that can stop, start, deploy, and configure JBoss EAP directly from Apache Maven. Let's add that the pom.xml file.
@@ -80,7 +77,7 @@ We are now ready to build and test the project
 
 Our application is at this stage pretty standards based, but it needs two things. One is the  we need to add the JMS Topic since our application depends on it. 
 
-``mvn wildfly:start wildfly:add-resource wildfly:shutdown``{{execute}}
+``mvn wildfly:start wildfly:add-resource wildfly:shutdown``{{execute T1}}
 
 > NOTE: The reason we are using `wildfly:start` and `wildfly:shutdown` is because the `add-resource` command requires a running server. After we have added these resource we don't have to run this command again.
 
@@ -88,7 +85,7 @@ Our application is at this stage pretty standards based, but it needs two things
 
 We are now ready to deploy the application
 
-``mvn wildfly:run``{{execute}}
+``mvn wildfly:run``{{execute T1}}
 
 ## Test the application
 

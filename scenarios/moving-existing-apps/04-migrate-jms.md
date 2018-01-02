@@ -69,12 +69,12 @@ on your migration path.
 The first step is to remove the unneeded `weblogic-ejb-jar.xml` file. This file is not recognized or processed by JBoss
 EAP. Type or click the following command to remove it:
 
-`rm -f src/main/webapp/WEB-INF/weblogic-ejb-jar.xml`{{execute interrupt}}
+`rm -f src/main/webapp/WEB-INF/weblogic-ejb-jar.xml`{{execute T1}}
 
 While we're at it, let's remove the stub weblogic implementation classes added as part of the scenario.
 Run or click on this command to remove them:
 
-`rm -rf src/main/java/weblogic`{{execute}}
+`rm -rf src/main/java/weblogic`{{execute T1}}
 
 **5. Remove unneeded class variables and methods**
 

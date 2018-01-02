@@ -58,15 +58,15 @@ In this development project we have selected to use a process called binary buil
 Login from the command line:
 
 
-``mvn clean package -Popenshift``{{execute interrupt}}
+``mvn clean package -Popenshift``{{execute T1}}
 
-``oc login [[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com -u developer -p developer``{{execute}}
+``oc login [[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com -u developer -p developer``{{execute T1}}
 
-``oc project coolstore-dev``{{execute}}
+``oc project coolstore-dev``{{execute T1}}
 
-``oc start-build coolstore --from-file=deployments/ROOT.war``{{execute}}
+``oc start-build coolstore --from-file=deployments/ROOT.war``{{execute T1}}
 
-``oc rollout status dc/coolstore``{{execute}}
+``oc rollout status dc/coolstore``{{execute T1}}
 
 Check the OpenShift console
 ![OpenShift Console](../../assets/default-picture.jpg)

@@ -11,16 +11,11 @@ The Red Hat Application Migration Toolkit can be installed and used in a few dif
 
 For this scenario, we will use the CLI as you are the only one that will run RHAMT in this system. For multi-user use, the Web Console would be a good option.
 
-**1. Unzip the Red Hat Application Migration Toolkit CLI**
+**1. Verify Red Hat Application Migration Toolkit CLI**
 
-Installing the CLI is the first step. The CLI is distributed as a downloadable archive that can be installed
-using the following command:
+The RHAMT CLI is has been installed for you. To verify that the tool was properly installed, run:
 
-```unzip -d ${HOME} /some/path/to/rhamt-cli.zip```{{execute}}
-
-To verify that the tool was properly installed, run:
-
-`${HOME}/rhamt-cli-4.0.0.Beta4/bin/rhamt-cli`{{execute}}
+`${HOME}/rhamt-cli-4.0.0.Beta4/bin/rhamt-cli --version`{{execute T1}}
 
 You should see:
 
@@ -37,12 +32,12 @@ to execute the RHAMT CLI and analyze the existing project:
 ```
 ~/rhamt-cli-4.0.0.Beta4/bin/rhamt-cli \
   --sourceMode \
-  --input ~/monolith \
+  --input ~/projects/monolith \
   --output ~/rhamt-report \
   --overwrite \
   --source weblogic \
   --target eap:7
-```{{execute}}
+```{{execute T1}}
 
 > Note the use of the ``--source`` and ``--target`` options. This allows you to target specific migration paths supported by RHMAT. Other
 migration paths include **IBM® WebSphere® Application Server** and **JBoss EAP** 5/6/7.

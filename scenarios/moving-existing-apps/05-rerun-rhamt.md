@@ -12,7 +12,7 @@ Click on the below command to re-execute the RHAMT CLI and analyze the new proje
   --overwrite \
   --source weblogic \
   --target eap:7
-```{{execute}}
+```{{execute T1}}
 
 **2. View the results**
 
