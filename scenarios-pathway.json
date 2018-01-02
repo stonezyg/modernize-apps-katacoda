@@ -36,6 +36,11 @@
       "pathway_id": "scenarios",
       "course_id": "resilient-apps",
       "title": "Prevent and detect issues in a distributed system"
+    },
+    {
+      "pathway_id": "scenarios",
+      "course_id": "all-in-one",
+      "title": "All scenarios in one (testing)"
     }
   ]
 }
