@@ -64,7 +64,7 @@ Notice that we are not using the default BOM (Bill of material) that Spring Boot
 
 We use this bill of material to make sure that we are using the version of for example Apache Tomcat that Red Hat supports. 
 
-**1. Adding web (Apache Tomcat) to the application**
+**Adding web (Apache Tomcat) to the application**
 
 Since our applications (like most) will be a web application, we need to use a servlet container like Apache Tomcat or Undertow. Since Red Hat offers support for Apache Tomcat (e.g., security patches, bug fixes, etc.), we will use it. 
 
@@ -80,7 +80,38 @@ To add Apache Tomcat to our project all we have to do is to add the following li
     &lt;/dependency&gt;
 </pre>
 
-**2. Test the application locally**
+
+We will also make use of Java Persistance API (JPA) so we need to add the following to `pom.xml`
+
+<pre class="file" data-filename="pom.xml" data-target="insert" data-marker="<!-- TODO: Add data jpa dependency here -->">
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+</pre>
+
+We will go ahead and add a bunch of other dependencies while we have the pom.xml open. These will be explained later.
+
+<pre class="file" data-filename="pom.xml" data-target="insert" data-marker=" <!-- TODO: Add actuator, fegin and hystrix dependency here -->">
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-cloud-starter-feign&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-cloud-starter-hystrix&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+</pre>
+
+
+
+**Test the application locally**
 
 As we develop the application, we might want to test and verify our change at different stages. We can do that locally, by using the `spring-boot` maven plugin.
 
@@ -102,10 +133,7 @@ You should now see an HTML page that looks like this:
 
 ![Local Web Browser Tab](../../assets/middleware/rhoar-getting-started-spring/web-page.png)
 
-As you can probably guess by now the application we are building is a Fruit repository where we create, read, update and delete different kinds of fruits.
-
-
-> **NOTE:** None of the button works at this stage since we haven't implemented services for them yet, but we will shortly do that.
+> **NOTE:** The service calls to get products from the catalog doesn't work at this stage.
 
 **4. Stop the application**
 
