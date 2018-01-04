@@ -60,7 +60,7 @@ Login from the command line:
 
 ``mvn clean package -Popenshift``{{execute T1}}
 
-``oc login [[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com -u developer -p developer``{{execute T1}}
+``oc login [[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com -u developer -p developer --insecure-skip-tls-verify=true``{{execute T1}}
 
 ``oc project coolstore-dev``{{execute T1}}
 

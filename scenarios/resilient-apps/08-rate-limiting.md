@@ -9,6 +9,20 @@ service consumers when contending for limited resources.
 Rate limits are examples of quotas, and are handled by the
 [Istio Mixer](https://istio.io/docs/concepts/policy-and-control/mixer.html).
 
+## Generate some traffic
+
+As before, let's start up some processes to generate load on the app. Execute this command:
+
+`while true; do
+    curl -o /dev/null -s -w "%{http_code}\n" \
+      http://istio-ingress-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/productpage
+  sleep .2
+done`{{execute T2}}
+
+This command will endlessly access the application and report the HTTP status result in a separate terminal window.
+
+With this application load running, we can witness rate limits in action.
+
 ## Add a rate limit
 
 Execute the following command:
@@ -20,13 +34,16 @@ the `ratings` service is subject to a 1qps rate limit. Verify this with Grafana:
 
 * [Grafana Dashboard](http://grafana-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/dashboard/db/istio-dashboard)
 
-Scroll down to the `reviews` service and observe that you are seeing that some of the requests sent
+Scroll down to the `ratings` service and observe that you are seeing that some of the requests sent
 from `reviews:v3` service to the `ratings` service are returning HTTP Code 429 (Too Many Requests).
 
-[SCREENSHOT]
+![5xxs](../../assets/resilient-apps/ratings-overload.png)
 
 In addition, at the top of the dashboard, the '4xxs' report shows an increase in 4xx HTTP codes. We are being
-rate-limited to 1 query per second.
+rate-limited to 1 query per second:
+
+![5xxs](../../assets/resilient-apps/ratings-4xxs.png)
+
 
 ## Inspect the rule
 
@@ -66,7 +83,7 @@ Verify that the rate limit is no longer in effect. Open the dashboard:
 
 Notice at the top that the `4xx`s dropped back down to zero.
 
-[SCREENSHOT]
+![5xxs](../../assets/resilient-apps/ratings-4xxs-gone.png)
 
 ## Congratulations!
 

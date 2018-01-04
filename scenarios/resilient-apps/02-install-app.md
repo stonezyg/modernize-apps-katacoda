@@ -38,12 +38,12 @@ components (the Envoy Sidecars you read about in the previous step).
 Let's wait for our application to finish deploying.
 Execute the following commands to wait for the deployment to complete and result `successfully rolled out`:
 
-`oc rollout status deployment/productpage-v1 && \
- oc rollout status deployment/reviews-v1 && \
- oc rollout status deployment/reviews-v2 && \
- oc rollout status deployment/reviews-v3 && \
- oc rollout status deployment/details-v1 && \
- oc rollout status deployment/ratings-v1`{{execute}}
+`oc rollout status -w deployment/productpage-v1 && \
+ oc rollout status -w deployment/reviews-v1 && \
+ oc rollout status -w deployment/reviews-v2 && \
+ oc rollout status -w deployment/reviews-v3 && \
+ oc rollout status -w deployment/details-v1 && \
+ oc rollout status -w deployment/ratings-v1`{{execute}}
 
 ## Access Bookinfo
 
@@ -53,13 +53,15 @@ Open the application in your browser to make sure it's working:
 
 It should look something like:
 
-[SCREENSHOT]
+![Bookinfo App](../../assets/resilient-apps/bookinfo.png)
 
 Reload the page multiple times. The three different versions of the Reviews service
 show the star ratings differently - `v1` shows no stars at all, `v2` shows black stars,
 and `v3` shows red stars:
 
-[SCREENSHOT]
+* `v1`: ![no stars](../../assets/resilient-apps/stars-none.png)
+* `v2`: ![black stars](../../assets/resilient-apps/stars-black.png)
+* `v3`: ![red stars](../../assets/resilient-apps/stars-red.png)
 
 That's because there are 3 versions of reviews deployment for our reviews service. Istio’s
 load-balancer is using a _round-robin_ algorithm to iterate through the 3 instances of this service.
@@ -70,7 +72,7 @@ reviews. Note that you'll have three versions of the reviews microservice:
 
 `oc get pods`{{execute}}
 
-Notice that each of them shows 2 containers ready for each service (one for the service and one for its
+Notice that each of the microservices for bookinfo shows 2 containers ready for each service (one for the service and one for its
 sidecar).
 
 Now that we have our application deployed and linked into the Istio service mesh, let's take a look at the

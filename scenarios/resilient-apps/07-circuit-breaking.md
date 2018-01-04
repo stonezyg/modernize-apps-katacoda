@@ -28,25 +28,32 @@ This allows different components of the distributed system to be tuned independe
 See the [Istio Circuit Breaker Spec](https://istio.io/docs/reference/config/traffic-rules/destination-policies.html#istio.proxy.v1.config.CircuitBreaker) for more details.
 
 ## Enable Circuit Breaker
-Let's add a circuit breaker to the calls to the `ratings` service:
+Let's add a circuit breaker to the calls to the `ratings` service. Instead of using a _RouteRule_ object,
+circuit breakers in isto are defined as _DestinationPolicy_ objects. DestinationPolicy defines client/caller-side policies
+that determine how to handle traffic bound to a particular destination service. The policy specifies
+configuration for load balancing and circuit breakers.
+
+Add a circuit breaker to protect calls destined for the `ratings` service:
 
 ```
 oc create -f - <<EOF
-apiVersion: config.istio.io/v1alpha2
-kind: DestinationPolicy
-metadata:
-  name: ratings-cb
-spec:
-  destination:
-    name: ratings
-  circuitBreaker:
-    simpleCb:
-      maxConnections: 1
-      httpMaxPendingRequests: 1
-      httpConsecutiveErrors: 1
-      sleepWindow: 15m
-      httpDetectionInterval: 10s
-      httpMaxEjectionPercent: 100
+    apiVersion: config.istio.io/v1alpha2
+    kind: DestinationPolicy
+    metadata:
+      name: ratings-cb
+    spec:
+      destination:
+        name: ratings
+        labels:
+          version: v1
+      circuitBreaker:
+        simpleCb:
+          maxConnections: 1
+          httpMaxPendingRequests: 1
+          httpConsecutiveErrors: 1
+          sleepWindow: 15m
+          httpDetectionInterval: 10s
+          httpMaxEjectionPercent: 100
 EOF
 ```{{execute T1}}
 
@@ -60,14 +67,16 @@ for more details on what each configuration parameter does.
 
 ## Overload the service
 Let's use some simple `curl` commands to send multiple concurrent requests to our application, and witness the
-circuit breaker kicking in opening the circuit. Execute this to simulate 5 users attampting to access the application:
+circuit breaker kicking in opening the circuit.
+
+First, click in **Terminal 2** and type `CTRL-C` to stop the earlier load generator script.
+Next, Execute this to simulate a number of users attampting to access the application simultaneously:
+
 
 ```
-curl  'http://istio-ingress-istio-system.apps.127.0.0.1.nip.io/productpage?foo=[1-1000]' >& /dev/null & ; \
-curl  'http://istio-ingress-istio-system.apps.127.0.0.1.nip.io/productpage?foo=[1-1000]' >& /dev/null & ; \
-curl  'http://istio-ingress-istio-system.apps.127.0.0.1.nip.io/productpage?foo=[1-1000]' >& /dev/null & ; \
-curl  'http://istio-ingress-istio-system.apps.127.0.0.1.nip.io/productpage?foo=[1-1000]' >& /dev/null & ; \
-curl  'http://istio-ingress-istio-system.apps.127.0.0.1.nip.io/productpage?foo=[1-1000]' >& /dev/null &
+    for i in {1..10} ; do
+        curl 'http://istio-ingress-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/productpage?foo=[1-1000]' >& /dev/null &
+    done
 ```{{execute T2}}
 
 Due to the very conservative circuit breaker, many of these calls will fail with HTTP 503 (Server Unavailable). To see this,
@@ -75,11 +84,17 @@ open the Grafana console:
 
 * [Grafana Dashboard](http://grafana-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/dashboard/db/istio-dashboard)
 
-Notice at the top, the increase in the number of **5xxs Responses** at the top right of the dashboard.
+Notice at the top, the increase in the number of **5xxs Responses** at the top right of the dashboard:
 
-Scroll down to the `ratings` service and observe that the `productpage` service is returning 503 quite a lot! That's the circuit
-breaker in action, limiting the number of requests to the service. In practice your limits would be much higher.
+![5xxs](../../assets/resilient-apps/5xxs.png)
 
+Below that, in the **Service Mesh** section of the dashboard observe that the services are returning 503 (Service Unavailable) quite a lot:
+
+![5xxs](../../assets/resilient-apps/5xxs-services.png)
+
+That's the circuit breaker in action, limiting the number of requests to the service. In practice your limits would be much higher
+
+##
 ## Pod Ejection
 
 In addition to limiting the traffic, Istio can also forcibly eject pods out of service if they are running slowly
@@ -90,26 +105,31 @@ limits. To do this, execute:
 
 ```
 oc replace -f - <<EOF
-apiVersion: config.istio.io/v1alpha2
-kind: DestinationPolicy
-metadata:
-  name: ratings-cb
-spec:
-  destination:
-    name: ratings
-  circuitBreaker:
-    simpleCb:
-      httpConsecutiveErrors: 1
-      sleepWindow: 15m
-      httpDetectionInterval: 10s
-      httpMaxEjectionPercent: 100
+    apiVersion: config.istio.io/v1alpha2
+    kind: DestinationPolicy
+    metadata:
+      name: ratings-cb
+    spec:
+      destination:
+        name: ratings
+        labels:
+          version: v1
+     circuitBreaker:
+        simpleCb:
+          httpConsecutiveErrors: 1
+          sleepWindow: 15m
+          httpDetectionInterval: 10s
+          httpMaxEjectionPercent: 100
 EOF
 ```{{execute T1}}
+
+This policy says that if any instance of the `ratings` service fails more than once, it will be ejected for
+15 minutes.
 
 Next, deploy a new instance of the `ratings` service which has been misconfigured and will return a failure
 (HTTP 500) value for any request. Execute:
 
-`istioctl kube-inject -f ~/projects/ratings/broken.yaml | oc create -f -`{{execute T1}}
+`${ISTIO_HOME}/bin/istioctl kube-inject -f ~/projects/ratings/broken.yaml | oc create -f -`{{execute T1}}
 
 Verify that the broken pod has been added to the `ratings` load balancing service:
 
@@ -132,34 +152,42 @@ using in this workshop).
 
 To trigger this, simply access the application:
 
-* [Application Link](http://istio-ingress-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/productpage) and click **Login** and login with:
+* [Application Link](http://istio-ingress-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/productpage)
 
-Reload the webpage 5-10 times (click the reload icon, or press `CMD-R`, or `CTRL-R`) and notice that you only get an error once, due to the
+Reload the webpage 5-10 times (click the reload icon, or press `CMD-R`, or `CTRL-R`) and notice that you
+only see no stars ONE time, due to the
 circuit breaker's policy for `httpConsecutiveErrors=1`.  After the first error, the pod is ejected from
-the load balancing pool for 15 minutes.
+the load balancing pool for 15 minutes and you should see red stars from now on.
 
 Verify that the broken pod only received one request that failed:
 
-`oc logs -c ratings pod/[PODNAME]`{{execute T1}}
+`oc logs -c ratings [PODNAME]`{{execute T1}}
 
-> Replace `[PODNAME]` above with the name of your broken pod.
+> Replace `[PODNAME]` above with the name of the broken pod.
 
-You should see one or two accesses and no more, no matter how many times you reload the webpage.
+You should see:
+
+```console
+Server listening on: http://0.0.0.0:9080
+GET /ratings/0
+```
+
+You should see one and only one `GET` request, no matter how many times you reload the webpage.
 This indicates that the pod has been ejected from the load balancing pool and will not be accessed
 for 15 minutes. You can also see this in the Prometheus logs for the Istio Mixer. Open the Prometheus query
 console:
 
 * [Prometheus UI](http://prometheus-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
 
-In the “Expression” input box at the top of the web page, enter the text: `envoy_cluster_out_ratings_istio_system_svc_cluster_local_http_outlier_detection_ejections_active` and click
-**Execute**. This expression refers to the number of _active ejections_ of pods that have failed more than the value of the `httpConsecutiveErrors` which
+In the “Expression” input box at the top of the web page, enter the text: `envoy_cluster_out_ratings_istio_system_svc_cluster_local_http_version_v1_outlier_detection_ejections_active` and click
+**Execute**. This expression refers to the number of _active ejections_ of pods from the `ratings:v1` destination that have failed more than the value of the `httpConsecutiveErrors` which
 we have set to 1 (one).
 
 Then, click the Execute button.
 
 You should see a result of `1`:
 
-[SCREENSHOT]
+![5xxs](../../assets/resilient-apps/prom-outlier.png)
 
 In practice this means that the failing pod will not receive any traffic for the timeout period, giving it a chance
 to recover and not affect the user experience.
@@ -174,13 +202,14 @@ In this step you implemented the Circuit Breaker microservice pattern without ch
 This is one additional way to build resilient applications, ones designed to deal with failure rather than go to great lengths
 to avoid it.
 
-In the next step you'll apply rate limiting to realize different service levels for different client types.
+In the next step, we will explore rate limiting, which can be useful to give different service levels to
+different customers based on policy and contractual requirements
 
 #### Before moving on
 
 Before moving on, in case your simulated user loads are still running, kill them with:
 
-`kill %1 %2 %3 %4 %5`{{execute T2}}
+`for i in {1..10} ; do kill %${i}; done`{{execute T2}}
 
 ## More references
 

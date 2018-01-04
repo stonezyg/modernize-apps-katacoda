@@ -14,7 +14,7 @@ The Service Graph addon provides a visualization of the different services and h
 
 It should look like:
 
-[SCREENSHOT]
+![Dotviz graph](../../assets/resilient-apps/dotviz.png)
 
 As you add and remove services over time in your projects, you can use this to verify the connections between services and provides
 a high-level telemetry showing the rate at which services are accessed.
@@ -25,14 +25,10 @@ To get a better idea of the power of metrics, let's setup an endless loop that w
 the application and generate load. We'll open up a separate terminal just for this purpose. Execute this command:
 
 `while true; do
-  COUNT=0
-  while [ $COUNT -lt 3 ] ; do
     curl -o /dev/null -s -w "%{http_code}\n" \
       http://istio-ingress-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/productpage
-  COUNT=$[$COUNT+1]
-  done
-  sleep 1
- done`{{execute T2}}
+  sleep .2
+done`{{execute T2}}
 
 This command will endlessly access the application and report the HTTP status result in a separate terminal window.
 
@@ -54,7 +50,11 @@ Then, click the Execute button.
 
 You should see a listing of each of the application's services along with a count of how many times it was accessed.
 
-[SCREENSHOT]
+![Prometheus console](../../assets/resilient-apps/prom.png)
+
+You can also graph the results over time by clicking on the _Graph_ tab:
+
+![Prometheus graph](../../assets/resilient-apps/promgraph.png)
 
 Other expressions to try:
 
@@ -75,7 +75,7 @@ Open the Grafana Dashboard:
 
 * [Grafana Dashboard](http://grafana-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/dashboard/db/istio-dashboard)
 
-[SCREENSHOT]
+![Grafana graph](../../assets/resilient-apps/grafana-dash.png)
 
 The Grafana Dashboard for Istio consists of three main sections:
 

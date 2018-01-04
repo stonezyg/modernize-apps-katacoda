@@ -5,7 +5,7 @@ user will need to run things in a privileged way, or even with containers as roo
 
 Run the following to login as admin:
 
-`oc login [[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com -u admin -p admin`{{execute}}
+`oc login [[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com -u admin -p admin --insecure-skip-tls-verify=true`{{execute}}
 
 **If you are unable to login as admin or get any failures, ask an instructor for help.**
 
@@ -26,14 +26,14 @@ We'll use the above components througout this scenario, so don't worry if you do
 Istio consists of a number of components, and you should wait for it to be completely initialized before continuing.
 Execute the following commands to wait for the deployment to complete and result `deployment xxxxxx successfully rolled out` for each deployment:
 
-`oc rollout status deployment/istio-pilot && \
- oc rollout status deployment/istio-mixer && \
- oc rollout status deployment/istio-ca && \
- oc rollout status deployment/istio-ingress && \
- oc rollout status deployment/prometheus && \
- oc rollout status deployment/grafana && \
- oc rollout status deployment/servicegraph && \
- oc rollout status deployment/jaeger-deployment`{{execute}}
+`oc rollout status -w deployment/istio-pilot && \
+ oc rollout status -w deployment/istio-mixer && \
+ oc rollout status -w deployment/istio-ca && \
+ oc rollout status -w deployment/istio-ingress && \
+ oc rollout status -w deployment/prometheus && \
+ oc rollout status -w deployment/grafana && \
+ oc rollout status -w deployment/servicegraph && \
+ oc rollout status -w deployment/jaeger-deployment`{{execute}}
 
 While you wait for the command to report success you can read a bit more about the [Istio](https://istio.io/docs) architecture below:
 

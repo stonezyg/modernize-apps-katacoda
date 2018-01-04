@@ -13,21 +13,28 @@ At this point, we are back to sending all traffic to `reviews:v1`. [Access the a
 and verify that no matter how many times you reload your browser, you'll always get no ratings stars, since
 `reviews:v1` doesn't ever access the `ratings` service:
 
-[SCREENSHOT]
+![no stars](../../assets/resilient-apps/stars-none.png)
 
-Open the Grafana dashboard and verify this:
+Open the Grafana dashboard and verify that the ratings service is receiving no traffic at all:
 
 * [Grafana Dashboard](http://grafana-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/dashboard/db/istio-dashboard)
 
-Scroll down to the `reviews` service and observe that all traffic to `reviews:v2` and `reviews:v3` have stopped,
-and everything is going to `reviews:v1` which is a known working configuration.
+Scroll down to the `reviews` service and observe that all traffic from `productpage` to to `reviews:v2` and
+`reviews:v3` have stopped, and that only `reviews:v1` is receiving requests:
 
-[SCREENSHOT]
+![no traffic](../../assets/resilient-apps/ratings-no-traffic.png)
+
+In Grafana you can click on each service version below each graph to only show one graph at a time. Try it by
+clicking on `productpage.istio-system-v1 -> v1 : 200`. This shows a graph of all requests coming from
+`productpage` to `reviews` version `v1` that returned HTTP 200 (Success). You can then click on
+`productpage.istio-system-v1 -> v2 : 200` to verify no traffic is being sent to `reviews:v2`:
+
+![no traffic 2](../../assets/resilient-apps/ratings-no-traffic-v2.png)
 
 ## Migrate users to v3
 
-Next, transfer 50% of the traffic from `reviews:v1` to `reviews:v3` with the following command which replaces
-the `reviews-default` rule with a new rule:
+To start the process, let's send half (50%) of the users to our new `v3` version with the fix, to do a canary test.
+Execute the following command which replaces the `reviews-default` rule with a new rule:
 
 `oc replace -f samples/bookinfo/kube/route-rule-reviews-50-v3.yaml`{{execute T1}}
 
@@ -54,7 +61,7 @@ Open the Grafana dashboard and verify this:
 Scroll down to the `reviews` service and observe that half the traffic goes to each of `v1` and `v3` and none goes
 to `v2`:
 
-[SCREENSHOT]
+![half traffic](../../assets/resilient-apps/reviews-v1-v3-half.png)
 
 
 At this point, we see some traffic going to `v3` and are happy with the result. [Access the application](http://istio-ingress-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/productpage)
@@ -70,7 +77,7 @@ Once again, open the Grafana dashboard and verify this:
 
 Scroll down to the `reviews` service and observe that all traffic is now going to `v3`:
 
-[SCREENSHOT]
+![all v3 traffic](../../assets/resilient-apps/reviews-v3-all.png)
 
 Also, [Access the application](http://istio-ingress-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/productpage)
 and verify that you always get _red_ ratings stars (`v3`).
@@ -84,5 +91,5 @@ the two versions of the reviews service to scale up and down independently, with
 traffic distribution between them. For more about version routing with autoscaling, check out
 [Canary Deployments using Istio](https://istio.io/blog/canary-deployments-using-istio.html).
 
-In the next step, we will explore rate limiting, which can be useful to give different service levels to
-different customers based on policy and contractual requirements
+In the next step, we will explore circuit breaking, which is useful for avoiding cascading failures
+and overloaded microservices, giving the system a chance to recover and minimize downtime.

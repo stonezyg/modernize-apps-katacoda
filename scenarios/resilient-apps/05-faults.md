@@ -64,16 +64,14 @@ Now, [access the application](http://istio-ingress-istio-system.[[HOST_SUBDOMAIN
 
 If the application’s front page was set to correctly handle delays, we expect it to load within
 approximately 7 seconds. To see the web page response times, open the Developer Tools menu in
-IE, Chrome or Firefox (typically, key combination Ctrl+Shift+I or Alt+Cmd+I), tab Network,
-and reload the `productpage` web page.
+IE, Chrome or Firefox (typically, key combination `Ctrl`+`Shift`+`I` or `Alt`+`Cmd`+`I`), tab Network,
+and reload the bookinfo web page.
 
-You will see that the webpage loads in about 6 seconds:
+You will see and feel that the webpage loads in about 6 seconds:
 
-[SCREENSHOT]
+![Delay](../../assets/resilient-apps/testuser-delay.png)
 
-The reviews section will show "Sorry, product reviews are currently unavailable for this book":
-
-[SCREENSHOT]
+The reviews section will show: **Sorry, product reviews are currently unavailable for this book**:
 
 ## Use tracing to identify the bug
 The reason that the entire reviews service has failed is because our BookInfo application has
@@ -82,7 +80,8 @@ than the timeout between the reviews and ratings service (10s). These kinds of b
 typical enterprise applications where different teams develop different microservices independently.
 
 Identifying this timeout mismatch is not so easy by observing the application, but is very easy when using
-Istio's built-in tracing capabilities. We will explore tracing in depth later on in this scenario.
+Istio's built-in tracing capabilities. We will explore tracing in depth later on in this scenario and re-visit
+this issue.
 
 ## Fixing the bug
 At this point we would normally fix the problem by either increasing the `productpage` timeout or

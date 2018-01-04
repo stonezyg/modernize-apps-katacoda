@@ -39,30 +39,28 @@ With our application up and our script running to generate loads, visit the Jaeg
 
 * [Jaeger Query Dashboard](http://jaeger-query-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
 
-[SCREENSHOT]
+![jager console](../../assets/resilient-apps/jag-console.png)
 
 Select `istio-ingress` from the _Service_ dropdown menu, change the value of **Limit Results** to `200` and click **Find Traces**:
 
-[SCREENSHOT]
+![jager console](../../assets/resilient-apps/jag-console2.png)
 
 In the top right corner, a duration vs. time scatter plot gives a visual representation of the results, showing how and when
 each service was accessed, with drill-down capability. The bottom right includes a list of all spans that were traced over the last
 hour (limited to 200).
 
-If you click on the top (most recent) trace, you should see the details corresponding
+If you click on the first trace in the listing, you should see the details corresponding
 to a recent access to `/productpage`. The page should look something like this:
 
-[SCREENSHOT]
+![jager listing](../../assets/resilient-apps/jag-listing.png)
 
-As you can see, the trace is comprised of spans, where each span corresponds to a
-BookInfo service invoked during the execution of a `/productpage` request.
+As you can see, the trace is comprised of _spans_, where each span corresponds to a
+microservice invoked during the execution of a `/productpage` request.
 
 The first line represents the external call to the entry point of our application controlled by
  `istio-ingress`. It in thrn calls the `productpage` service. Each line below
 represents the internal calls to the other services to construct the result, including the
 time it took for each service to respond.
-
-[SCREENSHOT]
 
 To demonstrate the value of tracing, let's re-visit our earlier timeout bug! If you recall, we had
 injected a 7 second delay in the `ratings` microservice for our user _jason_. So when we loaded the
@@ -80,22 +78,25 @@ To see this bug, open the Jaeger tracing console:
 Since users of our application were reporting lengthy waits of 5 seconds or more, let's look for traces
 that took at least 5 seconds. Select these options for the query:
 
-*  **Service**: `istio-ingress`
+* **Service**: `istio-ingress`
 * **Min Duration**: `5s`
 
-Then click **Find Traces**:
+Then click **Find Traces**. Change the sorting to **Longest First** to see the ones that took the longest.
+The result list should show several spans with errors:
 
-[SCREENSHOT]
+![jager listing](../../assets/resilient-apps/jag-last10.png)
 
-The result should be a single span called `istio-ingress: productpage-default`. Click on the span to open the
-span details:
+Click on the top-most span that took ~10s and open details for it:
 
-[SCREENSHOT]
+![jager listing](../../assets/resilient-apps/jag-2x3.png)
+
 
 Here you can see the `reviews` service takes 2 attempts to access the `ratings` service, with each attempt
 timing out after 3 seconds. After the second attempt, it gives up and returns a failure back to the product
 page. Meanwhile, each of the attempts to get ratings finally succeeds after its fault-injected 7 second delay,
 but it's too late as the reviews service has already given up by that point.
+
+The timeouts are incompatible, and need to be adjusted. This is left as an exercise to the reader.
 
 Istio’s fault injection rules and tracing capabilities help you identify such anomalies without impacting end users.
 

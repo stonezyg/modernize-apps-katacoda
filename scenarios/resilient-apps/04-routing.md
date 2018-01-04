@@ -40,11 +40,14 @@ you also have new object types installed as part of Istio like `RouteRule`. Addi
 OpenShift cluster is how you configure routing rules for Istio.
 
 ## Install a default route rule
-Because the BookInfo sample deploys 3 versions of the reviews microservice, we need to set a default route. Otherwise if you access the application several times, you’ll notice that sometimes the output contains star ratings. This is because without an explicit default version set, Istio will route requests to all available versions of a service in a random fashion.
+Because the BookInfo sample deploys 3 versions of the reviews microservice, we need to set a default route.
+Otherwise if you access the application several times, you’ll notice that sometimes the output contains star
+ratings. This is because without an explicit default version set, Istio will route requests to all available
+versions of a service in a random fashion, and anytime you hit `v1` version you'll get no stars.
 
 First, let's set an environment variable to point to Istio:
 
-`export ISTIO_VERSION=0.4.0; export ISTIO_HOME=${HOME}/istio-${ISTIO_VERSION}; cd ${ISTIO_HOME}`{{execute T1}}
+`export ISTIO_VERSION=0.4.0; export ISTIO_HOME=${HOME}/istio-${ISTIO_VERSION}; export PATH=${PATH}:${ISTIO_HOME}/bin; cd ${ISTIO_HOME}`{{execute T1}}
 
 Now let's install a default set of routing rules which will direct all traffic to the `reviews:v1` service version:
 
@@ -55,6 +58,8 @@ You can see this default set of rules with:
 `oc get routerules -o yaml`{{execute T1}}
 
 There are default routing rules for each service, such as the one that forces all traffic to the `v1` version of the `reviews` service:
+
+`oc get routerules/reviews-default -o yaml`{{execute T1}}
 
 ```yaml
 apiVersion: config.istio.io/v1alpha2
@@ -72,7 +77,7 @@ spec:
       version: v1
 ```
 
-Now, access the application and reload several times - you should not see any rating stars since `reviews:v1` does not access the `ratings` service.
+Now, access the application again in your browser using the below link and reload the page several times - you should not see any rating stars since `reviews:v1` does not access the `ratings` service.
 
 * [Bookinfo Application with no rating stars](http://istio-ingress-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/productpage)
 
@@ -82,10 +87,10 @@ To verify this, open the Grafana Dashboard:
 
 Scroll down to the `ratings` service and notice that the requests coming from the reviews service have stopped:
 
-[SCREENSHOT]
+![Versions](../../assets/resilient-apps/ratings-stopped.png)
 
 ## A/B Testing with Istio
-Lets enable the ratings service a test user “jason” by routing `productpage` traffic to `reviews:v2`, but only for our test user. Execute:
+Lets enable the ratings service for a test user named “jason” by routing `productpage` traffic to `reviews:v2`, but only for our test user. Execute:
 
 `oc create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml`{{execute T1}}
 
@@ -102,6 +107,7 @@ Notice the `match` element:
         cookie:
           regex: ^(.*?;)?(user=jason)(;.*)?$
 ```
+
 This says that for any incoming HTTP request that has a cookie set to the `jason` user to direct traffic to
 `reviews:v2`.
 
@@ -110,11 +116,13 @@ Now, [access the application](http://istio-ingress-istio-system.[[HOST_SUBDOMAIN
 * Username: `jason`
 * Password: `jason`
 
+> If you get any certificate security exceptions, just accept them and continue. This is due to the use of self-signed certs.
+
 Once you login, refresh a few times - you should always see the black ratings stars coming from `ratings:v2`. If you logout,
 you'll return to the `reviews:v1` version which shows no stars. You may even see a small blip of access to `ratings:v2` on the
-Grafana dashboard if you refresh quickly 5-10 times.
+Grafana dashboard if you refresh quickly 5-10 times while logged in as the test user `jason`.
 
-[SCREENSHOT]
+![Ratings for Test User](../../assets/resilient-apps/ratings-testuser.png)
 
 ## Congratulations!
 
