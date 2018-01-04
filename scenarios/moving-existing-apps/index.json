@@ -30,6 +30,10 @@
             {
                 "title": "Migrate and run the project",
                 "text": "06-run-the-migrated-application.md"
+            },
+            {
+                "title": "Deploy the monolith to OpenShift",
+                "text": "07-deploy-the-app-to-openshift.md"
             }
         ],
         "intro": {

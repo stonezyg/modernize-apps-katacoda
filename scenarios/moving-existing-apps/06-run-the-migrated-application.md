@@ -36,6 +36,9 @@ Next we are going to add some configuration. First we need to point to our JBoss
                     &lt;!-- TODO: Add Datasource definition here --&gt;
                     &lt;!-- TODO: Add JMS Topic definition here --&gt;
                     &lt;/resources&gt;
+                    &lt;server-args&gt;
+                        &lt;server-arg&gt;-Djboss.https.port=8888&lt;/server-arg&gt;
+                    &lt;/server-args&gt;
                 &lt;/configuration&gt;
 </pre>
 
@@ -44,7 +47,7 @@ Since our application is using a Database we also configuration that by adding t
 <pre class="file" data-filename="pom.xml" data-target="insert" data-marker="<!-- TODO: Add Datasource definition here -->">
                         &lt;resource&gt;
                             &lt;addIfAbsent&gt;true&lt;/addIfAbsent&gt;
-                            &lt;address&gt;subsystem=datasources,data-source=java:jboss/CoolstoreDS&lt;/address&gt;
+                            &lt;address&gt;subsystem=datasources,data-source=CoolstoreDS&lt;/address&gt;
                             &lt;properties&gt;
                                 &lt;jndi-name&gt;java:jboss/CoolstoreDS&lt;/jndi-name&gt;
                                 &lt;enabled&gt;true&lt;/enabled&gt;
