@@ -132,7 +132,7 @@ public class CatalogEndpointTest {
 
 Implement the Catalog Service endpoints
 
-``src/main/java/com/redhat/coolstore/service/CatalogEndpoint.java``{{open}}
+``src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java``{{open}}
 
 <pre class="file" data-filename="src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java" data-target="replace">
 package com.redhat.coolstore.service;
