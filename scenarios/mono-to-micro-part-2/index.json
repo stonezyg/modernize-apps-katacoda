@@ -57,7 +57,7 @@
     "environment": {
         "uilayout": "editor-terminal",
         "uisettings": "java",
-        "uieditorpath": "/root/catalog",
+        "uieditorpath": "/root/project/catalog",
         "showdashboard": true,
         "hideintro": false,
         "dashboards": [{"name":"Local Web Browser","port":8080},{"name":"OpenShift Console","port":8443}],
