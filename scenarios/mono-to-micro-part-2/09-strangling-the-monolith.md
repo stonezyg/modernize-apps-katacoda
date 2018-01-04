@@ -9,5 +9,5 @@ Flow the steps below to create a path based route.
 1. Open the openshift console for [Monolith - Applications - Routes](http://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/coolstore-dev/browse/routes) 
 1. Click on create route set **Name** to *catalog-path*, set **Path** to */services/products* and set **Service** to *catalog*
 1. Click Save
-1. Test the route by running ``curl http://monolth-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/services/products``{{execute}}
+1. Test the route by running ``curl http://monolith-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/services/products``{{execute}}
 1. Now open a web browser against 

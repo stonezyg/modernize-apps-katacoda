@@ -2,14 +2,14 @@ Now that you've logged into OpenShift, let's deploy our new inventory microservi
 
 **1. Deploy the Database**
 
-Our production inventory microservice will use an external database (PostgreSQL) to house inventory data.
+Our production catalog microservice will use an external database (PostgreSQL) to house inventory data.
 First, deploy a new instance of PostgreSQL by executing:
 
 `oc new-app -e POSTGRESQL_USER=catalog \
              -e POSTGRESQL_PASSWORD=mysecretpassword \
              -e POSTGRESQL_DATABASE=catalog \
              openshift/postgresql:latest \
-             --name=inventory-database`{{execute}}
+             --name=catalog-database`{{execute}}
 
 > **NOTE:** If you change the username and password you also need to update `src/main/fabric8/credential-secret.yml`{{open}} which contains
 the credentials used when deploying to OpenShift.
@@ -55,6 +55,6 @@ The UI will refresh the catalog table every 2 seconds, as before.
 
 Click on the below link to access the Deployment details page to see details on the currently deployed application:
 
-* [Inventory Deployment Details](http://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/projects/catalog/browse/rc/catalog-1?tab=details)
+* [Catalog Deployment Details](http://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/projects/catalog/browse/rc/catalog-1?tab=details)
 
 
