@@ -2,9 +2,10 @@ In this step we will re-run the RHAMT report to verify our migration was success
 
 **1. Run the RHAMT CLI against the project**
 
-Click on the below command to re-execute the RHAMT CLI and analyze the new project:
+Click on the below command to clean the old build artifacts and re-execute the RHAMT CLI and analyze the new project:
 
 ```
+mvn clean
 ~/rhamt-cli-4.0.0.Beta4/bin/rhamt-cli \
   --sourceMode \
   --input ~/projects/monolith \
@@ -36,4 +37,4 @@ plus Red Hat OpenShift bring to the table.
 
 ## Before moving on
 
-Stop the report web server by clicking in **Terminal 2** and type CTRL-C to stop the server.
+Stop the report web server by clicking in **Terminal 2** and type CTRL-C to stop the server (or click this command: `clear`{{execute T2 interrupt}})

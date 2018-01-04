@@ -102,4 +102,15 @@ public class OrderServiceMDB implements MessageListener {
 
 When we run our newly-migrated application later you will be able to verify the logging works correctly by inspecting the log file output.
 
-That one was pretty easy. Let's move on to the next issue!
+That one was pretty easy.
+
+## Test the build
+
+Build and package the app using Maven to make sure you code still compiles:
+
+`mvn clean package`{{execute}}
+
+If builds successfully (you will see `BUILD SUCCESS`), then let's move on to the next issue! If it does not compile,
+verify you made all the changes correctly and try the build again.
+
+Once it builds, let's move on to the next issue!
