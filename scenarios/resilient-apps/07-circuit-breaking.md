@@ -69,15 +69,14 @@ for more details on what each configuration parameter does.
 Let's use some simple `curl` commands to send multiple concurrent requests to our application, and witness the
 circuit breaker kicking in opening the circuit.
 
-First, click in **Terminal 2** and type `CTRL-C` to stop the earlier load generator script.
-Next, Execute this to simulate a number of users attampting to access the application simultaneously:
+Execute this to simulate a number of users attampting to access the application simultaneously:
 
 
 ```
     for i in {1..10} ; do
         curl 'http://istio-ingress-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/productpage?foo=[1-1000]' >& /dev/null &
     done
-```{{execute T2}}
+```{{execute T2 interrupt}}
 
 Due to the very conservative circuit breaker, many of these calls will fail with HTTP 503 (Server Unavailable). To see this,
 open the Grafana console:
@@ -93,6 +92,12 @@ Below that, in the **Service Mesh** section of the dashboard observe that the se
 ![5xxs](../../assets/resilient-apps/5xxs-services.png)
 
 That's the circuit breaker in action, limiting the number of requests to the service. In practice your limits would be much higher
+
+### Stop overloading
+
+Before moving on, stop the traffic generator by clicking here to stop them:
+
+`for i in {1..10} ; do kill %${i} ; done`{{execute T2 interrupt}}
 
 ## Pod Ejection
 
