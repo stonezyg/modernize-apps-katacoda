@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-ssh root@host01 'for i in {1..200}; do oc policy add-role-to-user system:image-puller system:anonymous && break || sleep 1; done'
-ssh root@host01 'for i in {1..200}; do oc policy add-cluster-role-to-user cluster-admin admin && break || sleep 1; done'
+ssh root@host01 'for i in {1..200}; do oc adm policy add-role-to-user system:image-puller system:anonymous && break || sleep 1; done'
+ssh root@host01 'for i in {1..200}; do oc adm policy add-cluster-role-to-user cluster-admin admin && break || sleep 1; done'
 
 ssh root@host01 "oc import-image jenkins:v3.7 --from='registry.access.redhat.com/openshift3/jenkins-2-rhel7:v3.7' --confirm -n openshift"
 ssh root@host01 "oc export template jenkins-persistent -n openshift -o json | sed 's/jenkins:latest/jenkins:v3.7/g' | oc replace -f - -n openshift"
