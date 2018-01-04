@@ -94,7 +94,6 @@ Below that, in the **Service Mesh** section of the dashboard observe that the se
 
 That's the circuit breaker in action, limiting the number of requests to the service. In practice your limits would be much higher
 
-##
 ## Pod Ejection
 
 In addition to limiting the traffic, Istio can also forcibly eject pods out of service if they are running slowly
@@ -114,7 +113,7 @@ oc replace -f - <<EOF
         name: ratings
         labels:
           version: v1
-     circuitBreaker:
+      circuitBreaker:
         simpleCb:
           httpConsecutiveErrors: 1
           sleepWindow: 15m
@@ -138,9 +137,9 @@ Verify that the broken pod has been added to the `ratings` load balancing servic
 You should see 2 pods, including the broken one:
 
 ```console
-NAME                                        READY     STATUS    RESTARTS   AGE
-ratings-v1-1654398405-ds96j                 2/2       Running   0          29m
-ratings-v2-mongodb-broken-684251558-f6g5s   2/2       Running   0          4m
+NAME                                 READY     STATUS    RESTARTS   AGE
+ratings-v1-3080059732-5ts95          2/2       Running   0          3h
+ratings-v1-broken-1694306571-c6zlk   2/2       Running   0          7s
 ```
 
 Requests to the `ratings` service will be load-balanced across these two pods. The circuit breaker will
@@ -163,7 +162,7 @@ Verify that the broken pod only received one request that failed:
 
 `oc logs -c ratings [PODNAME]`{{execute T1}}
 
-> Replace `[PODNAME]` above with the name of the broken pod.
+> Replace `[PODNAME]` above with the name of the broken pod (e.g. `ratings-v1-broken-XXXX-YYYY`)
 
 You should see:
 

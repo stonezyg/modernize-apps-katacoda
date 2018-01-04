@@ -62,19 +62,19 @@ There are default routing rules for each service, such as the one that forces al
 `oc get routerules/reviews-default -o yaml`{{execute T1}}
 
 ```yaml
-apiVersion: config.istio.io/v1alpha2
-kind: RouteRule
-metadata:
-  name: reviews-default
-  namespace: default
-  ...
-spec:
-  destination:
-    name: reviews
-  precedence: 1
-  route:
-  - labels:
-      version: v1
+    apiVersion: config.istio.io/v1alpha2
+    kind: RouteRule
+    metadata:
+      name: reviews-default
+      namespace: default
+      ...
+    spec:
+      destination:
+        name: reviews
+      precedence: 1
+      route:
+      - labels:
+          version: v1
 ```
 
 Now, access the application again in your browser using the below link and reload the page several times - you should not see any rating stars since `reviews:v1` does not access the `ratings` service.

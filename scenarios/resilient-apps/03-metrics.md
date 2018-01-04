@@ -79,9 +79,9 @@ Open the Grafana Dashboard:
 
 The Grafana Dashboard for Istio consists of three main sections:
 
-1. A Global Summary View. This section provides high-level summary of HTTP requests flowing through the service mesh.
-1. A Mesh Summary View. This section provides slightly more detail than the Global Summary View, allowing per-service filtering and selection.
-1. Individual Services View. This section provides metrics about requests and responses for each individual service within the mesh (HTTP and TCP).
+1. **A Global Summary View.** This section provides high-level summary of HTTP requests flowing through the service mesh.
+1. **A Mesh Summary View.** This section provides slightly more detail than the Global Summary View, allowing per-service filtering and selection.
+1. **Individual Services View.** This section provides metrics about requests and responses for each individual service within the mesh (HTTP and TCP).
 
 For more on how to create, configure, and edit dashboards, please see the [Grafana documentation](http://docs.grafana.org/).
 

@@ -103,7 +103,7 @@ Istio’s fault injection rules and tracing capabilities help you identify such 
 ## Before moving on
 
 Let's stop the load generator running against our app. Navigate to **Terminal 2** and type
-`CTRL-C` to stop the generator.
+`CTRL-C` to stop the generator or click `clear`{{execute T2 interrupt}}.
 
 ## Congratulations!
 
