@@ -4,8 +4,6 @@ Now that we migrated the application you are probably eager to test it. To test 
 
 **1. Add a OpenShift profile**
 
-
-
 At the `<!-- TODO: Add OpenShift profile here -->` we are going to add a the following configuration to the pom.xml
 
 <pre class="file" data-filename="pom.xml" data-target="insert" data-marker="<!-- TODO: Add OpenShift profile here -->">
@@ -33,19 +31,40 @@ At the `<!-- TODO: Add OpenShift profile here -->` we are going to add a the fol
           &lt;/profile&gt;
 </pre>
 
+**2. Create the OpenShift projcet**
 
+First, click on the OpenShift Console tab next to the Terminal tab:
 
-1. Click on the openshift tab next to terminal tab
-![OpenShift Console](../../assets/default-picture.jpg)
-1. This will open a new browser with the openshift console
-![OpenShift Console](../../assets/default-picture.jpg)
-1. Login using username *developer* and password *developer*
-![OpenShift Console](../../assets/default-picture.jpg)
-1. Click create new project
-![OpenShift Console](../../assets/default-picture.jpg)
-1. Give the project the **Name:** `coolstore-dev` and **Display Name:**`Coolstore Monolith - Dev`, leave the **Description** empty.
-![OpenShift Console](../../assets/default-picture.jpg)
-1. Click the **Add to project** button
+![OpenShift Console](../../assets/moving-existing-apps/openshift-console-tab.png)
+
+This will open a new browser with the openshift console.
+
+![OpenShift Console](../../assets/moving-existing-apps/openshift-login.png)
+
+Login using:
+
+* Username `developer`
+* Password: `developer`
+
+You will see the OpenShift landing page:
+
+![OpenShift Console](../../assets/moving-existing-apps/openshift-landing.png)
+
+Click **Create Project**, fill in the fields, and click **Create**:
+
+* Name: `coolstore-dev`
+* Display Name: `Coolstore Monolith - Dev`
+* Description: _leave this field empty_
+
+![OpenShift Console](../../assets/moving-existing-apps/create-dialog.png)
+
+**3. Deploy the monolith**
+
+Click on the name of the newly-created project:
+
+![OpenShift Console](../../assets/moving-existing-apps/create-new.png)
+
+Then click the **Browse Catalog** button
 ![OpenShift Console](../../assets/default-picture.jpg)
 1. Search for `Coolstore Monolith using binary build` template.
 ![OpenShift Console](../../assets/default-picture.jpg)

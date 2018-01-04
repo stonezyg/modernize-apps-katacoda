@@ -38,7 +38,9 @@ Next we are going to add some configuration. First we need to point to our JBoss
                     &lt;/resources&gt;
                     &lt;server-args&gt;
                         &lt;server-arg&gt;-Djboss.https.port=8888&lt;/server-arg&gt;
+                        &lt;server-arg&gt;-Djboss.bind.address=0.0.0.0&lt;/server-arg&gt;
                     &lt;/server-args&gt;
+                    &lt;javaOpts&gt;-Djava.net.preferIPv4Stack=true&lt;/javaOpts&gt;
                 &lt;/configuration&gt;
 </pre>
 
@@ -49,7 +51,7 @@ Since our application is using a Database we also configuration that by adding t
                             &lt;addIfAbsent&gt;true&lt;/addIfAbsent&gt;
                             &lt;address&gt;subsystem=datasources,data-source=CoolstoreDS&lt;/address&gt;
                             &lt;properties&gt;
-                                &lt;jndi-name&gt;java:jboss/CoolstoreDS&lt;/jndi-name&gt;
+                                &lt;jndi-name&gt;java:jboss/datasources/CoolstoreDS&lt;/jndi-name&gt;
                                 &lt;enabled&gt;true&lt;/enabled&gt;
                                 &lt;connection-url&gt;jdbc:h2:mem:test;DB_CLOSE_DELAY=-1&lt;/connection-url&gt;
                                 &lt;driver-class&gt;org.h2.Driver&lt;/driver-class&gt;
@@ -82,6 +84,8 @@ Our application is at this stage pretty standards based, but it needs two things
 
 ``mvn wildfly:start wildfly:add-resource wildfly:shutdown``{{execute T1}}
 
+Wait for a `BUILD SUCCESS` message. If it fails, check that you made all the correct changes and try again!
+
 > NOTE: The reason we are using `wildfly:start` and `wildfly:shutdown` is because the `add-resource` command requires a running server. After we have added these resource we don't have to run this command again.
 
 ## Deploying the application
@@ -93,6 +97,8 @@ We are now ready to deploy the application
 ## Test the application
 
 Access the application by clicking [here](https://[[HOST_SUBDOMAIN]]-8080-[[KATACODA_HOST]].environments.katacoda.com/) and shop around for some cool stuff.
+
+![CoolStore Monolith](../../assets/moving-existing-apps/coolstore-web.png)
 
 ## Shutdown the application
 

@@ -108,7 +108,7 @@ That one was pretty easy.
 
 Build and package the app using Maven to make sure you code still compiles:
 
-`mvn clean package`{{execute}}
+`mvn clean package`{{execute T1}}
 
 If builds successfully (you will see `BUILD SUCCESS`), then let's move on to the next issue! If it does not compile,
 verify you made all the changes correctly and try the build again.

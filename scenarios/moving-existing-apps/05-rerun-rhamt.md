@@ -24,7 +24,7 @@ To view the updated report, [reload the report web page](https://[[HOST_SUBDOMAI
 Click on the **Issues** tab and ensure that all of the Weblogic-specific issues are gone! You have successfully migrated
 this app to JBoss EAP, congratulations!
 
-[SCREENSHOT]
+![Issues](../../assets/moving-existing-apps/project-issues-story.png)
 
 > You can ignore the remaining issues, as they are for informational purposes only.
 

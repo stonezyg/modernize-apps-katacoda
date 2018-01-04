@@ -48,6 +48,8 @@ The RHAMT CLI generates an HTML report. To view the report, first startup a simp
 
 ```docker run -v ~/rhamt-report:/usr/share/nginx/html:ro -p 9000:80 -it nginx```{{execute T2}}
 
+> This command will not output anything
+
 Then [click to view the report](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/)
 
 You should see the landing page for the report:
