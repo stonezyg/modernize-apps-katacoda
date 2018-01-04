@@ -13,4 +13,4 @@ ssh root@host01 "oc create -n openshift -f https://raw.githubusercontent.com/Red
 ssh root@host01 "docker pull registry.access.redhat.com/openshift3/jenkins-2-rhel7:v3.7"
 ssh root@host01 "docker pull registry.access.redhat.com/openshift3/jenkins-2-rhel7:latest"
 
-ssh root@host01 "git --git-dir=/root/projects --work-tree=/root/projects pull"
+ssh root@host01 "git --git-dir=/root/projects/.git --work-tree=/root/projects pull"
