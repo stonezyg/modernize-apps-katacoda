@@ -175,11 +175,11 @@ Run the test and verify that it works
 
 Start the service
 
-``mvn package``{{execute}}
+``mvn spring-boot:run``{{execute}}
 
 Wait for the application to start
 
-``curl http://localhost:8080/services/products`{{execute t2}}
+``curl http://localhost:8080/services/products``{{execute T2}}
 
 
 
