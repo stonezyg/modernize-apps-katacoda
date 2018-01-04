@@ -8,24 +8,33 @@ The output should look something like this
 
 ```sh
 .
-|-- pom.xml
-`-- src
-    `-- main
-        |-- fabric8
-        |   |-- credentials-secret.yml
-        |   |-- deployment.yml
-        |   `-- route.yml
-        |-- java
-        |   `-- com
-        |       `-- example
-        |           |-- Application.java
-        |           `-- booster
-        |               `-- service
-        `-- resources
-            |-- application-local.properties
-            |-- application-openshift.properties
-            `-- static
-                `-- index.html
+├── pom.xml
+├── README.md
+└── src
+    ├── main
+    │   ├── fabric8
+    │   │   ├── catalog-deployment.yml
+    │   │   ├── catalog-route.yml
+    │   │   └── credential-secret.yml
+    │   ├── java
+    │   │   └── com
+    │   │       └── redhat
+    │   │           └── coolstore
+    │   │               ├── client
+    │   │               ├── model
+    │   │               ├── RestApplication.java
+    │   │               └── service
+    │   └── resources
+    │       ├── application-default.properties
+    │       ├── schema.sql
+    │       └── static
+    │           └── index.html
+    └── test
+        └── java
+            └── com
+                └── redhat
+                    └── coolstore
+                        └── service
 ```
 
 
