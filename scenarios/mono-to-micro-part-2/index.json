@@ -8,12 +8,40 @@
     "details": {
         "steps": [
             {
-                "title": "Create",
-                "text": "01-create.md"
+                "title": "Examine the sample project",
+                "text": "01-review-the-intial-project.md"
             },
             {
-                "title": "Read",
-                "text": "02-read.md"
+                "title": "Create Inventory Domain",
+                "text": "02-database-repository.md"
+            },
+            {
+                "title": "Create Inventory Service",
+                "text": "03-creating-service-and-endpoint.md"
+            },
+            {
+                "title": "Create RESTful Endpoints",
+                "text": "04-service-to-service-call.md"
+            },
+            {
+                "title": "Test Locally",
+                "text": "05-fallback-for-services.md"
+            },
+            {
+                "title": "Create OpenShift Project",
+                "text": "06-test-local.md"
+            },
+            {
+                "title": "Deploy to OpenShift",
+                "text": "07-create-project.md"
+            },
+            {
+                "title": "Add Health Check Fraction",
+                "text": "08-deploy-to-openshift.md"
+            },
+            {
+                "title": "Define Health Check Endpoint",
+                "text": "09-strangeling-the-monolith.md"
             }
         ],
         "intro": {
@@ -25,13 +53,11 @@
           "text": "99-outro.md"
         }
     },
-    "files": [
-
-    ],
+    "files": [],
     "environment": {
         "uilayout": "editor-terminal",
         "uisettings": "java",
-        "uieditorpath": "/root/projects/catalog",
+        "uieditorpath": "/root/catalog",
         "showdashboard": true,
         "hideintro": false,
         "dashboards": [{"name":"Local Web Browser","port":8080},{"name":"OpenShift Console","port":8443}],
@@ -42,3 +68,4 @@
         "port": 8443
     }
 }
+
