@@ -43,13 +43,16 @@ equivalent process with the `oc` command. Execute:
 This will use an OpenShift Template called `coolstore-monolith-pipeline-build` to construct the production application.
 As you probably guessed it will also include a Jenkins Pipeline to control the production application (more on this later!)
 
-Navigate to the Web Console to see your new app and the components:
+Navigate to the Web Console to see your new app and the components using this link:
 
-[SCREENSHOT]
+* [Coolstore Prod Project Overview](http://[[HOST_SUBDOMAIN]]-84443-[[KATACODA_HOST]].environments.katacoda.com/console/project/coolstore-prod/overview)
 
-You can see the production database, and the other elements, but there is no running production
+![Prod](../../assets/developer-intro/coolstore-prod-overview.png)
+
+You can see the production database, and an application called _Jenkins_ which OpenShift uses
+to manage CI/CD pipeline deployments. There is no running production
 app just yet. The only running app is back in the _dev_ environment, where you used a binary
-build to run the app.
+build to run the app previously.
 
 In the next step, we'll _promote_ the app from the _dev_ environment to the _production_
-environment. Let's get going!
+environment using an OpenShift pipeline build. Let's get going!

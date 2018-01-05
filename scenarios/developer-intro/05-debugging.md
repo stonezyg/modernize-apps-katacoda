@@ -3,10 +3,10 @@ look into line-by-line code execution as the code runs inside a container on Ope
 
 ## Witness the bug
 
-The  CoolStore applications seem to have a bug that causes the inventory status for one of the
+The CoolStore application seem to have a bug that causes the inventory status for one of the
 products to be not shown at all:
 
-![Inventory Status Bug](https://katacoda.com/openshift-roadshow/assets/debug-coolstore-bug.png)
+![Inventory Status Bug](../../assets/developer-intro/debug-coolstore-bug.png)
 
 Since the product list is provided by the monolith, take a look into the logs to see if there are any warnings:
 
@@ -52,7 +52,7 @@ This will cause a re-deployment of the app to enable the remote debugging agent 
 
 Wait for the re-deployment to complete before continuing by executing:
 
-`oc rollout status dc/coolstore`{{execute}}
+`oc rollout status -w dc/coolstore`{{execute}}
 
 The re-deployment also invoked a new pod, so let's update our environment variable again:
 
@@ -216,9 +216,11 @@ Let's use our new `oc rsync` skills to re-deploy the app to the running containe
 `oc rsync deployments/ $COOLSTORE_DEV_POD_NAME:/deployments --no-perms`{{execute}}
 
 After a few seconds, reload the [Coolstore Application](http://www-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com) in your browser
-and notice now the application behaves properly and displays `Inventory Unavailable` whereas before it was totally and confusingly blank.
+and notice now the application behaves properly and displays `Inventory Unavailable` whereas before it was totally and confusingly blank:
 
-Well done and congratulations for completing this scenario!
+![Bug fixed](../../assets/developer-intro/debug-coolstore-bug-fixed.png)
+
+Well done, you've fixed the bug using your new debugging skills and saved the world! Congratulations for completing this scenario!
 
 ## Before continuing
 
