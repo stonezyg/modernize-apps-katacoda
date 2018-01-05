@@ -15,6 +15,13 @@ You will implement one component of the monolith as a WildFly Swarm microservice
 microservice concerns, understand its structure, deploy it to OpenShift and exercise the interfaces between
 WildFly Swarm apps, microservices, and OpenShift/Kubernetes.
 
+## Goals of this scenario
+
+The goal is to deploy this new microservice alongside the existing monolith, and then later on we'll tie them together.
+But after this scenario, you should end up with something like:
+
+![Logo](../../assets/mono-to-micro-part-1/goal.png)
+
 ## What is WildFly Swarm? 
 
 ![Logo](../../assets/mono-to-micro-part-1/swarm-logo.png)

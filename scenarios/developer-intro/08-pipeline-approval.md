@@ -108,4 +108,7 @@ Once it completes, verify that the production application has the new change (or
 
 ## Congratulations!
 
-You have added a human approval step for all future developer changes.
+You have added a human approval step for all future developer changes. You now have two projects that can be visualized as:
+
+![Prod](../../assets/developer-intro/goal.png)
+

@@ -1,7 +1,10 @@
 
 Now you are going to create a service class. Later on the service class will be the one that controls the interaction with the inventory service, but for now it's basically just a wrapper of the repository class. 
 
-``src/main/java/com/redhat/coolstore/service/CatalogService.java``{{open}}
+Create a new class `CatalogService` by clicking: ``src/main/java/com/redhat/coolstore/service/CatalogService.java``{{open}}
+
+And then click **Copy to Editor** to implement the new service:
+
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/CatalogService.java" data-target="replace">
 package com.redhat.coolstore.service;
 
@@ -49,7 +52,6 @@ public class CatalogService {
 As you can see there is a number of **TODO** in the code, and later we will use these placeholders to add logic for calling the Inventory Client to get the quantity. However for the moment we will ignore these placeholders. 
 
 Let's again first start by creating a test case for our endpoint
-
 
 ``src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java``{{open}}
 
@@ -130,9 +132,9 @@ public class CatalogEndpointTest {
 }
 </pre>
 
-Implement the Catalog Service endpoints
+Implement the Catalog Service endpoints. Re-open the file by clicking: ``src/main/java/com/redhat/coolstore/service/CatalogEndpoint.java``{{open}}
 
-``src/main/java/com/redhat/coolstore/service/CatalogEndpoint.java``{{open}}
+Again, click **Copy to Editor** to copy it in:
 
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/CatalogEndpoint.java" data-target="replace">
 package com.redhat.coolstore.service;
@@ -173,15 +175,25 @@ Run the test and verify that it works
 
 ``mvn verify``{{execute}}
 
-Start the service
+Start the service again:
 
 ``mvn spring-boot:run``{{execute}}
 
-Wait for the application to start
+Wait for the application to start, then in a separate terminal execute:
 
 ``curl http://localhost:8080/services/products``{{execute T2}}
 
+You should get a full JSON array consisting of all the products:
 
+```json
+[{"itemId":"329299","name":"Red Fedora","desc":"Official Red Hat Fedora","price":34.99,"quantity":0},{"itemId":"329199","name":"Forge Laptop Sticker","desc":"JBoss Community Forge Project Sticker","price":8.5,"quantity":0},{"itemId":"165613","name":"Solid Performance Polo","desc":"Moisture-wicking, antimicrobial 100% polyester design wicks for life of garment. No-curl, rib-knit collar; special collar band maintains crisp fold; three-button placket with dyed-to-match buttons; hemmed sleeves; even bottom with side vents; Import. Embroidery. Red Pepper.","price":17.8,"quantity":0},{"itemId":"165614","name":"Ogio Caliber Polo","desc":"Moisture-wicking 100% polyester....]}
+```
 
+## Before moving on
 
+Be sure to stop the service by clicking on the terminal window and typing `CTRL-C`.
+
+## Congratulations!
+
+Next, we'll add a call to the existing Inventory service to enrich the above data with Inventory information. On to the next challenge!
 

@@ -1,25 +1,45 @@
+## Extending the test
 
-Extending the test
+In the [Test-Driven Development](https://en.wikipedia.org/wiki/Test-driven_development) style, let's first extend our test to test the Inventory functionality (which doesn't exist):
 
-``src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java``{{open}}
+Click on ``src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java``{{open}}
+
+Then again click **Copy to Editor** to paste the code into the existing test:
 
 <pre class="file" data-filename="src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java" data-target="insert" data-marker="//TODO: Add check for Quantity">
 .returns(9999,Product::getQuantity)
 </pre>
 
-Run the tests
+Run the tests:
 
 ``mvn verify``{{execute interrupt}}
 
->NOTE: Since we haven't implemented the call to inventory service the test should fail.
+Since we haven't implemented the call to inventory service the test should fail. You should get **BUILD FAILURE** and if you scroll
+up a bit you'll see the test failed:
 
-Create the Inventory Client
+```console
+Results :
 
-``src/main/java/com/redhat/coolstore/client/InventoryClient.java``{{open}}
+Failed tests:
+  CatalogEndpointTest.check_that_endpoint_returns_a_correct_list:69 expected:<[9999]> but was:<[0]>
+
+Tests run: 4, Failures: 1, Errors: 0, Skipped: 0
+```
+
+## Create the Inventory Client
+
+To talk to the existing inventory service (written with WildFly Swarm in the last scenario), we'll need to call it through
+HTTP REST. Constructing the call, providing the right arguments, and dealing with failures are challenging and boring to do every
+time, so we'll use Netflix Feign to wrap our HTTP calls with a tyle-safe, Java-friendly API:
+
+Click to open: ``src/main/java/com/redhat/coolstore/client/InventoryClient.java``{{open}}
+
+And paste in the code as before:
 
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/client/InventoryClient.java" data-target="replace">
 package com.redhat.coolstore.client;
 
+//TODO: add import for InventoryClient
 import com.redhat.coolstore.model.Inventory;
 import feign.hystrix.FallbackFactory;
 import org.springframework.http.MediaType;
@@ -39,9 +59,11 @@ public interface InventoryClient {
 }
 </pre>
 
-Add calls to the InventoryClient in the CatalogService
+##Add calls to the InventoryClient in the CatalogService.
 
-``src/main/java/com/redhat/coolstore/service/CatalogService.java``{{open}}
+Open: ``src/main/java/com/redhat/coolstore/service/CatalogService.java``{{open}}
+
+And paste:
 
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/CatalogService.java" data-target="insert" data-marker="//TODO: Autowire Inventory Client">
     @Autowired
@@ -59,13 +81,33 @@ Add calls to the InventoryClient in the CatalogService
                 });
 </pre>
 
+Don't forget the import!
+
+<pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/CatalogService.java" data-target="insert" data-marker="//TODO: add import for InventoryClient">
+import com.redhat.coolstore.client.InventoryClient;
+</pre>
+
+Finally, add the necessary configuration to the `application-default.properties` file:
+
+<pre class="file" data-filename="src/main/resources/application-default.properties" data-target="insert" data-marker="#TODO Configure netflix libraries">
+eureka.client.enabled=false
+ribbon.eureka.enable=false
+ribbon.listOfServers=inventory:8080
+feign.hystrix.enabled=true
+</pre>
+
+Now, re-run the tests:
+
 ``mvn verify``{{execute}}
 
-Again the test fails because we are trying to call the Inventory service which is not running. We need a away to test this service without having to really on other services. For that we are going to use an API Simulator called [HoverFly](http://hoverfly.io) and particular it's capability to simulate remote APIs. HoverFly is very convinient to use with Unit test and all we have to do is to add a `ClassRule` that will simulate all calls to inventory like this:
+Again the test fails because we are trying to call the Inventory service which is not running. We need a way to test this service without having to rely on other services.
+For that we are going to use an API Simulator called [HoverFly](http://hoverfly.io) and in particular its capability to simulate
+remote APIs. HoverFly is very convenient to use with Unit tests and all we have to do is to add a `ClassRule` that will simulate
+all calls to inventory like this:
 
+Open the file: ``src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java``{{open}}
 
-``src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java``{{open}}
-
+And paste:
 
 <pre class="file" data-filename="src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java"
 data-target="insert" data-marker="//TODO: Add ClassRule for HoverFly Inventory simulation">
@@ -83,5 +125,9 @@ Now run the tests again.
 
 ``mvn verify``{{execute}}
 
-## Conclusion
-TODO
+It worked! The HoverFly mock endpoint supplied the needed data.
+
+## Congratulations!
+
+You now have the framework for retrieving products from the product catalog and enriching the data with inventory data from
+an external service. But what if that external inventory service does not respond? That's the topic for the next step.

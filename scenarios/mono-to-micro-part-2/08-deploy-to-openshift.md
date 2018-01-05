@@ -1,4 +1,4 @@
-Now that you've logged into OpenShift, let's deploy our new inventory microservice:
+Now that you've logged into OpenShift, let's deploy our new catalog microservice:
 
 **1. Deploy the Database**
 
@@ -16,7 +16,25 @@ the credentials used when deploying to OpenShift.
 
 This will deploy the database to our new project. Wait for it to complete:
 
-`oc rollout status dc/catalog-database`{{execute}}
+`oc rollout status -w dc/catalog-database`{{execute}}
+
+**2. Use separate Spring profile for running on OpenShift**
+
+We need to define Database connection settings to use when running on OpenShift, as we have an external database we will be
+using.
+
+Open `src/main/resources/application-openshift.properties`{{open}} and add:
+
+<pre class="file" data-filename="src/main/resources/application-openshift.properties" data-target="replace">
+spring.datasource.url=jdbc:postgresql://catalog-database:5432/catalog
+spring.datasource.username=catalog
+spring.datasource.password=mysecretpassword
+spring.datasource.driver-class-name=org.postgresql.Driver
+eureka.client.enabled=false
+ribbon.eureka.enable=false
+ribbon.listOfServers=inventory:8080
+feign.hystrix.enabled=true
+</pre>
 
 **2. Build and Deploy**
 
@@ -28,7 +46,7 @@ stored in the secrets file to the application), but OpenShift supports a wide ra
 
 Build and deploy the project using the following command, which will use the maven plugin to deploy:
 
-`mvn package fabric8:deploy -Popenshift`{{execute}}
+`mvn package fabric8:deploy -Popenshift -DskipTests`{{execute}}
 
 The build and deploy may take a minute or two. Wait for it to complete. You should see a **BUILD SUCCESS** at the
 end of the build output.
@@ -36,7 +54,7 @@ end of the build output.
 After the maven build finishes it will take less than a minute for the application to become available.
 To verify that everything is started, run the following command and wait for it complete successfully:
 
-`oc rollout status dc/catalog`{{execute}}
+`oc rollout status -w dc/catalog`{{execute}}
 
 >**NOTE:** If you recall in the WildFly Swarm lab we created a health check manually, for Spring Boot the fabric8 maven plugin will automatically detect that if we have `spring-boot-starter-actuator` on our classpath and then automatically create these health checks for us.
 
@@ -47,14 +65,16 @@ UI that you previously accessed outside of OpenShift which shows the CoolStore i
 [route URL](http://catalog-catalog.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
 to access the sample UI.
 
-> You can also access the application through the link on the OpenShift Web Console Overview page. ![Overview link](../../assets/mono-to-micro-part-1/routelink.png)
+> You can also access the application through the link on the OpenShift Web Console Overview page.
+
+![Overview link](../../assets/mono-to-micro-part-2/routelink.png)
 
 The UI will refresh the catalog table every 2 seconds, as before.
 
 >**NOTE:** Since we previously have a inventory service running you should now see the actual quantity value and not the fallback value of -1 
 
-Click on the below link to access the Deployment details page to see details on the currently deployed application:
+## Congratulations!
 
-* [Catalog Deployment Details](http://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/projects/catalog/browse/rc/catalog-1?tab=details)
-
-
+You have deployed the Catalog service as a microservice which in turn calls into the Inventory service to retrieve inventory data.
+However, our monolih UI is still using its own built-in services. Wouldn't it be nice if we could re-wire the monolith to use the
+new services, **without changing any code**? That's next!

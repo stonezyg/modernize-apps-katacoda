@@ -1,6 +1,6 @@
 # Creating the model
 
-Our catalog micro service will expose a Catalog endpoint that returns products so you will use a Java Interface to represent the contract that other services can use to interact with this service. 
+Our catalog microservice will expose a Catalog endpoint that returns products so you will use a Java Interface to represent the contract that other services can use to interact with this service.
 
 Let's create the interface called `Product.java` by first creating an empty file by clicking on ``src/main/java/com/redhat/coolstore/model/Product.java``{{open}}
 
@@ -156,9 +156,10 @@ public class Inventory implements Serializable {
 
 # Creating a test. 
 
-Before we go a head and create the database repository class to access the data it's good practice to create test cases for the different methods that we will use. 
+Before we create the database repository class to access the data it's good practice to create test cases for the different methods that we will use.
 
-Click on open ``src/test/java/com/redhat/coolstore/service/ProductRepositoryTest.java``{{open}} to create the empty file
+Click to open ``src/test/java/com/redhat/coolstore/service/ProductRepositoryTest.java``{{open}} to create the empty file and
+then **Copy to Editor** to copy the below code into the file:
 
 <pre class="file" data-filename="src/test/java/com/redhat/coolstore/service/ProductRepositoryTest.java" data-target="replace">
 package com.redhat.coolstore.service;
@@ -190,10 +191,16 @@ public class ProductRepositoryTest {
 
 </pre>
 
+Next, inject a handle to the future repository class which will provide access to the underlying data repository. It is
+injected with Spring's `@Autowired` annotation which locates, instantiates, and injects runtime instances of classes automatically,
+and manages their lifecycle (much like Java EE and it's CDI feature):
+
 <pre class="file" data-filename="src/test/java/com/redhat/coolstore/service/ProductRepositoryTest.java" data-target="insert" data-marker="//TODO: Insert Catalog Component here">
     @Autowired
     ProductRepository repository;
 </pre>
+
+Now, implement two tests wich will fetch some products from the catalog and verify they are what you expect:
 
 <pre class="file" data-filename="src/test/java/com/redhat/coolstore/service/ProductRepositoryTest.java" data-target="insert" data-marker="//TODO: Insert test_readOne here">
     @Test
@@ -215,8 +222,6 @@ public class ProductRepositoryTest {
         assertThat(names).contains("Red Fedora","Forge Laptop Sticker","Oculus Rift");
     }
 </pre>
-
-
 
 # Implement the database repository
 
@@ -253,10 +258,14 @@ public class ProductRepository {
 
 > NOTE: That the class is annotated with the @Repository annotation. This is a feature of Spring that makes it possible to avoid a lot of boiler plate code and only write the implementation details for this data repository. It also makes it very easy to switch to another data storage, like a NoSQL database.
 
+Similar to above, inject a handle to a runtime JDBC template which will handle queries to the database:
+
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/ProductRepository.java" data-target="insert" data-marker="//TODO: Autowire the jdbcTemplate here">
     @Autowired
     private JdbcTemplate jdbcTemplate;
 </pre>
+
+Now add logic to map rows coming out of the database to Java objects (in this case, `Product` objects):
 
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/ProductRepository.java" data-target="insert" data-marker=" //TODO: Add row mapper here">
     private RowMapper<Product> rowMapper = (rs, rowNum) -> new Product(
@@ -265,6 +274,8 @@ public class ProductRepository {
             rs.getString("description"),
             rs.getDouble("price"));
 </pre>
+
+Now implement the two interfaces we'll expose to consumers of this service to get one or all products from the catalog:
 
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/ProductRepository.java" data-target="insert" data-marker="//TODO: Create a method for returning all products">
     public List<Product> readAll() {
@@ -283,12 +294,12 @@ Now we are ready to run the test to verify that everthing works.
 
 ``mvn verify``{{execute interrupt}}
 
-The test should be successful, which means that we can read that our repository class works as aspected.
+The test should be successful and you should see **BUILD SUCCESS**, which means that we can read that our repository class works as as expected.
 
 ## Congratulations
 
 You have now successfully executed the first step in this scenario. 
 
-Now you've seen how to get started with Spring Boot development on Red Hat OpenShift Application Runtimes
+Now you've seen how to get started with Spring Boot development on Red Hat OpenShift Application Runtimes!
 
 In next step of this scenario, we will add the logic to be able to read a list of fruits from the database.

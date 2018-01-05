@@ -24,7 +24,7 @@ To test the running application, click on the **Local Web Browser** tab in the c
 
 You should now see a html page that looks like this
 
-![App](../../assets/mono-to-micro-part-1/app.png)
+![App](../../assets/mono-to-micro-part-2/app-new.png)
 
 This is a simple webpage that will access the inventory *every 2 seconds* and refresh the table of product inventories.
 
@@ -47,7 +47,7 @@ The REST API returned a JSON object representing the inventory count for this pr
 
 **4. Stop the application**
 
-Before moving on, click in the first terminal window where WildFly Swarm is running and then press CTRL-C to stop the running application!
+Before moving on, click in the first terminal window where the app is running and then press CTRL-C to stop the running application!
 
 
 ## Congratulations
