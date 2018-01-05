@@ -1,7 +1,5 @@
 Now that we migrated the application you are probably eager to test it. To test it we locally we first need to install JBoss EAP.
 
-
-
 **1. Add a OpenShift profile**
 
 At the `<!-- TODO: Add OpenShift profile here -->` we are going to add a the following configuration to the pom.xml
@@ -33,7 +31,7 @@ At the `<!-- TODO: Add OpenShift profile here -->` we are going to add a the fol
 
 **2. Create the OpenShift projcet**
 
-First, click on the OpenShift Console tab next to the Terminal tab:
+First, click on the **OpenShift Console** tab next to the Terminal tab:
 
 ![OpenShift Console](../../assets/moving-existing-apps/openshift-console-tab.png)
 
@@ -58,43 +56,100 @@ Click **Create Project**, fill in the fields, and click **Create**:
 
 ![OpenShift Console](../../assets/moving-existing-apps/create-dialog.png)
 
-**3. Deploy the monolith**
-
 Click on the name of the newly-created project:
 
 ![OpenShift Console](../../assets/moving-existing-apps/create-new.png)
 
-Then click the **Browse Catalog** button
-![OpenShift Console](../../assets/default-picture.jpg)
-1. Search for `Coolstore Monolith using binary build` template.
-![OpenShift Console](../../assets/default-picture.jpg)
-1. Click Next.
+This will take you to the project overview. There's nothing there yet, but that's about to change.
 
-This will deploy a development project for us that consists of a PostgreSQL database and JBoss EAP. But it will not start a build for our application.
+**3. Deploy the monolith**
 
-In this development project we have selected to use a process called binary builds, which means that instead of pointing to a public Git Repository and have the S2I build process download, build, and then create a container image for us we are going to build locally and just upload the artifact (e.g. .war file). The binary deployment will speed up the build process significantly. 
+Click the **Browse Catalog** button:
 
-Login from the command line:
+![OpenShift Console](../../assets/moving-existing-apps/overview-browse.png)
 
+This will show you all of the templates available for which you can create new applications.
+
+Search for and click on the `Coolstore Monolith using binary build` template.
+
+![OpenShift Console](../../assets/moving-existing-apps/template-select.png)
+
+Click **Next** through the dialog boxes, leaving all values set to their defaults:
+
+![OpenShift Console](../../assets/moving-existing-apps/template1.png)
+![OpenShift Console](../../assets/moving-existing-apps/template2.png)
+
+On the final screen click **Create**. Accept the warning, which is telling you that your new
+project will be granted extra permissions necessary for CI/CD operations later:
+
+![OpenShift Console](../../assets/moving-existing-apps/template-warning.png)
+
+On the final screen, the monolith infrastructure is deployed to the project. Click on **Continue to the project overview**
+to be taken back to the project:
+
+![OpenShift Console](../../assets/moving-existing-apps/template3.png)
+
+This will deploy a development project for us that consists of a PostgreSQL database and JBoss EAP.
+But it will not start a build for our application. You can see the components being deployed on the
+Project Overview, but notice the **No deployments for Coolstore**. You have not yet deployed
+the container image built in previous steps, but you'll do that next.
+
+![OpenShift Console](../../assets/moving-existing-apps/no-deployments.png)
+
+**4. Deploy application using Binary build**
+
+In this development project we have selected to use a process called binary builds, which
+means that instead of pointing to a public Git Repository and have the S2I build process
+download, build, and then create a container image for us we are going to build locally
+and just upload the artifact (e.g. the `.war` file). The binary deployment will speed up
+the build process significantly.
+
+First, build the project once more using the `openshift` Maven profile, which will create a
+suitable binary for use with OpenShift (this is not a container image yet, but just the `.war`
+file). We will do this with the `oc` command line.
+
+Build the project:
 
 ``mvn clean package -Popenshift``{{execute T1}}
 
+Now log the CLI into OpenShift (this is the same as what you did with the GUI):
+
 ``oc login [[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com -u developer -p developer --insecure-skip-tls-verify=true``{{execute T1}}
+
+And switch to the your newly created project:
 
 ``oc project coolstore-dev``{{execute T1}}
 
+And finally, start the build process that will take the `.war` file and combine it with JBoss
+EAP and produce a Linux container image which will be automatically deployed into the project,
+thanks to the *DeploymentConfig* object created from the template:
+
 ``oc start-build coolstore --from-file=deployments/ROOT.war``{{execute T1}}
 
-``oc rollout status dc/coolstore``{{execute T1}}
+Wait for the build and deploy to complete:
 
-Check the OpenShift console
-![OpenShift Console](../../assets/default-picture.jpg)
+``oc rollout status -w dc/coolstore``{{execute T1}}
 
-Test the application by clicking on the route
-![OpenShift Console](../../assets/default-picture.jpg)
+Check the OpenShift web console and you'll see the application being built:
 
-Now you are using the same application that we built locally on OpenShift. That wasn't to hard
+![OpenShift Console](../../assets/moving-existing-apps/building.png)
 
+When it's done you should see the application deployed successfully with blue circles for the
+database and the monolith:
+
+![OpenShift Console](../../assets/moving-existing-apps/build-done.png)
+
+Test the application by clicking on the route link, which will open the same monolith Coolstore
+in your browser, this time running on OpenShift:
+
+![OpenShift Console](../../assets/moving-existing-apps/route-link.png)
+
+## Congratulations!
+
+Now you are using the same application that we built locally on OpenShift. That wasn't too hard right?
+
+In the next step you'll explore more of the developer features of OpenShift in preparation for moving the
+monolith to a microservices architecture later on. Let's go!
 
 
 
