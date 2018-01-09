@@ -1,6 +1,6 @@
-Now that you've logged into OpenShift, let's deploy our new inventory microservice:
+Now that you've logged into OpenShift, let's deploy our new catalog microservice:
 
-**1. Deploy the Database**
+**Deploy the Database**
 
 Our production catalog microservice will use an external database (PostgreSQL) to house inventory data.
 First, deploy a new instance of PostgreSQL by executing:
@@ -18,7 +18,23 @@ This will deploy the database to our new project. Wait for it to complete:
 
 `oc rollout status dc/catalog-database`{{execute}}
 
-**2. Build and Deploy**
+**Update configuration**
+Create the file by clicking on open ``src/main/resources/application-openshift.properties``{{open}}
+
+Copy the following content to the file:
+<pre class="file" data-filename="src/main/resources/application-openshift.properties" data-target="replace">
+spring.datasource.url=jdbc:postgresql://${project.artifactId}-database:5432/catalog
+spring.datasource.username=catalog
+spring.datasource.password=mysecretpassword
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+inventory.ribbon.listOfServers=inventory.inventory.svc.cluster.local
+</pre>
+
+>**NOTE:** The `application-openshift.properties` does not have all values of `application-default.properties`, that is because on the values that need to change has to be specified here. Spring will fall back to `application-default.properties` for the other values.
+
+
+**Build and Deploy**
 
 Red Hat OpenShift Application Runtimes includes a powerful maven plugin that can take an
 existing Spring Boot application and generate the necessary Kubernetes configuration.

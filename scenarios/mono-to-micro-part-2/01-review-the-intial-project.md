@@ -1,5 +1,3 @@
-# Review the base structure of the application
-
 For your convenience, this scenario has been created with a base project using the Java programming language and the Apache Maven build tool.
 
 Initially, the project is almost empty and doesn't do anything. Start by reviewing the content by executing a ``tree``{{execute}} in your terminal.
@@ -123,17 +121,17 @@ Run the application by executing the below command:
 
 **3. Verify the application**
 
-To begin with, click on the **Local Web Browser** tab in the console frame of this browser window, which will open another tab or window of your browser pointing to port 8080 on your client.
+To begin with, click on the **Local Web Browser** tab in the console frame of this browser window, which will open another tab or window of your browser pointing to port 8081 on your client.
 
-![Local Web Browser Tab](../../assets/middleware/rhoar-getting-started-spring/web-browser-tab.png)
+![Local Web Browser Tab](../../assets/middleware/mono-to-micro-part-2/web-browser-tab.png)
 
-or use [this](https://[[HOST_SUBDOMAIN]]-8080-[[KATACODA_HOST]].environments.katacoda.com/) link.
+or use [this](https://[[HOST_SUBDOMAIN]]-8081-[[KATACODA_HOST]].environments.katacoda.com/) link.
 
 You should now see an HTML page that looks like this:
 
-![Local Web Browser Tab](../../assets/middleware/rhoar-getting-started-spring/web-page.png)
+![Local Web Browser Tab](../../assets/middleware/mono-to-micro-part-2/web-page.png)
 
-> **NOTE:** The service calls to get products from the catalog doesn't work at this stage.
+> **NOTE:** The service calls to fetch the products from the catalog doesn't work at this stage.
 
 **4. Stop the application**
 

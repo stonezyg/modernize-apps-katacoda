@@ -1,7 +1,9 @@
 
 Now you are going to create a service class. Later on the service class will be the one that controls the interaction with the inventory service, but for now it's basically just a wrapper of the repository class. 
 
-``src/main/java/com/redhat/coolstore/service/CatalogService.java``{{open}}
+Create the file by clicking on open ``src/main/java/com/redhat/coolstore/service/CatalogService.java``{{open}}
+
+Copy the following content to the file:
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/CatalogService.java" data-target="replace">
 package com.redhat.coolstore.service;
 
@@ -48,11 +50,12 @@ public class CatalogService {
 
 As you can see there is a number of **TODO** in the code, and later we will use these placeholders to add logic for calling the Inventory Client to get the quantity. However for the moment we will ignore these placeholders. 
 
-Let's again first start by creating a test case for our endpoint
+Now we are ready to create the endpoints that will expose REST service. Let's again first start by creating a test case for our endpoint. We need to endpoints, one that exposes for GET calls to `/services/products` that will return all product in the catalog as JSON array, and the second one exposes GET calls to `/services/product/{prodId}` which will return a single Product as a JSON Object. Let's again start by creating a test case. 
 
 
-``src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java``{{open}}
+Create the test case by opening ``src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java``{{open}}
 
+Add the follwing code to the test case and make sure to review it so that you understand how it works.
 
 <pre class="file" data-filename="src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java" data-target="replace">
 package com.redhat.coolstore.service;
@@ -130,9 +133,11 @@ public class CatalogEndpointTest {
 }
 </pre>
 
-Implement the Catalog Service endpoints
+Now we are ready to implement the `CatalogEndpoint`.
 
-``src/main/java/com/redhat/coolstore/service/CatalogEndpoint.java``{{open}}
+Start by creating the file by opening ``src/main/java/com/redhat/coolstore/service/CatalogEndpoint.java``{{open}}
+
+The add the follwing content: 
 
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/CatalogEndpoint.java" data-target="replace">
 package com.redhat.coolstore.service;
@@ -168,18 +173,41 @@ public class CatalogEndpoint {
 }
 </pre>
 
+The Spring MVC Framework default uses Jackson to serialize or map Java objects to JSON and vice versa. Because Jackson extends upon JAX-B and does can automatically parse simple Java structures and parse them into JSON and vice verse and since our `Product.java` is very simple and only contains basic attributes we do not need to tell Jackson how to parse between Product and JSON.
 
-Run the test and verify that it works
+Now you can run the `CatalogEndpointTest` and verify that it works.
 
-``mvn verify``{{execute}}
+``mvn verify -Dtest=CatalogEndpointTest``{{execute}} or if you prefer you can run both `CatalogEndpointTest` and `ProductRepositoryTest` like this ``mvn verify``{{execute}}
 
-Start the service
+Since we now have endpoints that returns the catalog we can also start the service and load the default page again, which should now return the products.
 
+Start the application by running the following command
 ``mvn spring-boot:run``{{execute}}
 
-Wait for the application to start
+Wait for the application to start. Then we can verify the endpoint, but running the following command in a new terminal (Note the link below will execute in a second terminal)
 
-``curl http://localhost:8080/services/products``{{execute T2}}
+``curl http://localhost:8081/services/products``{{execute T2}}
+
+Also click on the **Local Web Browser** tab in the console frame of this browser window, which will open another tab or window of your browser pointing to port 8081 on your client.
+
+![Local Web Browser Tab](../../assets/middleware/mono-to-micro-part-2/web-browser-tab.png)
+
+or use [this](https://[[HOST_SUBDOMAIN]]-8081-[[KATACODA_HOST]].environments.katacoda.com/) link.
+
+You should now see an HTML page that looks like this:
+
+![Local Web Browser Tab](../../assets/middleware/mono-to-micro-part-2/web-page-products.png)
+
+## Congratulations
+
+You have now successfully executed the third step in this scenario. 
+
+Now you've seen how to create REST application in Spring MVC and create a simple application that returns product. 
+
+In the next scenario we will also call another service to enrich the endpoint response with inventory status.
+
+
+
 
 
 

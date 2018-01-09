@@ -1,8 +1,8 @@
-Using the Spring Boot maven plugin (predefined in `pom.xml`{{open}}), you can conveniently run the application locally and test the endpoint.
+As you have seen in previous steps, using the Spring Boot maven plugin (predefined in `pom.xml`{{open}}), you can conveniently run the application locally and test the endpoint.
 
 `mvn spring-boot:run`{{execute}}
 
-> As an uber-jar, it could also be run with `java -jar target/catalog-1.0-SNAPSHOT-swarm.jar` but you don't need to do this now
+>**INFO:** As an uber-jar, it could also be run with `java -jar target/catalog-1.0-SNAPSHOT-swarm.jar` but you don't need to do this now
 
 Once the application is done initializing you should see:
 
@@ -16,15 +16,15 @@ testing.
 
 **3. Test the application**
 
-To test the running application, click on the **Local Web Browser** tab in the console frame of this browser window. This will open another tab or window of your browser pointing to port 8080 on your client.
+To test the running application, click on the **Local Web Browser** tab in the console frame of this browser window. This will open another tab or window of your browser pointing to port 8081 on your client.
 
-![Local Web Browser Tab](../../assets/mono-to-micro-part-1/web-browser-tab.png)
+![Local Web Browser Tab](../../assets/mono-to-micro-part-2/web-browser-tab.png)
 
-> or use [this](https://[[HOST_SUBDOMAIN]]-8080-[[KATACODA_HOST]].environments.katacoda.com/) link.
+> or use [this](https://[[HOST_SUBDOMAIN]]-8081-[[KATACODA_HOST]].environments.katacoda.com/) link.
 
 You should now see a html page that looks like this
 
-![App](../../assets/mono-to-micro-part-1/app.png)
+![App](../../assets/mono-to-micro-part-2/web-page-products-with-fallback.png.png)
 
 This is a simple webpage that will access the inventory *every 2 seconds* and refresh the table of product inventories.
 
@@ -34,7 +34,7 @@ To see the raw JSON output using `curl`, you can open an new terminal window by 
 icon on the terminal toolbar and then  choose **Open New Terminal**. You can also click on the following
 command to automatically open a new terminal and run the test:
 
-`curl http://localhost:8080/services/product/329299`{{execute T2}}
+`curl http://localhost:8081/services/product/329299`{{execute T2}}
 
 You would see a JSON response like this:
 
@@ -52,8 +52,8 @@ Before moving on, click in the first terminal window where WildFly Swarm is runn
 
 ## Congratulations
 
-You have now successfully created your first microservice using Spring Boot and implemented a basic RESTful
-API on top of the product catalog database. 
+You have now successfully created your the Catalog service using Spring Boot and implemented basic REST
+API on top of the product catalog database. You have also learned how to deal with service failures. 
 
 In next steps of this scenario we will deploy our application to OpenShift Container Platform and then start
 adding additional features to take care of various aspects of cloud native microservice development.
