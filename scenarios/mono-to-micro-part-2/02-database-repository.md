@@ -1,6 +1,6 @@
 # Creating the model
 
-Our catalog micro service will expose a Catalog endpoint that returns products so you will use a Java Interface to represent the contract that other services can use to interact with this service. 
+Our catalog microservice will expose a Catalog endpoint that returns products so you will use a Java Interface to represent the contract that other services can use to interact with this service.
 
 Let's create the interface called `Product.java` by first creating an empty file by clicking on ``src/main/java/com/redhat/coolstore/model/Product.java``{{open}}
 
@@ -156,9 +156,10 @@ public class Inventory implements Serializable {
 
 # Creating a test. 
 
-Before we go a head and create the database repository class to access the data it's good practice to create test cases for the different methods that we will use. 
+Before we create the database repository class to access the data it's good practice to create test cases for the different methods that we will use.
 
-Click on open ``src/test/java/com/redhat/coolstore/service/ProductRepositoryTest.java``{{open}} to create the empty file
+Click to open ``src/test/java/com/redhat/coolstore/service/ProductRepositoryTest.java``{{open}} to create the empty file and
+then **Copy to Editor** to copy the below code into the file:
 
 <pre class="file" data-filename="src/test/java/com/redhat/coolstore/service/ProductRepositoryTest.java" data-target="replace">
 package com.redhat.coolstore.service;
@@ -190,7 +191,9 @@ public class ProductRepositoryTest {
 
 </pre>
 
-Since our test will use the product repository we need to inject (or Autowire in Spring terminology) an instance of the `ProductRepository` that we will create later.
+Next, inject a handle to the future repository class which will provide access to the underlying data repository. It is
+injected with Spring's `@Autowired` annotation which locates, instantiates, and injects runtime instances of classes automatically,
+and manages their lifecycle (much like Java EE and it's CDI feature):
 
 <pre class="file" data-filename="src/test/java/com/redhat/coolstore/service/ProductRepositoryTest.java" data-target="insert" data-marker="//TODO: Insert Catalog Component here">
     @Autowired
@@ -220,8 +223,6 @@ The `ProductRepository` should also provide a methods called `readAll()` that re
         assertThat(names).contains("Red Fedora","Forge Laptop Sticker","Oculus Rift");
     }
 </pre>
-
-
 
 # Implement the database repository
 
@@ -258,7 +259,7 @@ public class ProductRepository {
 
 > NOTE: That the class is annotated with the @Repository annotation. This is a feature of Spring that makes it possible to avoid a lot of boiler plate code and only write the implementation details for this data repository. It also makes it very easy to switch to another data storage, like a NoSQL database.
 
-Spring Data provides a convinient way for us to access data without havig to write a lot of boiler plate code. One way to do that is to use a `JdbcTemplate`. First we need to autowire that as a member to `ProductRepository`:
+Spring Data provides a convenient way for us to access data without having to write a lot of boiler plate code. One way to do that is to use a `JdbcTemplate`. First we need to autowire that as a member to `ProductRepository`:
 
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/ProductRepository.java" data-target="insert" data-marker="//TODO: Autowire the jdbcTemplate here">
     @Autowired
@@ -306,7 +307,7 @@ The Spring Data framework will automatically see if there is a schema.sql in the
 
 Now we are ready to run the test to verify that everything works. Because we created the `ProductRepositoryTest.java` all we have todo is to run: ``mvn verify``{{execute interrupt}}
 
-The test should be successful, which means that we can read that our repository class behaves as expected.
+The test should be successful and you should see **BUILD SUCCESS**, which means that we can read that our repository class works as as expected.
 
 ## Congratulations
 

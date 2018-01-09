@@ -19,7 +19,14 @@ mvn clean
 
 The RHAMT CLI generates an updated HTML report.
 
-To view the updated report, [reload the report web page](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/)
+To view the updated report, first restart the web server to pick up changes:
+
+```docker run -v ~/rhamt-report:/usr/share/nginx/html:ro -p 9000:80 -it nginx```{{execute T2 interrupt}}
+
+If this does not work you may need to manually click into the **Terminal 2** and type `CTRL-C` to stop the web server, then restart using
+the above command.
+
+Then [reload the report web page](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/)
 
 Click on the **Issues** tab and ensure that all of the Weblogic-specific issues are gone! You have successfully migrated
 this app to JBoss EAP, congratulations!

@@ -13,7 +13,7 @@ This includes both the runtime components you have selected, along with the appl
 
 You can see the uberjar (in the `target/` directory) that you built in previous steps:
 
-```ls -l target/*.jar```{{execute}}
+```ls target/*.jar```{{execute T1}}
 
 You should see the uberjar named `inventory-1.0.0-SNAPSHOT-swarm.jar` in the listing. This jar file is executed
 using `java -jar` when using `mvn wildfly-swarm:run` or when the application is deployed to OpenShift.
@@ -66,7 +66,7 @@ that logic on the `/health` endpoint for use with OpenShift.
 
 WildFly Swarm includes the `monitor` fraction which automatically adds health check infrastructure to your
 application when it is included as a fraction in the project. Click **Copy To Editor** to insert the new dependencies
-into the `pom.xml` file:
+into the `pom.xml`{{open}} file:
 
 <pre class="file" data-filename="pom.xml" data-target="insert" data-marker="<!-- Add monitor fraction -->">
         &lt;dependency&gt;

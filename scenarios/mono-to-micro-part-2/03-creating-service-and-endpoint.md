@@ -1,14 +1,16 @@
 
 Now you are going to create a service class. Later on the service class will be the one that controls the interaction with the inventory service, but for now it's basically just a wrapper of the repository class. 
 
-Create the file by clicking on open ``src/main/java/com/redhat/coolstore/service/CatalogService.java``{{open}}
+Create a new class `CatalogService` by clicking: ``src/main/java/com/redhat/coolstore/service/CatalogService.java``{{open}}
 
-Copy the following content to the file:
+And then click **Copy to Editor** to implement the new service:
+
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/CatalogService.java" data-target="replace">
 package com.redhat.coolstore.service;
 
 import com.redhat.coolstore.model.Inventory;
 import com.redhat.coolstore.model.Product;
+import com.redhat.coolstore.client.InventoryClient;
 import feign.hystrix.FallbackFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -55,7 +57,7 @@ Now we are ready to create the endpoints that will expose REST service. Let's ag
 
 Create the test case by opening ``src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java``{{open}}
 
-Add the follwing code to the test case and make sure to review it so that you understand how it works.
+Add the following code to the test case and make sure to review it so that you understand how it works.
 
 <pre class="file" data-filename="src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java" data-target="replace">
 package com.redhat.coolstore.service;
@@ -137,7 +139,7 @@ Now we are ready to implement the `CatalogEndpoint`.
 
 Start by creating the file by opening ``src/main/java/com/redhat/coolstore/service/CatalogEndpoint.java``{{open}}
 
-The add the follwing content: 
+The add the following content: 
 
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/CatalogEndpoint.java" data-target="replace">
 package com.redhat.coolstore.service;
@@ -209,7 +211,17 @@ In the next scenario we will also call another service to enrich the endpoint re
 
 
 
+You should get a full JSON array consisting of all the products:
 
+```json
+[{"itemId":"329299","name":"Red Fedora","desc":"Official Red Hat Fedora","price":34.99,"quantity":0},{"itemId":"329199","name":"Forge Laptop Sticker","desc":"JBoss Community Forge Project Sticker","price":8.5,"quantity":0},{"itemId":"165613","name":"Solid Performance Polo","desc":"Moisture-wicking, antimicrobial 100% polyester design wicks for life of garment. No-curl, rib-knit collar; special collar band maintains crisp fold; three-button placket with dyed-to-match buttons; hemmed sleeves; even bottom with side vents; Import. Embroidery. Red Pepper.","price":17.8,"quantity":0},{"itemId":"165614","name":"Ogio Caliber Polo","desc":"Moisture-wicking 100% polyester....]}
+```
 
+## Before moving on
 
+Be sure to stop the service by clicking on the terminal window and typing `CTRL-C`.
+
+## Congratulations!
+
+Next, we'll add a call to the existing Inventory service to enrich the above data with Inventory information. On to the next challenge!
 

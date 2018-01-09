@@ -44,7 +44,7 @@ to open up the sample application in a separate browser tab.
 You should also be able to see both the CoolStore monolith and its database
 running in separate pods:
 
-`oc get pods --show-all=false`{{execute}}
+`oc get pods -l application=coolstore`{{execute}}
 
 The output should look like this:
 
@@ -58,13 +58,11 @@ coolstore-postgresql-1-jpcb8   1/1       Running   0          9m
 
 You can log into the running Postgres container using the following:
 
-`oc rsh dc/coolstore-postgresql`{{exec}}
+`oc rsh dc/coolstore-postgresql`{{execute}}
 
 Once logged in, use the following command to execute an SQL statement to show some content from the database:
 
-`psql -h $HOSTNAME -U $POSTGRESQL_USER $POSTGRESQL_DATABASE -c 'select name from PRODUCT_CATALOG;'`{{execute}}
-
-* Password: `coolstore123`
+`psql -U $POSTGRESQL_USER $POSTGRESQL_DATABASE -c 'select name from PRODUCT_CATALOG;'`{{execute}}
 
 You should see the following:
 
@@ -76,11 +74,11 @@ You should see the following:
  Solid Performance Polo
  Ogio Caliber Polo
  16 oz. Vortex Tumbler
+ Atari 2600 Joystick
  Pebble Smart Watch
  Oculus Rift
  Lytro Camera
-(8 rows)
-```
+(9 rows)```
 
 Don't forget to exit the pod's shell with `exit`{{execute}}
 

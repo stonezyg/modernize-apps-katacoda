@@ -37,7 +37,7 @@ all the dependencies required packaged in the *jar* to enable running the
 application with **java -jar**. WildFly Swarm also creates a *war* packaging as a standard Java EE web app
 that could be deployed to any Java EE app server (for example, JBoss EAP, or its upstream WildFly project).
 
-Now let's write some code and create a domain model and a RESTful endpoint to create the Inventory service:
+Now let's write some code and create a domain model, service interface and a RESTful endpoint to access inventory:
 
 ![Inventory RESTful Service](../../assets/mono-to-micro-part-1/wfswarm-inventory-arch.png)
 

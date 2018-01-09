@@ -75,7 +75,7 @@ advanced pipelines in the
 
 To simplify the pipeline in this workshop, we simulate the build and tests and skip any need for human input.
 Once the pipeline completes, it deploys the app from the _dev_ environment to our _production_
-environment using the above `openshiftTag` method, which simply re-tags the image you already
+environment using the above `openshiftTag()` method, which simply re-tags the image you already
 created using a tag which will trigger deployment in the production environment.
 
 **2. Promote the dev image to production using the pipeline**
@@ -87,17 +87,20 @@ Web Console. Open the production project in the web console:
 
 Next, navigate to _Builds -> Pipelines_ and click __Start Pipeline__ next to the `coolstore-monolith` pipeline:
 
-[SCREENSHOT]
+![Prod](../../assets/developer-intro/pipe-start.png)
 
-This will start the pipeline. It will take a minute or two to start the pipeline (future runs will not
+This will start the pipeline. **It will take a minute or two to start the pipeline** (future runs will not
 take as much time as the Jenkins infrastructure will already be warmed up). You can watch the progress of the pipeline:
 
-[SCREENSHOT]
+![Prod](../../assets/developer-intro/pipe-prog.png)
 
 Once the pipeline completes, return to the [Prod Project Overview](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/coolstore-prod)
 and notice that the application is now deployed and running!
 
-[SCREENSHOT]
+![Prod](../../assets/developer-intro/pipe-done.png)
+
+View the production app **with the blue header from before** is running by clicking: [CoolStore Production App](http://www-coolstore-prod.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com) (it may take
+a few moments for the container to deploy fully.)
 
 ## Congratulations!
 
@@ -106,3 +109,7 @@ use this workflow for future projects as well.
 
 In the final step we'll add a human interaction element to the pipeline, so that you as a project
 lead can be in charge of approving changes.
+
+## More Reading
+
+* [OpenShift Pipeline Documentation](https://docs.openshift.com/container-platform/3.7/dev_guide/dev_tutorials/openshift_pipeline.html)

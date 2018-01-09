@@ -18,7 +18,7 @@ Our problem is that the user interface requires data from two services when call
 There are no right or wrong answers here, but since this is a workshop on application modernization using RHOAR runtimes we will not choose option 1 or 2 here. Instead we are going to use option 3 and extend our Catalog to call the Inventory service. 
 
 **Extendig the test**
-Like always, lets first start by extending the test case. 
+In the [Test-Driven Development](https://en.wikipedia.org/wiki/Test-driven_development) style, let's first extend our test to test the Inventory functionality (which doesn't exist). 
 
 Open ``src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java``{{open}} again.
 
@@ -38,8 +38,9 @@ data-target="insert" data-marker="//TODO: Add ClassRule for HoverFly Inventory s
     @ClassRule
     public static HoverflyRule hoverflyRule = HoverflyRule.inSimulationMode(dsl(
             service("inventory:8080")
-                    //TODO: Add  timeout to test fallback
+//                    .andDelay(2500, TimeUnit.MILLISECONDS).forMethod("GET")
                     .get(startsWith("/services/inventory"))
+//                    .willReturn(serverError())
                     .willReturn(success(json(new Inventory("9999",9999))))
 
     )); 
@@ -59,6 +60,7 @@ Add the follwing small code to it.
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/client/InventoryClient.java" data-target="replace">
 package com.redhat.coolstore.client;
 
+//TODO: add import for InventoryClient
 import com.redhat.coolstore.model.Inventory;
 import feign.hystrix.FallbackFactory;
 import org.springframework.http.MediaType;
@@ -121,10 +123,15 @@ We are now ready to test the service
 
 So even if we don't have any inventory service running we can still run our test. However to actually run the service using `mvn spring-boot:run` we need to have an inventory service or the calls to `/services/products/` will fail. We will fix this in the next step
 
+Again the test fails because we are trying to call the Inventory service which is not running. We need a way to test this service without having to rely on other services.
+For that we are going to use an API Simulator called [HoverFly](http://hoverfly.io) and in particular its capability to simulate
+remote APIs. HoverFly is very convenient to use with Unit tests and all we have to do is to add a `ClassRule` that will simulate
+all calls to inventory like this:
+
+Open the file: ``src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java``{{open}}
+
+And paste:
 
 ## Congratulations
-You have now successfully executed the forth step in this scenario.
-
-In this step you've learned how to use Fegin client to implement service-to-service calls, we also discussed alternative solutions. 
-
-In the next step we will include a Fallback so that if the inventory service for some reason doesn't respond we will have a fallback value instead.
+You now have the framework for retrieving products from the product catalog and enriching the data with inventory data from
+an external service. But what if that external inventory service does not respond? That's the topic for the next step.

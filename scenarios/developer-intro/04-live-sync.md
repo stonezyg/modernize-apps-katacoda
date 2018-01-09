@@ -16,11 +16,11 @@ phase is required you can perform live code development with your application ru
 For JBoss EAP applications you can sync individual files (such as HTML/CSS/JS files), or sync entire application
 .WAR files. It's more challenging to synchronize individual files as it requires that you use an *exploded*
 archive deployment, so the use of [JBoss Developer Studio](https://developers.redhat.com/products/devstudio/overview/) is
-recommended, which automates the process (see [these docs](https://tools.jboss.org/features/livereload.html) for more info).
+recommended, which automates this process (see [these docs](https://tools.jboss.org/features/livereload.html) for more info).
 
 ## Live synchronization of project files
 
-For this workshop, we'll Live synchronize the WAR file.
+For this workshop, we'll Live synchronize the entire WAR file.
 
 First, click on the [Coolstore application link](http://www-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
 to open the application in a browser tab so you can watch changes.
@@ -66,6 +66,8 @@ Re-visit the app by reloading the Coolstore webpage (or clicking again on the [C
 
 You should now see the red header:
 
+![Red](../../assets/developer-intro/nav-red.png)
+
 **3. Rebuild again for BLUE background**
 
 Repeat the process, but replace the background color to be blue (click **Copy to Editor** to do this automatically):
@@ -82,11 +84,17 @@ This will update the ROOT.war file again and cause the application to change.
 
 Re-visit the app by reloading the Coolstore webpage (or clicking again on the [Coolstore application link](http://www-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)).
 
+> You may need to clear your browser's local cache to see the change or open a new "incognito" or "private browsing" window to see the change.
+
+![Blue](../../assets/developer-intro/nav-blue.png)
+
 It's blue! You can do this as many times as you wish, which is great for speedy development and testing.
+
+We'll leave the blue header for the moment, but will change it back to the original color soon.
 
 ## Before continuing
 
-Let's kill the `oc rsync` processes we started earlier in the background. Execute:
+Kill the `oc rsync` processes we started earlier in the background. Execute:
 
 `kill %1`{{execute}}
 

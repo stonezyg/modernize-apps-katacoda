@@ -46,9 +46,11 @@ The REST API returned a JSON object representing the inventory count for this pr
 
 **4. Stop the application**
 
-Before moving on, click in the first terminal window where WildFly Swarm is running and then press CTRL-C to stop the running application!
+Before moving on, click in the first terminal window where WildFly Swarm is running
+and then press `CTRL-C` to stop the running application! (or click this command to issue
+a `CTRL-C` for you: `clear`{{execute T1 interrupt}})
 
-You should see this:
+You should see something like:
 
 ```console
 WFLYSRV0028: Stopped deployment inventory-1.0.0-SNAPSHOT.war (runtime-name: inventory-1.0.0-SNAPSHOT.war) in 70ms

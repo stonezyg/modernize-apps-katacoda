@@ -1,11 +1,15 @@
-In the previous step we added a client to call the Inventory service. Services calling services is a common practice in Microservices Architecture, but as we add more and more services the likeleyhood of a problem increases dramatically. Even if each service has 99.9% update, if we have 100 of services our estimated up time will only be ~90%. We therefor need to plan for failures to happen and our application logic has to consider that dependent services are not responding.
+In the previous step we added a client to call the Inventory service. Services calling services is a common practice in Microservices Architecture, but as we add more and more services the likelihood of a problem increases dramatically. Even if each service has 99.9% update, if we have 100 of services our estimated up time will only be ~90%. We therefor need to plan for failures to happen and our application logic has to consider that dependent services are not responding.
 
-In the previous step we used the Fegin client from the netflix cloud native libraries to avoid having to write boilerplate code for doing a REST call. However Fegin also have another good property which is that we easily create fallback logic. In this case we will use static inner class since we want the logic for the fallback to be part of the Client and not in a separate class. 
+In the previous step we used the Feign client from the Netflix cloud native libraries to avoid having to write
+boilerplate code for doing a REST call. However Feign also have another good property which is that we easily create
+fallback logic. In this case we will use static inner class since we want the logic for the fallback to be part of the
+Client and not in a separate class.
 
-Open ``src/main/java/com/redhat/coolstore/service/CatalogService.java``{{open}}
+Open: ``src/main/java/com/redhat/coolstore/client/InventoryClient.java``{{open}}
 
-And att the comment `//TODO: Add Callback Factory Component` add the following static inner class:
-<pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/CatalogService.java"
+And paste:
+
+<pre class="file" data-filename="src/main/java/com/redhat/coolstore/client/InventoryClient.java"
 data-target="insert" data-marker="//TODO: Add Callback Factory Component">
     @Component
     static class InventoryClientFallbackFactory implements FallbackFactory<InventoryClient> {
