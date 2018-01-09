@@ -94,6 +94,7 @@ We are now ready to deploy the application
 
 ``mvn wildfly:run``{{execute T1}}
 
+Wait for the server to startup. You should see `Deployed "ROOT.war" (runtime-name: "ROOT.war")`
 ## Test the application
 
 Access the application by clicking [here](https://[[HOST_SUBDOMAIN]]-8080-[[KATACODA_HOST]].environments.katacoda.com/) and shop around for some cool stuff.

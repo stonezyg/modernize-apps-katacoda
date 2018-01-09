@@ -54,7 +54,7 @@ to access the sample UI.
 
 The UI will refresh the inventory table every 2 seconds, as before.
 
-Back on the OpenShift console, Navigate to _Applications_ -> _Deployments_ -> `inventory` (or just click [this link](http://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/inventory/browse/dc/inventory?tab=history) ) and then click on
+Back on the OpenShift console, Navigate to _Applications_ -> _Deployments_ -> `inventory` (or just click [this link](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/inventory/browse/dc/inventory?tab=history) ) and then click on
 the top-most `(latest)` deployment in the listing (most likely `#1` or `#2`):
 
 ![Overview link](../../assets/mono-to-micro-part-1/deployment-list.png)

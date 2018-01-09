@@ -26,7 +26,7 @@ www       www-coolstore-dev.apps.127.0.0.1.nip.io             coolstore   <all> 
 
 My hostname is `www-coolstore-dev.apps.127.0.0.1.nip.io` but **yours will be different**.
 
-**2. Open the openshift console for [Catalog - Applications - Routes](http://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/catalog/browse/routes)**
+**2. Open the openshift console for [Catalog - Applications - Routes](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/catalog/browse/routes)**
 
 **3. Click on Create Route, and set**
 

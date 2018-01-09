@@ -19,9 +19,13 @@ mvn clean
 
 The RHAMT CLI generates an updated HTML report.
 
-To view the updated report, first restart the web server to pick up changes:
+To view the updated report, first stop the web server:
 
-```docker run -v ~/rhamt-report:/usr/share/nginx/html:ro -p 9000:80 -it nginx```{{execute T2 interrupt}}
+`clear`{{execute T2 interrupt}}
+
+Then start it again:
+
+`docker run -v ~/rhamt-report:/usr/share/nginx/html:ro -p 9000:80 -it nginx`{{execute T2}}
 
 If this does not work you may need to manually click into the **Terminal 2** and type `CTRL-C` to stop the web server, then restart using
 the above command.

@@ -74,6 +74,8 @@ Search for and click on the `Coolstore Monolith using binary build` template.
 
 ![OpenShift Console](../../assets/moving-existing-apps/template-select.png)
 
+> **IMPORTANT**: If you do not see any _Coolstore_ templates, they may not be installed for you. You can skip down to **Deploy monolith template using the CLI** below.
+
 Click **Next** through the dialog boxes, leaving all values set to their defaults:
 
 ![OpenShift Console](../../assets/moving-existing-apps/template1.png)
@@ -95,6 +97,29 @@ Project Overview, but notice the **No deployments for Coolstore**. You have not 
 the container image built in previous steps, but you'll do that next.
 
 ![OpenShift Console](../../assets/moving-existing-apps/no-deployments.png)
+
+## (Optional) Deploy monolith template using the CLI
+
+> **NOTE**: This step is ONLY if you were unable to deploy using the GUI in the above step. If you successfully
+found and deployed using the template, you can skip this step!
+
+To deploy the monolith template using the CLI, execute the following commands:
+
+Login to OpenShift:
+
+`oc --server https://master:8443 login -u developer -p developer --insecure-skip-tls-verify=true`{{execute T1}}
+
+Switch to project:
+
+`oc project coolstore-dev`{{execute T1}}
+
+Deploy template:
+
+`oc new-app coolstore-monolith-binary-build`{{execute T1}}
+
+Then open up the web console and verify the monolith template items are created:
+
+* [CoolStore Monolith Project](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/coolstore-dev/)
 
 **4. Deploy application using Binary build**
 

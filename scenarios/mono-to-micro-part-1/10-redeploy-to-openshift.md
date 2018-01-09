@@ -2,7 +2,7 @@
 
 With our health check in place, lets rebuild and redeploy using the same command as before:
 
-`mvn clean fabric8:deploy -Popenshift`{{execute T1}}
+`mvn fabric8:undeploy clean fabric8:deploy -Popenshift`{{execute T1}}
 
 You should see a **BUILD SUCCESS** at the end of the build output.
 
@@ -40,10 +40,10 @@ You can see the definition of the health check from the perspective of OpenShift
 
 You should see:
 
-'''console
+```console
     Liveness:	http-get http://:8080/health delay=180s timeout=1s period=10s #success=1 #failure=3
     Readiness:	http-get http://:8080/health delay=10s timeout=1s period=10s #success=1 #failure=3
-'''
+```
 
 **2. Adjust probe timeout**
 
@@ -51,14 +51,14 @@ The various timeout values for the probes can be configured in many ways. Let's 
 we don't have to wait 3 minutes for it to be activated. Use the **oc** command to tune the
 probe to wait 20 seconds before starting to poll the probe:
 
-`oc set probe dc/inventory --liveness --initial-delay-seconds=20`{{execute T1}}
+`oc set probe dc/inventory --liveness --initial-delay-seconds=30`{{execute T1}}
 
 And verify it's been changed (look at the `delay=` value for the Liveness probe):
 
 `oc describe dc/inventory | egrep 'Readiness|Liveness'`{{execute T1}}
 
 ```console
-    Liveness:	http-get http://:8080/health delay=20s timeout=1s period=10s #success=1 #failure=3
+    Liveness:	http-get http://:8080/health delay=30s timeout=1s period=10s #success=1 #failure=3
     Readiness:	http-get http://:8080/health delay=10s timeout=1s period=10s #success=1 #failure=3
 ```
 
