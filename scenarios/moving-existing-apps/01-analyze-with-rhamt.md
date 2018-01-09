@@ -24,7 +24,43 @@ Using RHAMT at /root/rhamt-cli-4.0.0.Beta4
 > Red Hat Application Migration Toolkit (RHAMT) CLI, version 4.0.0.Beta4.
 ```
 
-**2. Run the RHAMT CLI against the project**
+**2. Inspect the project source code**
+
+The sample project we will migrate is a monolithic Java EE application that implements
+an online shopping store called _Coolstore_ containing retail items that you can add to a shopping
+cart and purchase. The source code is laid out in different
+subdirectories according to Maven best practices.
+
+> Click on the `tree` command below to automatically copy it into the terminal and execute it
+
+``tree -L 3``{{execute}}
+
+You should see:
+
+```console
+.
+├── hello.txt
+├── pom.xml
+├── README.md
+└── src
+    └── main
+        ├── java
+        ├── openshift
+        ├── resources
+        └── webapp
+
+6 directories, 3 files
+```
+
+This is a minimal Java EE project which uses [JAX-RS](https://docs.oracle.com/javaee/7/tutorial/jaxrs.htm) for building
+RESTful services and the [Java Persistence API (JPA)](https://docs.oracle.com/javaee/7/tutorial/partpersist.htm) for connecting
+to a database and an [AngularJS](https://angularjs.org) frontend.
+
+When you later deploy the application, it will look like:
+
+![CoolStore Monolith](../../assets/moving-existing-apps/coolstore-web.png)
+
+**3. Run the RHAMT CLI against the project**
 
 The RHAMT CLI has a number of options to control how it runs. Click on the below command
 to execute the RHAMT CLI and analyze the existing project:

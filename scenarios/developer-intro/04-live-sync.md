@@ -66,6 +66,10 @@ Re-visit the app by reloading the Coolstore webpage (or clicking again on the [C
 
 You should now see the red header:
 
+> **NOTE** Some browsers (most, actually) will cache the web content including CSS files. You may need to [clear the browser
+cache](https://www.lifewire.com/how-to-clear-cache-2617980) to see the changes! You can also open a separate browser or
+an "incognito" or "private browsing" tab and visit the same URL.
+
 ![Red](../../assets/developer-intro/nav-red.png)
 
 **3. Rebuild again for BLUE background**
@@ -83,8 +87,6 @@ Again, re-build the app:
 This will update the ROOT.war file again and cause the application to change.
 
 Re-visit the app by reloading the Coolstore webpage (or clicking again on the [Coolstore application link](http://www-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)).
-
-> You may need to clear your browser's local cache to see the change or open a new "incognito" or "private browsing" window to see the change.
 
 ![Blue](../../assets/developer-intro/nav-blue.png)
 

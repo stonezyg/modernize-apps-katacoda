@@ -43,7 +43,7 @@ NAME                           READY     STATUS    RESTARTS   AGE
 coolstore-2-bpkkc              1/1       Running   0          32m
 ```
 
-The name of my running coolstore monolith pod is `coolstore-2-bpkkc` but yours will be different.
+The name of my running coolstore monolith pod is `coolstore-2-bpkkc` but **yours will be different**.
 
 Save the name of the pod into an environment variable called `COOLSTORE_DEV_POD_NAME` so that we can use it for future
 commands:
@@ -56,7 +56,7 @@ Verify the variable holds the name of your pod with:
 
 Next, run the `oc rsync` command in your terminal window, using the new variable to refer to the name of the pod running our coolstore:
 
-`oc rsync $COOLSTORE_DEV_POD_NAME:/opt/eap/standalone/configuration/standalone-openshift.xml /tmp`{{execute}}
+`oc rsync $COOLSTORE_DEV_POD_NAME:/opt/eap/standalone/configuration/standalone-openshift.xml .`{{execute}}
 
 The output will show that the file was downloaded:
 
@@ -68,7 +68,7 @@ sent 30 bytes  received 31,253 bytes  62,566.00 bytes/sec
 total size is 31,152  speedup is 1.00
 ```
 
-Now you can open the file locally using this link: `/tmp/standalone-openshift.xml`{{open}} and inspect
+Now you can open the file locally using this link: `standalone-openshift.xml`{{open}} and inspect
 its contents (don't worry if you don't understand the contents of this file, it is the JBoss EAP configuration file).
 
 This is useful for verifying that the contents of files in your applications are what you expect.
@@ -79,3 +79,9 @@ single file. To copy selected files only, you will need to use the ``--exclude``
 to filter what is and isn't copied from a specified directory. We will use this in the next step.
 
 Manually copying is cool, but what about automatic live copying on change? That's in the next step too!
+
+## Before moving on
+
+Let's clean up the temp files we used. Execute:
+
+`rm -f standalone-openshift.xml hello.txt`{{execute}}

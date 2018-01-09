@@ -4,7 +4,8 @@ look into line-by-line code execution as the code runs inside a container on Ope
 ## Witness the bug
 
 The CoolStore application seem to have a bug that causes the inventory status for one of the
-products to be not shown at all:
+products to be not shown at all. Carefully inspect the storefront page and notice that the
+Atari 2600 Joystick product shows nothing at all for inventory:
 
 ![Inventory Status Bug](../../assets/developer-intro/debug-coolstore-bug.png)
 
@@ -114,6 +115,8 @@ Click this link to invoke the REST API from your browser:
 
 * [Coolstore REST API](http://www-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/services/products/444437)
 
+ > Your browser will appear to pause at this point, because the breakpoint was hit.
+
 The code execution pauses at the `getProductByItemId()` method. You can verify it
 using the `list`{{execute}} command to see the source code in the terminal window where
 you started JDB. The arrow shows which line is to execute next:
@@ -188,28 +191,23 @@ Exit the debugger using the `quit` command:
 
 ## Fix the code
 
-Open `src/main/java/com/redhat/coolstore/service/ProductService.java`{{open}}. We'll add some code to add in
+Open `src/main/java/com/redhat/coolstore/utils/Transformers.java`{{open}}. We'll add some code to add in
 a sensible value for an Inventory in case it is not there. To make this change, add in this code to the end
-of the `getProductByItemId` method (or simply click **Copy to Editor** to do it for you):
+of the `toProduct` method (or simply click **Copy to Editor** to do it for you):
 
 
-<pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/ProductService.java" data-target="insert" data-marker="// Return the entity">
+<pre class="file" data-filename="src/main/java/com/redhat/coolstore/utils/Transformers.java" data-target="insert" data-marker="// TODO: add Inventory">
         // Add inventory if needed and return entity
-        if (entity.getInventory() == null) {
-            InventoryEntity i = new InventoryEntity();
-            i.setItemId(itemId);
-            i.setLink("http://redhat.com");
-            i.setLocation("Unavailable");
-            i.setQuantity(0);
-            entity.setInventory(i);
-        }
+            prod.setLink("http://redhat.com");
+            prod.setLocation("Unavailable");
+            prod.setQuantity(0);
 </pre>
 
 ## Re-build and redeploy the application
 
 With our code fix in place, let's re-build the application to test it out. To rebuild, execute:
 
-`mvn package -Popenshift`{{execute}}
+`mvn clean package -Popenshift`{{execute}}
 
 Let's use our new `oc rsync` skills to re-deploy the app to the running container. Execute:
 
@@ -217,6 +215,10 @@ Let's use our new `oc rsync` skills to re-deploy the app to the running containe
 
 After a few seconds, reload the [Coolstore Application](http://www-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com) in your browser
 and notice now the application behaves properly and displays `Inventory Unavailable` whereas before it was totally and confusingly blank:
+
+> **NOTE** Some browsers (most, actually) will cache the web content including CSS files. You may need to [clear the browser
+cache](https://www.lifewire.com/how-to-clear-cache-2617980) to see the changes! You can also open a separate browser or
+an "incognito" or "private browsing" tab and visit the same URL.
 
 ![Bug fixed](../../assets/developer-intro/debug-coolstore-bug-fixed.png)
 

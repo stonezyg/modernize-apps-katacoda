@@ -103,7 +103,12 @@ Access the application by clicking [here](https://[[HOST_SUBDOMAIN]]-8080-[[KATA
 
 ## Shutdown the application
 
-Before moving on, click in the **Terminal** window and type CTRL-C to stop the running WildFly server.
+Before moving on, click in the **Terminal** window and type CTRL-C to stop the running WildFly server. You should see:
+
+```console
+JBoss EAP 7.1.0.GA (WildFly Core 3.0.10.Final-redhat-1) stopped in ___ms
+```
+
 
 
 

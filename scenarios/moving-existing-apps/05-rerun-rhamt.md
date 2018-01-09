@@ -32,7 +32,9 @@ the above command.
 
 Then [reload the report web page](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/)
 
-Click on the **Issues** tab and ensure that all of the Weblogic-specific issues are gone! You have successfully migrated
+And verify that it now reports 0 Story Points:
+
+You have successfully migrated
 this app to JBoss EAP, congratulations!
 
 ![Issues](../../assets/moving-existing-apps/project-issues-story.png)

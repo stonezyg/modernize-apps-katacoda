@@ -2,6 +2,8 @@ Now that we migrated the application you are probably eager to test it. To test 
 
 **1. Add a OpenShift profile**
 
+Open the `pom.xml`{{open}} file.
+
 At the `<!-- TODO: Add OpenShift profile here -->` we are going to add a the following configuration to the pom.xml
 
 <pre class="file" data-filename="pom.xml" data-target="insert" data-marker="<!-- TODO: Add OpenShift profile here -->">
@@ -107,7 +109,7 @@ To deploy the monolith template using the CLI, execute the following commands:
 
 Login to OpenShift:
 
-`oc --server https://master:8443 login -u developer -p developer --insecure-skip-tls-verify=true`{{execute T1}}
+``oc login [[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com -u developer -p developer --insecure-skip-tls-verify=true``{{execute T1}}
 
 Switch to project:
 
@@ -120,6 +122,12 @@ Deploy template:
 Then open up the web console and verify the monolith template items are created:
 
 * [CoolStore Monolith Project](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/coolstore-dev/)
+
+You can see the components being deployed on the
+Project Overview, but notice the **No deployments for Coolstore**. You have not yet deployed
+the container image built in previous steps, but you'll do that next.
+
+![OpenShift Console](../../assets/moving-existing-apps/no-deployments.png)
 
 **4. Deploy application using Binary build**
 
@@ -151,13 +159,16 @@ thanks to the *DeploymentConfig* object created from the template:
 
 ``oc start-build coolstore --from-file=deployments/ROOT.war``{{execute T1}}
 
+Check the OpenShift web console and you'll see the application being built:
+
+![OpenShift Console](../../assets/moving-existing-apps/building.png)
+
 Wait for the build and deploy to complete:
 
 ``oc rollout status -w dc/coolstore``{{execute T1}}
 
-Check the OpenShift web console and you'll see the application being built:
+> If the above command reports `Error from server (ServerTimeout)` then simply re-run the command until it reports success!
 
-![OpenShift Console](../../assets/moving-existing-apps/building.png)
 
 When it's done you should see the application deployed successfully with blue circles for the
 database and the monolith:
@@ -172,6 +183,8 @@ in your browser, this time running on OpenShift:
 ## Congratulations!
 
 Now you are using the same application that we built locally on OpenShift. That wasn't too hard right?
+
+![CoolStore Monolith](../../assets/moving-existing-apps/coolstore-web.png)
 
 In the next step you'll explore more of the developer features of OpenShift in preparation for moving the
 monolith to a microservices architecture later on. Let's go!

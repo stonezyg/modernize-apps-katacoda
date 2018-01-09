@@ -1,9 +1,6 @@
 This workshop is split into several _scenarios_, each of which focuses on a specific
 area related to Application Modernization and Transformation with Red Hat technologies.
 
-> Note that if you close your browser tab in which you are working, you'll lose your progress
-in the current scenario and have to start over from the beginning of the scenario.
-
 Each scenario in turn has a number of steps that you follow to complete the scenario in the
 order shown on the front page.
 
