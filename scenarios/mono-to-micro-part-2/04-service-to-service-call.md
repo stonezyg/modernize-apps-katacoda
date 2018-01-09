@@ -123,15 +123,6 @@ We are now ready to test the service
 
 So even if we don't have any inventory service running we can still run our test. However to actually run the service using `mvn spring-boot:run` we need to have an inventory service or the calls to `/services/products/` will fail. We will fix this in the next step
 
-Again the test fails because we are trying to call the Inventory service which is not running. We need a way to test this service without having to rely on other services.
-For that we are going to use an API Simulator called [HoverFly](http://hoverfly.io) and in particular its capability to simulate
-remote APIs. HoverFly is very convenient to use with Unit tests and all we have to do is to add a `ClassRule` that will simulate
-all calls to inventory like this:
-
-Open the file: ``src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java``{{open}}
-
-And paste:
-
 ## Congratulations
 You now have the framework for retrieving products from the product catalog and enriching the data with inventory data from
 an external service. But what if that external inventory service does not respond? That's the topic for the next step.
