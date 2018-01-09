@@ -1,158 +1,4 @@
-# Creating the model
 
-Our catalog microservice will expose a Catalog endpoint that returns products so you will use a Java Interface to represent the contract that other services can use to interact with this service.
-
-Let's create the interface called `Product.java` by first creating an empty file by clicking on ``src/main/java/com/redhat/coolstore/model/Product.java``{{open}}
-
-Then add the following code to the `Product.java`.
-
-<pre class="file" data-filename="src/main/java/com/redhat/coolstore/model/Product.java" data-target="replace">
-package com.redhat.coolstore.model;
-
-import java.io.Serializable;
-
-public class Product implements Serializable {
-
-	private static final long serialVersionUID = -7304814269819778382L;
-
-	private String itemId;
-	private String name;
-	private String desc;
-	private double price;
-	private int quantity;
-
-	public Product() {
-
-	}
-
-	public Product(String itemId, String name, String desc, double price) {
-		super();
-		this.itemId = itemId;
-		this.name = name;
-		this.desc = desc;
-		this.price = price;
-	}
-	public String getItemId() {
-		return itemId;
-	}
-	public void setItemId(String itemId) {
-		this.itemId = itemId;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getDesc() {
-		return desc;
-	}
-	public void setDesc(String desc) {
-		this.desc = desc;
-	}
-	public double getPrice() {
-		return price;
-	}
-	public void setPrice(double price) {
-		this.price = price;
-	}
-    public int getQuantity() {
-        return quantity;
-    }
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    @Override
-	public String toString() {
-		return "Product [itemId=" + itemId + ", name=" + name + ", desc="
-				+ desc + ", price=" + price + ", quantity=" + quantity + "]";
-	}
-
-
-
-}
-
-</pre>
-
-The catalog service will also interact with the Inventory service so we need a interface for that as well.
-
-Create the file ``src/main/java/com/redhat/coolstore/model/Inventory.java``{{open}}
- 
-And copy the following to it:
-
-<pre class="file" data-filename="src/main/java/com/redhat/coolstore/model/Inventory.java" data-target="replace">
-package com.redhat.coolstore.model;
-
-import java.io.Serializable;
-
-public class Inventory implements Serializable {
-
-    private static final long serialVersionUID = 7131670354907280071L;
-
-    private String itemId;
-    private String location;
-    private int quantity;
-    private String link;
-
-    public Inventory() {
-    }
-
-    public Inventory(String itemId, String location, int quantity, String link) {
-        this.itemId = itemId;
-        this.location = location;
-        this.quantity = quantity;
-        this.link = link;
-    }
-
-    public Inventory(String itemId, int quantity) {
-        this.itemId = itemId;
-        this.quantity = quantity;
-    }
-
-    public String getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    @Override
-    public String toString() {
-        return "Inventory{" +
-                "itemId='" + itemId + '\'' +
-                ", location='" + location + '\'' +
-                ", quantity=" + quantity +
-                ", link='" + link + '\'' +
-                '}';
-    }
-}
-</pre>
 
 # Creating a test. 
 
@@ -216,10 +62,10 @@ The `ProductRepository` should also provide a methods called `readAll()` that re
 <pre class="file" data-filename="src/test/java/com/redhat/coolstore/service/ProductRepositoryTest.java" data-target="insert" data-marker="//TODO: Insert test_readAll here">
     @Test
     public void test_readAll() {
-        List<Product> productList = repository.readAll();
+        List&lt;Product&gt; productList = repository.readAll();
         assertThat(productList).isNotNull();
         assertThat(productList).isNotEmpty();
-        List<String> names = productList.stream().map(Product::getName).collect(Collectors.toList());
+        List&lt;String&gt; names = productList.stream().map(Product::getName).collect(Collectors.toList());
         assertThat(names).contains("Red Fedora","Forge Laptop Sticker","Oculus Rift");
     }
 </pre>
@@ -269,7 +115,7 @@ Spring Data provides a convenient way for us to access data without having to wr
 The `JdbcTemplate` require that we provide a `RowMapper`so that it can map between rows in the query to Java Objects. We are going to define the `RowMapper` like this:
 
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/ProductRepository.java" data-target="insert" data-marker=" //TODO: Add row mapper here">
-    private RowMapper<Product> rowMapper = (rs, rowNum) -> new Product(
+    private RowMapper&lt;Product&gt; rowMapper = (rs, rowNum) -> new Product(
             rs.getString("itemId"),
             rs.getString("name"),
             rs.getString("description"),
@@ -279,7 +125,7 @@ The `JdbcTemplate` require that we provide a `RowMapper`so that it can map betwe
 Now we are ready to create the methods that are used in the test. Let's start with the `readAll()`. It should return a `List<Product>` and then we can write the query as `SELECT * FROM catalog` and use the rowMapper to map that into `Product` objects. Our method should look like this:
 
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/ProductRepository.java" data-target="insert" data-marker="//TODO: Create a method for returning all products">
-    public List<Product> readAll() {
+    public List&lt;Product&gt; readAll() {
         return jdbcTemplate.query("SELECT * FROM catalog", rowMapper);
     }
 </pre>
