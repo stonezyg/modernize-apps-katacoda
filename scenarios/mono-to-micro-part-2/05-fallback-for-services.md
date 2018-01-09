@@ -10,7 +10,7 @@ Open: ``src/main/java/com/redhat/coolstore/client/InventoryClient.java``{{open}}
 And paste:
 
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/client/InventoryClient.java"
-data-target="insert" data-marker="//TODO: Add Callback Factory Component">
+data-target="insert" data-marker="//TODO: Add Fallback factory here">
     @Component
     static class InventoryClientFallbackFactory implements FallbackFactory&lt;InventoryClient&gt; {
         @Override

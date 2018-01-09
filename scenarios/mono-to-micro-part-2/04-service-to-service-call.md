@@ -76,7 +76,7 @@ public interface InventoryClient {
     @RequestMapping(method = RequestMethod.GET, value = "/services/inventory/{itemId}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     Inventory getInventoryStatus(@PathVariable("itemId") String itemId);
 
-    //TODO: Add Fallback factory here 
+    //TODO: Add Fallback factory here
 }
 </pre>
 
