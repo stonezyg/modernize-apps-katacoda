@@ -12,7 +12,7 @@ And paste:
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/client/InventoryClient.java"
 data-target="insert" data-marker="//TODO: Add Callback Factory Component">
     @Component
-    static class InventoryClientFallbackFactory implements FallbackFactory<InventoryClient> {
+    static class InventoryClientFallbackFactory implements FallbackFactory&lt;InventoryClient&gt; {
         @Override
         public InventoryClient create(Throwable cause) {
             return new InventoryClient() {

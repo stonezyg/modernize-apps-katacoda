@@ -110,7 +110,7 @@ The update the `read(String id)` method at the comment `//TODO: Update the quant
 Also in the `readAll()` method replace the comment `//TODO: Update the quantity for the products by calling the Inventory service` with the following:
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/CatalogService.java" data-target="insert" data-marker="//TODO: Update the quantity for the products by calling the Inventory service">
     productList.parallelStream()
-                .forEach(p -> {
+                .forEach(p -&gt; {
                     p.setQuantity(inventoryClient.getInventoryStatus(p.getItemId()).getQuantity());
                 });
 </pre>

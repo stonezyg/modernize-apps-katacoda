@@ -38,8 +38,8 @@ public class CatalogService {
         return product;
     }
 
-    public List<Product> readAll() {
-        List<Product> productList = repository.readAll();
+    public List&lt;Product&gt; readAll() {
+        List&lt;Product&gt; productList = repository.readAll();
         //TODO: Update the quantity for the products by calling the Inventory service
         return productList; 
     }
@@ -99,7 +99,7 @@ public class CatalogEndpointTest {
 
     @Test
     public void test_retriving_one_proudct() {
-        ResponseEntity<Product> response
+        ResponseEntity&lt;Product&gt; response
                 = restTemplate.getForEntity("/services/product/329199", Product.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody())
@@ -113,18 +113,18 @@ public class CatalogEndpointTest {
     @Test
     public void check_that_endpoint_returns_a_correct_list() {
 
-        ResponseEntity<List<Product>> rateResponse =
+        ResponseEntity&lt;List&lt;Product&gt;&gt; rateResponse =
                 restTemplate.exchange("/services/products",
-                        HttpMethod.GET, null, new ParameterizedTypeReference<List<Product>>() {
+                        HttpMethod.GET, null, new ParameterizedTypeReference&lt;List&lt;Product&gt;&gt;() {
                         });
 
-        List<Product> productList = rateResponse.getBody();
+        List&lt;Product&gt; productList = rateResponse.getBody();
         assertThat(productList).isNotNull();
         assertThat(productList).isNotEmpty();
-        List<String> names = productList.stream().map(Product::getName).collect(Collectors.toList());
+        List&lt;String&gt; names = productList.stream().map(Product::getName).collect(Collectors.toList());
         assertThat(names).contains("Red Fedora","Forge Laptop Sticker","Oculus Rift");
 
-        Product fedora = productList.stream().filter( p -> p.getItemId().equals("329299")).findAny().get();
+        Product fedora = productList.stream().filter( p -&gt; p.getItemId().equals("329299")).findAny().get();
         assertThat(fedora)
                 .returns("329299",Product::getItemId)
                 .returns("Red Fedora", Product::getName)
@@ -162,14 +162,14 @@ public class CatalogEndpoint {
 
     @ResponseBody
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> readAll() {
-        return new ResponseEntity<List<Product>>(catalogService.readAll(),HttpStatus.OK);
+    public ResponseEntity&lt;List&lt;Product&gt;&gt; readAll() {
+        return new ResponseEntity&lt;List&lt;Product&gt;&gt;(catalogService.readAll(),HttpStatus.OK);
     }
 
     @ResponseBody
     @GetMapping("/product/{id}")
-    public ResponseEntity<Product> read(@PathVariable("id") String id) {
-        return new ResponseEntity<Product>(catalogService.read(id),HttpStatus.OK);
+    public ResponseEntity&lt;Product&gt; read(@PathVariable("id") String id) {
+        return new ResponseEntity&lt;Product&gt;(catalogService.read(id),HttpStatus.OK);
     }
 
 }
