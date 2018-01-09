@@ -34,9 +34,7 @@ This will create a new OpenShift project called `coolstore-prod` from which our 
 
 **2. Add the production elements**
 
-In this case we'll use the production template to create the objects. In previous scenarios you
-used the Web Console to create the _dev_ environment using a template. Here we will use the
-equivalent process with the `oc` command. Execute:
+In this case we'll use the production template to create the objects. Execute:
 
 `oc new-app --template=coolstore-monolith-pipeline-build`{{execute}}
 
