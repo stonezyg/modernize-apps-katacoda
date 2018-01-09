@@ -18,35 +18,18 @@ This will deploy the database to our new project. Wait for it to complete:
 
 `oc rollout status -w dc/catalog-database`{{execute}}
 
-**2. Use separate Spring profile for running on OpenShift**
-
-We need to define Database connection settings to use when running on OpenShift, as we have an external database we will be
-using.
-
-Open `src/main/resources/application-openshift.properties`{{open}} and add:
-
-<pre class="file" data-filename="src/main/resources/application-openshift.properties" data-target="replace">
-spring.datasource.url=jdbc:postgresql://catalog-database:5432/catalog
-spring.datasource.username=catalog
-spring.datasource.password=mysecretpassword
-spring.datasource.driver-class-name=org.postgresql.Driver
-eureka.client.enabled=false
-ribbon.eureka.enable=false
-ribbon.listOfServers=inventory:8080
-feign.hystrix.enabled=true
-</pre>
-
 **Update configuration**
 Create the file by clicking on open ``src/main/resources/application-openshift.properties``{{open}}
 
 Copy the following content to the file:
 <pre class="file" data-filename="src/main/resources/application-openshift.properties" data-target="replace">
+server.port=8080
 spring.datasource.url=jdbc:postgresql://${project.artifactId}-database:5432/catalog
 spring.datasource.username=catalog
 spring.datasource.password=mysecretpassword
 spring.datasource.driver-class-name=org.postgresql.Driver
 
-inventory.ribbon.listOfServers=inventory.inventory.svc.cluster.local
+inventory.ribbon.listOfServers=inventory.inventory.svc.cluster.local:8080
 </pre>
 
 >**NOTE:** The `application-openshift.properties` does not have all values of `application-default.properties`, that is because on the values that need to change has to be specified here. Spring will fall back to `application-default.properties` for the other values.
