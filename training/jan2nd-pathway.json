@@ -43,12 +43,6 @@
       "course_id": "resilient-apps",
       "id": "resilient-apps",
       "title": "Prevent and detect issues in a distributed system"
-    },
-    {
-      "pathway_id": "redhat-middleware-workshops/scenarios",
-      "course_id": "all-in-one",
-      "id": "all-in-one",
-      "title": "All scenarios in one (testing)"
     }
   ]
 }
