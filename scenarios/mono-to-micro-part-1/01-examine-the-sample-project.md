@@ -39,5 +39,5 @@ that could be deployed to any Java EE app server (for example, JBoss EAP, or its
 
 Now let's write some code and create a domain model, service interface and a RESTful endpoint to access inventory:
 
-![Inventory RESTful Service](../../assets/mono-to-micro-part-1/wfswarm-inventory-arch.png)
+![Inventory RESTful Service](/redhat-middleware-workshops/assets/mono-to-micro-part-1/wfswarm-inventory-arch.png)
 

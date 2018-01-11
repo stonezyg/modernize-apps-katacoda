@@ -53,15 +53,15 @@ Open the application in your browser to make sure it's working:
 
 It should look something like:
 
-![Bookinfo App](../../assets/resilient-apps/bookinfo.png)
+![Bookinfo App](/redhat-middleware-workshops/assets/resilient-apps/bookinfo.png)
 
 Reload the page multiple times. The three different versions of the Reviews service
 show the star ratings differently - `v1` shows no stars at all, `v2` shows black stars,
 and `v3` shows red stars:
 
-* `v1`: ![no stars](../../assets/resilient-apps/stars-none.png)
-* `v2`: ![black stars](../../assets/resilient-apps/stars-black.png)
-* `v3`: ![red stars](../../assets/resilient-apps/stars-red.png)
+* `v1`: ![no stars](/redhat-middleware-workshops/assets/resilient-apps/stars-none.png)
+* `v2`: ![black stars](/redhat-middleware-workshops/assets/resilient-apps/stars-black.png)
+* `v3`: ![red stars](/redhat-middleware-workshops/assets/resilient-apps/stars-red.png)
 
 That's because there are 3 versions of reviews deployment for our reviews service. Istio’s
 load-balancer is using a _round-robin_ algorithm to iterate through the 3 instances of this service.

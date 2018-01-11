@@ -39,7 +39,7 @@ OpenShift also provides a feature rich Web Console that provides a friendly grap
 interacting with the platform. You can always access the Web Console using the link provided just above
 the Terminal window on the right:
 
-![OpenShift Console Tab](../../assets/developer-intro/openshift-console-tab.png)
+![OpenShift Console Tab](/redhat-middleware-workshops/assets/developer-intro/openshift-console-tab.png)
 
 ### REST API
 

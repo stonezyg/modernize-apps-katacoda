@@ -45,7 +45,7 @@ Navigate to the Web Console to see your new app and the components using this li
 
 * [Coolstore Prod Project Overview](http://[[HOST_SUBDOMAIN]]-84443-[[KATACODA_HOST]].environments.katacoda.com/console/project/coolstore-prod/overview)
 
-![Prod](../../assets/developer-intro/coolstore-prod-overview.png)
+![Prod](/redhat-middleware-workshops/assets/developer-intro/coolstore-prod-overview.png)
 
 You can see the production database, and an application called _Jenkins_ which OpenShift uses
 to manage CI/CD pipeline deployments. There is no running production

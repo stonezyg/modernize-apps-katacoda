@@ -16,11 +16,11 @@ Create a new project for the _inventory_ service:
 You should be familiar with the OpenShift Web Console by now!
 Click on the "OpenShift Console" tab:
 
-![OpenShift Console Tab](../../assets/mono-to-micro-part-1/openshift-console-tab.png)
+![OpenShift Console Tab](/redhat-middleware-workshops/assets/mono-to-micro-part-1/openshift-console-tab.png)
 
 And navigate to the new _inventory_ project overview page (or use [this quick link](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/inventory/)
 
-![Web Console Overview](../../assets/mono-to-micro-part-1/overview.png)
+![Web Console Overview](/redhat-middleware-workshops/assets/mono-to-micro-part-1/overview.png)
 
 There's nothing there now, but that's about to change.
 

@@ -18,13 +18,13 @@ testing.
 
 To test the running application, click on the **Local Web Browser** tab in the console frame of this browser window. This will open another tab or window of your browser pointing to port 8081 on your client.
 
-![Local Web Browser Tab](../../assets/mono-to-micro-part-2/web-browser-tab.png)
+![Local Web Browser Tab](/redhat-middleware-workshops/assets/mono-to-micro-part-2/web-browser-tab.png)
 
 > or use [this](https://[[HOST_SUBDOMAIN]]-8081-[[KATACODA_HOST]].environments.katacoda.com/) link.
 
 You should now see a html page that looks like this
 
-![App](../../assets/mono-to-micro-part-2/app-new.png)
+![App](/redhat-middleware-workshops/assets/mono-to-micro-part-2/app-new.png)
 
 This is a simple webpage that will access the inventory *every 2 seconds* and refresh the table of product inventories.
 

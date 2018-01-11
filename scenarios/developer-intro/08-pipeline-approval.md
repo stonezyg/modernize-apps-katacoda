@@ -18,7 +18,7 @@ _Builds -> Pipelines_ but here's a quick link):
 
 On this page you can see the pipeline definition. Click _Actions -> Edit_ to edit the pipeline:
 
-![Prod](../../assets/developer-intro/pipe-edit.png)
+![Prod](/redhat-middleware-workshops/assets/developer-intro/pipe-edit.png)
 
 In the pipeline definition editor, add a new stage to the pipeline, just before the `Deploy to PROD` step:
 
@@ -31,7 +31,7 @@ In the pipeline definition editor, add a new stage to the pipeline, just before 
 
 Your final pipeline should look like:
 
-![Prod](../../assets/developer-intro/pipe-edit2.png)
+![Prod](/redhat-middleware-workshops/assets/developer-intro/pipe-edit2.png)
 
 Click **Save**.
 
@@ -61,13 +61,13 @@ And verify that the original black header is visible in the dev application:
 
 * [Coolstore - Dev](http://www-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
 
-![Prod](../../assets/developer-intro/pipe-orig.png)
+![Prod](/redhat-middleware-workshops/assets/developer-intro/pipe-orig.png)
 
 While the production application is still blue:
 
 * [Coolstore - Prod](http://www-coolstore-prod.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
 
-![Prod](../../assets/developer-intro/nav-blue.png)
+![Prod](/redhat-middleware-workshops/assets/developer-intro/nav-blue.png)
 
 We're happy with this change in dev, so let's promote the new change to prod, using the new approval step!
 
@@ -77,7 +77,7 @@ Invoke the pipeline once more by clicking **Start Pipeline** on the [Pipeline Co
 
 The same pipeline progress will be shown, however before deploying to prod, you will see a prompt in the pipeline:
 
-![Prod](../../assets/developer-intro/pipe-prompt.png)
+![Prod](/redhat-middleware-workshops/assets/developer-intro/pipe-prompt.png)
 
 Click on the link for `Input Required`. This will open a new tab and direct you to Jenkins itself, where you can login with
 the same credentials as OpenShift:
@@ -87,7 +87,7 @@ the same credentials as OpenShift:
 
 Accept the permissions, and then you'll find yourself at the approval prompt:
 
-![Prod](../../assets/developer-intro/pipe-jenkins-prompt.png)
+![Prod](/redhat-middleware-workshops/assets/developer-intro/pipe-jenkins-prompt.png)
 
 **3. Approve the change to go live**
 
@@ -104,11 +104,11 @@ Once it completes, verify that the production application has the new change (or
 
 * [Coolstore - Prod](http://www-coolstore-prod.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
 
-![Prod](../../assets/developer-intro/pipe-orig.png)
+![Prod](/redhat-middleware-workshops/assets/developer-intro/pipe-orig.png)
 
 ## Congratulations!
 
 You have added a human approval step for all future developer changes. You now have two projects that can be visualized as:
 
-![Prod](../../assets/developer-intro/goal.png)
+![Prod](/redhat-middleware-workshops/assets/developer-intro/goal.png)
 

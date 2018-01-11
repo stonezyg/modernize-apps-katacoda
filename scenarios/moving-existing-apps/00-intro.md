@@ -13,7 +13,7 @@ We will then take the following steps to migrate (lift & shift) an existing Java
 
 # What is Red Hat Application Migration Toolkit?
 
-![Logo](../../assets/moving-existing-apps/rhamt-logo.png)
+![Logo](/redhat-middleware-workshops/assets/moving-existing-apps/rhamt-logo.png)
 
 Red Hat Application Migration Toolkit (RHAMT) is an extensible and customizable rule-based tool that helps simplify migration of Java applications.
 

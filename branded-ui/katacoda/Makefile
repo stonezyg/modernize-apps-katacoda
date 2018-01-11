@@ -14,7 +14,7 @@ copy:
 	docker rm $(INSTANCE)
 
 release:
-	docker build -t $(NAME) -f Dockerfile-release .
+	docker build -t $(NAME) .
 
 buildrelease: build copy release
 

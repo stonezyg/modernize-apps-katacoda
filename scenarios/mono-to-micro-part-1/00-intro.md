@@ -20,11 +20,11 @@ WildFly Swarm apps, microservices, and OpenShift/Kubernetes.
 The goal is to deploy this new microservice alongside the existing monolith, and then later on we'll tie them together.
 But after this scenario, you should end up with something like:
 
-![Logo](../../assets/mono-to-micro-part-1/goal.png)
+![Logo](/redhat-middleware-workshops/assets/mono-to-micro-part-1/goal.png)
 
 ## What is WildFly Swarm? 
 
-![Logo](../../assets/mono-to-micro-part-1/swarm-logo.png)
+![Logo](/redhat-middleware-workshops/assets/mono-to-micro-part-1/swarm-logo.png)
 
 Java EE applications are traditionally created as an **ear** or **war** archive including all 
 dependencies and deployed in an application server. Multiple Java EE applications can and 

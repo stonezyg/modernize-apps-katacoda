@@ -69,7 +69,7 @@ and reload the bookinfo web page.
 
 You will see and feel that the webpage loads in about 6 seconds:
 
-![Delay](../../assets/resilient-apps/testuser-delay.png)
+![Delay](/redhat-middleware-workshops/assets/resilient-apps/testuser-delay.png)
 
 The reviews section will show: **Sorry, product reviews are currently unavailable for this book**:
 

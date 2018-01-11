@@ -7,7 +7,7 @@ The CoolStore application seem to have a bug that causes the inventory status fo
 products to be not shown at all. Carefully inspect the storefront page and notice that the
 Atari 2600 Joystick product shows nothing at all for inventory:
 
-![Inventory Status Bug](../../assets/developer-intro/debug-coolstore-bug.png)
+![Inventory Status Bug](/redhat-middleware-workshops/assets/developer-intro/debug-coolstore-bug.png)
 
 Since the product list is provided by the monolith, take a look into the logs to see if there are any warnings:
 
@@ -220,7 +220,7 @@ and notice now the application behaves properly and displays `Inventory Unavaila
 cache](https://www.lifewire.com/how-to-clear-cache-2617980) to see the changes! You can also open a separate browser or
 an "incognito" or "private browsing" tab and visit the same URL.
 
-![Bug fixed](../../assets/developer-intro/debug-coolstore-bug-fixed.png)
+![Bug fixed](/redhat-middleware-workshops/assets/developer-intro/debug-coolstore-bug-fixed.png)
 
 Well done, you've fixed the bug using your new debugging skills and saved the world! Congratulations for completing this scenario!
 

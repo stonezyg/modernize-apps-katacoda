@@ -8,7 +8,7 @@ calls to that URL will still hit product catalog in the monolith. By using a
 [path based route](https://docs.openshift.com/container-platform/3.7/architecture/networking/routes.html#path-based-routes) in
 OpenShift we can route these calls to our newly created catalog services instead and end up with something like:
 
-![Greeting](../../assets/mono-to-micro-part-2/goal.png)
+![Greeting](/redhat-middleware-workshops/assets/mono-to-micro-part-2/goal.png)
 
 
 Flow the steps below to create a path based route.
@@ -35,7 +35,7 @@ My hostname is `www-coolstore-dev.apps.127.0.0.1.nip.io` but **yours will be dif
 * **Path**: `/services/products`
 * **Service**: `catalog`
 
-![Greeting](../../assets/mono-to-micro-part-2/route-vals.png)
+![Greeting](/redhat-middleware-workshops/assets/mono-to-micro-part-2/route-vals.png)
 
 Leave other values set to their defaults, and click **Save**
 
@@ -49,7 +49,7 @@ You should get a complete set of products, along with their inventory.
 
 Open the monolith UI and observe that the new catalog is being used along with the monolith:
 
-![Greeting](../../assets/mono-to-micro-part-2/coolstore-web.png)
+![Greeting](/redhat-middleware-workshops/assets/mono-to-micro-part-2/coolstore-web.png)
 
 ## Congratulations!
 

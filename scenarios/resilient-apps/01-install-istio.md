@@ -47,7 +47,7 @@ The _control plane_ is responsible for managing and configuring proxies to route
 
 The following diagram shows the different components that make up each plane:
 
-![Istio Arch](../../assets/resilient-apps/arch.png)
+![Istio Arch](/redhat-middleware-workshops/assets/resilient-apps/arch.png)
 
 #### Istio Components
 

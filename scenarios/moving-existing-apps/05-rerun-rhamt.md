@@ -37,11 +37,11 @@ And verify that it now reports 0 Story Points:
 You have successfully migrated
 this app to JBoss EAP, congratulations!
 
-![Issues](../../assets/moving-existing-apps/project-issues-story.png)
+![Issues](/redhat-middleware-workshops/assets/moving-existing-apps/project-issues-story.png)
 
 > You can ignore the remaining issues, as they are for informational purposes only.
 
-![Issues](../../assets/moving-existing-apps/project-issues-gone.png)
+![Issues](/redhat-middleware-workshops/assets/moving-existing-apps/project-issues-gone.png)
 
 ## Migration Complete!
 

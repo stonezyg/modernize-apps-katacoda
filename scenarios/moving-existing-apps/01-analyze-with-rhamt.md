@@ -58,7 +58,7 @@ to a database and an [AngularJS](https://angularjs.org) frontend.
 
 When you later deploy the application, it will look like:
 
-![CoolStore Monolith](../../assets/moving-existing-apps/coolstore-web.png)
+![CoolStore Monolith](/redhat-middleware-workshops/assets/moving-existing-apps/coolstore-web.png)
 
 **3. Run the RHAMT CLI against the project**
 
@@ -90,7 +90,7 @@ Then [click to view the report](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]
 
 You should see the landing page for the report:
 
-![Landing Page](../../assets/moving-existing-apps/landingpage.png)
+![Landing Page](/redhat-middleware-workshops/assets/moving-existing-apps/landingpage.png)
 
 ## Understanding the report
 
@@ -98,7 +98,7 @@ The main landing page of the report lists the applications that were processed. 
 
 In this case, as we used the `monolith` directory, click in `monolith` to access the report for this application.
 
-![Project Overview](../../assets/moving-existing-apps/project-overview.png)
+![Project Overview](/redhat-middleware-workshops/assets/moving-existing-apps/project-overview.png)
 
 This will show the Dashboard overview, which gives an overview of the entire application migration effort. It summarizes:
 

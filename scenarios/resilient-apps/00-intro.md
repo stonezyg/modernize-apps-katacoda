@@ -26,7 +26,7 @@ a much more robust, reliable, and resilient application in the face of the new w
 
 ## What is Istio?
 
-![Logo](../../assets/resilient-apps/istio-logo.png)
+![Logo](/redhat-middleware-workshops/assets/resilient-apps/istio-logo.png)
 
 Istio is an open, platform-independent service mesh designed to manage communications between microservices and
 applications in a transparent way.It provides behavioral insights and operational control over the service mesh
