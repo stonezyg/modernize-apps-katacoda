@@ -82,7 +82,7 @@ migration paths include **IBM® WebSphere® Application Server** and **JBoss EAP
 
 The RHAMT CLI generates an HTML report. To view the report, first startup a simple web server in a separate terminal:
 
-```docker run -v ~/rhamt-report:/usr/share/nginx/html:ro -p 9000:80 -it nginx```{{execute T2}}
+```docker run -v ~/rhamt-report:/usr/share/nginx/html:ro,z -p 9000:80 -it nginx```{{execute T2}}
 
 > This command will not output anything
 
