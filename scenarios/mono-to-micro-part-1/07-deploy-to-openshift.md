@@ -33,6 +33,9 @@ Build and deploy the project using the following command, which will use the mav
 The build and deploy may take a minute or two. Wait for it to complete. You should see a **BUILD SUCCESS** at the
 end of the build output.
 
+> **NOTE**: If you see messages like "Current reconnect backoff is 2000 milliseconds (T1)" you can safely
+ignore them, it is a known issue and is harmless.
+
 After the maven build finishes it will take less than a minute for the application to become available.
 To verify that everything is started, run the following command and wait for it complete successfully:
 
@@ -51,6 +54,9 @@ to access the sample UI.
 > You can also access the application through the link on the OpenShift Web Console Overview page.
 
 ![Overview link](/redhat-middleware-workshops/assets/mono-to-micro-part-1/routelink.png)
+
+> **NOTE**: If you get a '404 Not Found' error, just reload the page a few times until the Inventory UI appears. This
+is due to a lack of health check which you are about to fix!
 
 The UI will refresh the inventory table every 2 seconds, as before.
 

@@ -43,7 +43,7 @@ As you probably guessed it will also include a Jenkins Pipeline to control the p
 
 Navigate to the Web Console to see your new app and the components using this link:
 
-* [Coolstore Prod Project Overview](http://[[HOST_SUBDOMAIN]]-84443-[[KATACODA_HOST]].environments.katacoda.com/console/project/coolstore-prod/overview)
+* [Coolstore Prod Project Overview](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/coolstore-prod/overview)
 
 ![Prod](/redhat-middleware-workshops/assets/developer-intro/coolstore-prod-overview.png)
 

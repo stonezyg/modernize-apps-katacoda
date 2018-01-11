@@ -98,7 +98,7 @@ Once you click **Proceed**, you will see the log file from Jenkins showing the f
 
 Wait for the production deployment to complete:
 
-`oc rollout -n coolstore-prod status dc/coolstore`{{execute}}
+`oc rollout -n coolstore-prod status dc/coolstore-prod`{{execute}}
 
 Once it completes, verify that the production application has the new change (original black header):
 
