@@ -4,7 +4,7 @@ area related to Application Modernization and Transformation with Red Hat techno
 Each scenario in turn has a number of steps that you follow to complete the scenario in the
 order shown on the front page.
 
-![Landing Page](../../assets/getting-started/home.png)
+![Landing Page](/redhat-middleware-workshops/assets/getting-started/home.png)
 
 If you get stuck, you can always freely move between the steps with the left and right
 arrows at the top of the instructions in case you missed a step, or start the entire scenario

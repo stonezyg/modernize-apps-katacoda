@@ -35,11 +35,11 @@ At the `<!-- TODO: Add OpenShift profile here -->` we are going to add a the fol
 
 First, click on the **OpenShift Console** tab next to the Terminal tab:
 
-![OpenShift Console](../../assets/moving-existing-apps/openshift-console-tab.png)
+![OpenShift Console](/redhat-middleware-workshops/assets/moving-existing-apps/openshift-console-tab.png)
 
 This will open a new browser with the openshift console.
 
-![OpenShift Console](../../assets/moving-existing-apps/openshift-login.png)
+![OpenShift Console](/redhat-middleware-workshops/assets/moving-existing-apps/openshift-login.png)
 
 Login using:
 
@@ -48,7 +48,7 @@ Login using:
 
 You will see the OpenShift landing page:
 
-![OpenShift Console](../../assets/moving-existing-apps/openshift-landing.png)
+![OpenShift Console](/redhat-middleware-workshops/assets/moving-existing-apps/openshift-landing.png)
 
 Click **Create Project**, fill in the fields, and click **Create**:
 
@@ -56,11 +56,11 @@ Click **Create Project**, fill in the fields, and click **Create**:
 * Display Name: `Coolstore Monolith - Dev`
 * Description: _leave this field empty_
 
-![OpenShift Console](../../assets/moving-existing-apps/create-dialog.png)
+![OpenShift Console](/redhat-middleware-workshops/assets/moving-existing-apps/create-dialog.png)
 
 Click on the name of the newly-created project:
 
-![OpenShift Console](../../assets/moving-existing-apps/create-new.png)
+![OpenShift Console](/redhat-middleware-workshops/assets/moving-existing-apps/create-new.png)
 
 This will take you to the project overview. There's nothing there yet, but that's about to change.
 
@@ -85,7 +85,7 @@ but it will not start a build for our application. You can see the components be
 Project Overview, but notice the **No deployments for Coolstore**. You have not yet deployed
 the container image built in previous steps, but you'll do that next.
 
-![OpenShift Console](../../assets/moving-existing-apps/no-deployments.png)
+![OpenShift Console](/redhat-middleware-workshops/assets/moving-existing-apps/no-deployments.png)
 
 Then open up the web console and verify the monolith template items are created:
 
@@ -123,7 +123,7 @@ thanks to the *DeploymentConfig* object created from the template:
 
 Check the OpenShift web console and you'll see the application being built:
 
-![OpenShift Console](../../assets/moving-existing-apps/building.png)
+![OpenShift Console](/redhat-middleware-workshops/assets/moving-existing-apps/building.png)
 
 Wait for the build and deploy to complete:
 
@@ -135,18 +135,18 @@ Wait for the build and deploy to complete:
 When it's done you should see the application deployed successfully with blue circles for the
 database and the monolith:
 
-![OpenShift Console](../../assets/moving-existing-apps/build-done.png)
+![OpenShift Console](/redhat-middleware-workshops/assets/moving-existing-apps/build-done.png)
 
 Test the application by clicking on the route link, which will open the same monolith Coolstore
 in your browser, this time running on OpenShift:
 
-![OpenShift Console](../../assets/moving-existing-apps/route-link.png)
+![OpenShift Console](/redhat-middleware-workshops/assets/moving-existing-apps/route-link.png)
 
 ## Congratulations!
 
 Now you are using the same application that we built locally on OpenShift. That wasn't too hard right?
 
-![CoolStore Monolith](../../assets/moving-existing-apps/coolstore-web.png)
+![CoolStore Monolith](/redhat-middleware-workshops/assets/moving-existing-apps/coolstore-web.png)
 
 In the next step you'll explore more of the developer features of OpenShift in preparation for moving the
 monolith to a microservices architecture later on. Let's go!

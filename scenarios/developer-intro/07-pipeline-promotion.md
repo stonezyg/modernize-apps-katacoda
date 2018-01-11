@@ -87,17 +87,17 @@ Web Console. Open the production project in the web console:
 
 Next, navigate to _Builds -> Pipelines_ and click __Start Pipeline__ next to the `coolstore-monolith` pipeline:
 
-![Prod](../../assets/developer-intro/pipe-start.png)
+![Prod](/redhat-middleware-workshops/assets/developer-intro/pipe-start.png)
 
 This will start the pipeline. **It will take a minute or two to start the pipeline** (future runs will not
 take as much time as the Jenkins infrastructure will already be warmed up). You can watch the progress of the pipeline:
 
-![Prod](../../assets/developer-intro/pipe-prog.png)
+![Prod](/redhat-middleware-workshops/assets/developer-intro/pipe-prog.png)
 
 Once the pipeline completes, return to the [Prod Project Overview](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/coolstore-prod)
 and notice that the application is now deployed and running!
 
-![Prod](../../assets/developer-intro/pipe-done.png)
+![Prod](/redhat-middleware-workshops/assets/developer-intro/pipe-done.png)
 
 View the production app **with the blue header from before** is running by clicking: [CoolStore Production App](http://www-coolstore-prod.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com) (it may take
 a few moments for the container to deploy fully.)

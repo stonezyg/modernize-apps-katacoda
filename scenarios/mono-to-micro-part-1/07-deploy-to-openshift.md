@@ -50,18 +50,18 @@ to access the sample UI.
 
 > You can also access the application through the link on the OpenShift Web Console Overview page.
 
-![Overview link](../../assets/mono-to-micro-part-1/routelink.png)
+![Overview link](/redhat-middleware-workshops/assets/mono-to-micro-part-1/routelink.png)
 
 The UI will refresh the inventory table every 2 seconds, as before.
 
 Back on the OpenShift console, Navigate to _Applications_ -> _Deployments_ -> `inventory` (or just click [this link](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/inventory/browse/dc/inventory?tab=history) ) and then click on
 the top-most `(latest)` deployment in the listing (most likely `#1` or `#2`):
 
-![Overview link](../../assets/mono-to-micro-part-1/deployment-list.png)
+![Overview link](/redhat-middleware-workshops/assets/mono-to-micro-part-1/deployment-list.png)
 
 Notice OpenShift is warning you that the inventory application has no health checks:
 
-![Health Check Warning](../../assets/mono-to-micro-part-1/warning.png)
+![Health Check Warning](/redhat-middleware-workshops/assets/mono-to-micro-part-1/warning.png)
 
 In the next steps you will enhance OpenShift's ability to manage the application lifecycle by implementing
 a _health check pattern_. By default, without health checks (or health _probes_) OpenShift considers services

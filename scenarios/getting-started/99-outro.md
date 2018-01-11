@@ -3,4 +3,4 @@ If you have any questions, be sure to ask any of the workshop teachers!
 
 As you progress through the scenarios, your progress is tracked:
 
-![Progress](../../assets/getting-started/progress.png)
+![Progress](/redhat-middleware-workshops/assets/getting-started/progress.png)

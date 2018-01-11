@@ -39,11 +39,11 @@ With our application up and our script running to generate loads, visit the Jaeg
 
 * [Jaeger Query Dashboard](http://jaeger-query-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
 
-![jager console](../../assets/resilient-apps/jag-console.png)
+![jager console](/redhat-middleware-workshops/assets/resilient-apps/jag-console.png)
 
 Select `istio-ingress` from the _Service_ dropdown menu, change the value of **Limit Results** to `200` and click **Find Traces**:
 
-![jager console](../../assets/resilient-apps/jag-console2.png)
+![jager console](/redhat-middleware-workshops/assets/resilient-apps/jag-console2.png)
 
 In the top right corner, a duration vs. time scatter plot gives a visual representation of the results, showing how and when
 each service was accessed, with drill-down capability. The bottom right includes a list of all spans that were traced over the last
@@ -52,7 +52,7 @@ hour (limited to 200).
 If you click on the first trace in the listing, you should see the details corresponding
 to a recent access to `/productpage`. The page should look something like this:
 
-![jager listing](../../assets/resilient-apps/jag-listing.png)
+![jager listing](/redhat-middleware-workshops/assets/resilient-apps/jag-listing.png)
 
 As you can see, the trace is comprised of _spans_, where each span corresponds to a
 microservice invoked during the execution of a `/productpage` request.
@@ -84,11 +84,11 @@ that took at least 5 seconds. Select these options for the query:
 Then click **Find Traces**. Change the sorting to **Longest First** to see the ones that took the longest.
 The result list should show several spans with errors:
 
-![jager listing](../../assets/resilient-apps/jag-last10.png)
+![jager listing](/redhat-middleware-workshops/assets/resilient-apps/jag-last10.png)
 
 Click on the top-most span that took ~10s and open details for it:
 
-![jager listing](../../assets/resilient-apps/jag-2x3.png)
+![jager listing](/redhat-middleware-workshops/assets/resilient-apps/jag-2x3.png)
 
 
 Here you can see the `reviews` service takes 2 attempts to access the `ratings` service, with each attempt

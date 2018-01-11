@@ -14,7 +14,7 @@ The Service Graph addon provides a visualization of the different services and h
 
 It should look like:
 
-![Dotviz graph](../../assets/resilient-apps/dotviz.png)
+![Dotviz graph](/redhat-middleware-workshops/assets/resilient-apps/dotviz.png)
 
 As you add and remove services over time in your projects, you can use this to verify the connections between services and provides
 a high-level telemetry showing the rate at which services are accessed.
@@ -50,11 +50,11 @@ Then, click the Execute button.
 
 You should see a listing of each of the application's services along with a count of how many times it was accessed.
 
-![Prometheus console](../../assets/resilient-apps/prom.png)
+![Prometheus console](/redhat-middleware-workshops/assets/resilient-apps/prom.png)
 
 You can also graph the results over time by clicking on the _Graph_ tab:
 
-![Prometheus graph](../../assets/resilient-apps/promgraph.png)
+![Prometheus graph](/redhat-middleware-workshops/assets/resilient-apps/promgraph.png)
 
 Other expressions to try:
 
@@ -75,7 +75,7 @@ Open the Grafana Dashboard:
 
 * [Grafana Dashboard](http://grafana-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/dashboard/db/istio-dashboard)
 
-![Grafana graph](../../assets/resilient-apps/grafana-dash.png)
+![Grafana graph](/redhat-middleware-workshops/assets/resilient-apps/grafana-dash.png)
 
 The Grafana Dashboard for Istio consists of three main sections:
 

@@ -13,7 +13,7 @@ The WebLogic `NonCatalogLogger` is not supported on JBoss EAP, and should be mig
 [Open the report](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/) and then
 click on the **Issues** tab again:
 
-![Issues](../../assets/moving-existing-apps/project-issues.png)
+![Issues](/redhat-middleware-workshops/assets/moving-existing-apps/project-issues.png)
 
 RHAMT provides helpful links to understand the issue deeper and offer guidance for the migration.
 

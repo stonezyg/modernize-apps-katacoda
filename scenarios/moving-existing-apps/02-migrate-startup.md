@@ -13,7 +13,7 @@ code in the `postStart` and `preStop` methods which are executed after Weblogic 
 [Open the report](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/) and then
 click on monolith and navigate to the **Issues** tab:
 
-![Issues](../../assets/moving-existing-apps/project-issues.png)
+![Issues](/redhat-middleware-workshops/assets/moving-existing-apps/project-issues.png)
 
 RHAMT provides helpful links to understand the issue deeper and offer guidance for the migration.
 

@@ -12,7 +12,7 @@ personal preferences, like existing knowledge, etc. At the core Spring and Java 
 
 The goal is to produce something like:
 
-![Greeting](../../assets/mono-to-micro-part-2/goal.png)
+![Greeting](/redhat-middleware-workshops/assets/mono-to-micro-part-2/goal.png)
 
 ## What is Spring Framework?
 

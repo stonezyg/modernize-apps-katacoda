@@ -30,7 +30,7 @@ in different environments (prod, staging, dev, etc.). Common scenarios where thi
 A/B testing or canary rollouts. Istio’s [traffic routing rules](https://istio.io/docs/concepts/traffic-management/rules-configuration.html) can refer to service versions to
 provide additional control over traffic between services.
 
-![Versions](../../assets/resilient-apps/versions.png)
+![Versions](/redhat-middleware-workshops/assets/resilient-apps/versions.png)
 
 As illustrated in the figure above, clients of a service have no knowledge of different versions of the service. They can continue to access the services using the hostname/IP address of the service. The Envoy sidecar/proxy intercepts and forwards all requests/responses between the client and the service.
 
@@ -87,7 +87,7 @@ To verify this, open the Grafana Dashboard:
 
 Scroll down to the `ratings` service and notice that the requests coming from the reviews service have stopped:
 
-![Versions](../../assets/resilient-apps/ratings-stopped.png)
+![Versions](/redhat-middleware-workshops/assets/resilient-apps/ratings-stopped.png)
 
 ## A/B Testing with Istio
 Lets enable the ratings service for a test user named “jason” by routing `productpage` traffic to `reviews:v2`, but only for our test user. Execute:
@@ -122,7 +122,7 @@ Once you login, refresh a few times - you should always see the black ratings st
 you'll return to the `reviews:v1` version which shows no stars. You may even see a small blip of access to `ratings:v2` on the
 Grafana dashboard if you refresh quickly 5-10 times while logged in as the test user `jason`.
 
-![Ratings for Test User](../../assets/resilient-apps/ratings-testuser.png)
+![Ratings for Test User](/redhat-middleware-workshops/assets/resilient-apps/ratings-testuser.png)
 
 ## Congratulations!
 

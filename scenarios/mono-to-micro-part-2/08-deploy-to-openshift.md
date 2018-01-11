@@ -66,7 +66,7 @@ to access the sample UI.
 
 > You can also access the application through the link on the OpenShift Web Console Overview page.
 
-![Overview link](../../assets/mono-to-micro-part-2/routelink.png)
+![Overview link](/redhat-middleware-workshops/assets/mono-to-micro-part-2/routelink.png)
 
 The UI will refresh the catalog table every 2 seconds, as before.
 
