@@ -14,7 +14,7 @@ copy:
 	docker rm $(INSTANCE)
 
 release:
-	docker build -t $(NAME) .
+	docker-compose -p openshift-modernize-apps build
 
 buildrelease: build copy release
 
