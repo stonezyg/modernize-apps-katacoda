@@ -60,7 +60,7 @@ router.get("/services/carts").handler(rc -> {
 
 Restart the application by running the following in the terminal or in clicking the execute button.
 
-``mvn compile vertx:run``{{execute interrupt}}
+``mvn compile vertx:run``{{execute T1 interrupt}}
 
 Now test the route with a curl command int the terminal like this:
 ```curl -X GET https://[[HOST_SUBDOMAIN]]-10080-[[KATACODA_HOST]].environments.katacoda.com/services/carts```{{execute T2}

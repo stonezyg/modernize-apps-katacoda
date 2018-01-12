@@ -138,7 +138,7 @@ com.redhat.coolstore.MainVerticle
 
 Restart the application by running the following in the terminal or in clicking the execute button.
 
-``mvn compile vertx:run``{{execute interrupt}}
+``mvn compile vertx:run``{{execute T1 interrupt}}
 
 In the output you should now see that the server is starting on port 8083 and not 10080 like before
 
