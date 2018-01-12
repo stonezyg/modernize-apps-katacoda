@@ -23,6 +23,9 @@
         },
         "finish": {
           "text": "99-outro.md"
+        },
+        "assets": {
+            "host01": [{"file": ".reset.sh", "target": "~/"}]
         }
     },
     "files": [
