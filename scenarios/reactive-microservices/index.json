@@ -40,7 +40,6 @@
     "files": [
         "./src/main/java/com/redhat/coolstore/CartServiceVerticle.java",
         "./src/main/java/com/redhat/coolstore/MainVerticle.java",
-        "./pom.xml",
         "./src/main/resources/config-default.json"
     ],
     "environment": {
