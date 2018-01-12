@@ -40,7 +40,7 @@ In this lambda expression we are iterating through the list of shopping carts an
 
 Add the first route by adding the following at `//TODO: Create cart router` marker (or click the button)
 <pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Create cart router">
-router.get("/services/cart").handler(this::getCart);
+router.get("/services/cart/:cartId").handler(this::getCart);
 </pre>
 
 Add the second route by adding the following at //TODO: Create carts router marker (or click the button)
@@ -62,8 +62,8 @@ Restart the application by running the following in the terminal or in clicking 
 
 ``mvn compile vertx:run``{{execute T1 interrupt}}
 
-Now test the route with a curl command int the terminal like this:
-```curl -X GET https://localhost:8083/services/carts```{{execute T2}
+Now test the route with a curl command in the terminal like this:
+```curl -X GET http://localhost:8083/services/carts; echo```{{execute T2}}
 
 This should print the body of the response  that looks somewhat like this. Note that the the content from this is generate from the ```./src/main/java/com/redhat/coolstore/utils/Transformers.java```{{open}} and will return a random number of products, so you actual content may vary.
 
@@ -129,6 +129,9 @@ This should print the body of the response  that looks somewhat like this. Note 
   } ]
 } ]
 ```
+
+Also test getting a single cart curl like this:
+```curl -X GET http://localhost:8083/services/cart/99999; echo```{{execute T2}}
 
 Click on the **Local Web Browser** tab in the console frame of this browser window, which will open another tab or window of your browser pointing to port 8083 on your client. 
 

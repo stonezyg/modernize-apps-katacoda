@@ -210,11 +210,11 @@ Restart the application by running the following in the terminal or in clicking 
 
 After Vert.x is start execute a curl command in another terminal so like this. 
 
-```curl -X GET http://localhost:8083/hello; echo```{{execute T2}}
+```curl -X GET http://localhost:10080/hello; echo```{{execute T2}}
 
 The response body should be a JSON string `{"message":"Hello"}`. You can also use the `-v` flag for verbose output to see more details about the header, response status etc.
 
-```curl -v -X GET http://localhost:8083/hello; echo```{{execute T2}}
+```curl -v -X GET http://localhost:10080/hello; echo```{{execute T2}}
 
 
 ## Congratulations
