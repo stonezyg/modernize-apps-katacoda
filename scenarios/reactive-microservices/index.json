@@ -36,7 +36,7 @@
         "finish": {
           "text": "99-outro.md"
         }
-    }
+    },
     "files": [
         "./src/main/java/com/redhat/coolstore/CartServiceVerticle.java",
         "./src/main/java/com/redhat/coolstore/MainVerticle.java",
