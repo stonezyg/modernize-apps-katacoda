@@ -40,7 +40,7 @@ In this lambda expression we are iterating through the list of shopping carts an
 
 Add the first route by adding the following at `//TODO: Create cart router` marker (or click the button)
 <pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Create cart router">
-router.get("/services/carts").handler(this::getCart);
+router.get("/services/cart").handler(this::getCart);
 </pre>
 
 Add the second route by adding the following at //TODO: Create carts router marker (or click the button)
