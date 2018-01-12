@@ -10,7 +10,13 @@ ssh root@host01 "oc export template jenkins-ephemeral -n openshift -o json | sed
 ssh root@host01 "oc create -n openshift -f https://raw.githubusercontent.com/RedHat-Middleware-Workshops/modernize-apps-labs/master/monolith/src/main/openshift/template-binary.json"
 ssh root@host01 "oc create -n openshift -f https://raw.githubusercontent.com/RedHat-Middleware-Workshops/modernize-apps-labs/master/monolith/src/main/openshift/template-prod.json"
 
+ssh root@host01 "yum install tree -y"
+ssh root@host01 "oc env dc/router ROUTER_DISABLE_NAMESPACE_OWNERSHIP_CHECK=true -n default"
+
 ssh root@host01 "docker pull registry.access.redhat.com/openshift3/jenkins-2-rhel7:v3.7"
 ssh root@host01 "docker pull registry.access.redhat.com/openshift3/jenkins-2-rhel7:latest"
 
+
 ssh root@host01 "git --git-dir=/root/projects/.git --work-tree=/root/projects pull"
+
+
