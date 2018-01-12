@@ -32,7 +32,7 @@ editor for editing code. You can edit the code directly in the window and your
 changes will automatically be saved. Occasionally you may encounter code
 snippets with a **Copy to Editor** link, such as:
 
-<pre class="file" data-filename="hello.txt" data-target="replace">
+<pre class="file" data-filename="./hello.txt" data-target="replace">
 This is code that I can copy and paste without having to type it in!
 </pre>
 

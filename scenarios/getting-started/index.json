@@ -26,7 +26,7 @@
         }
     },
     "files": [
-        "tmp/hello.txt"
+        "./hello.txt"
     ],
     "environment": {
         "uilayout": "editor-terminal",
