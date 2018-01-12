@@ -92,8 +92,6 @@ public class MainVerticle extends AbstractVerticle {
                 );
                 // TODO: Deploy PromoServiceVerticle
                 // TODO: Deploy ShippingServiceVerticle
-                
-                fut.complete();
             });
     }
 

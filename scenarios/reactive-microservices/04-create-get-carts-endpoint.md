@@ -63,7 +63,7 @@ Restart the application by running the following in the terminal or in clicking 
 ``mvn compile vertx:run``{{execute T1 interrupt}}
 
 Now test the route with a curl command int the terminal like this:
-```curl -X GET https://[[HOST_SUBDOMAIN]]-10080-[[KATACODA_HOST]].environments.katacoda.com/services/carts```{{execute T2}
+```curl -X GET https://[[HOST_SUBDOMAIN]]-10080-[[KATACODA_HOST]].environments.katacoda.com/services/carts```{{execute T2}}
 
 This should print the body of the response  that looks somewhat like this. Note that the the content from this is generate from the ```./src/main/java/com/redhat/coolstore/utils/Transformers.java```{open} and will return a random number of products, so you actual content may vary.
 
