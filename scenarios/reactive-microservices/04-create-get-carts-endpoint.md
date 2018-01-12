@@ -31,10 +31,10 @@ Now let's create a bit more complex implementation that returns many `ShoppingCa
 
 The most important line in this method is this:
 ```java
-carts.keySet().forEach(cartId -&gt; cartList.add(Transformers.shoppingCartToJson(carts.get(cartId))));
+carts.keySet().forEach(cartId ->; cartList.add(Transformers.shoppingCartToJson(carts.get(cartId))));
 ``` 
 
-In this lambda expression we are iterating through the list of shopping carts and transforming them to JsonObject using the ```./src/main/java/com/redhat/coolstore/utils/Transformers.java```{open} to get a `JsonObject` that we add to a `JsonArray`. We can then return a String encoding of that JsonArray to the response.
+In this lambda expression we are iterating through the list of shopping carts and transforming them to JsonObject using the ```./src/main/java/com/redhat/coolstore/utils/Transformers.java```{{open}} to get a `JsonObject` that we add to a `JsonArray`. We can then return a String encoding of that JsonArray to the response.
 
 **3. Add a routes**
 
@@ -63,9 +63,9 @@ Restart the application by running the following in the terminal or in clicking 
 ``mvn compile vertx:run``{{execute T1 interrupt}}
 
 Now test the route with a curl command int the terminal like this:
-```curl -X GET https://[[HOST_SUBDOMAIN]]-10080-[[KATACODA_HOST]].environments.katacoda.com/services/carts```{{execute T2}
+```curl -X GET https://localhost:8083/services/carts```{{execute T2}
 
-This should print the body of the response  that looks somewhat like this. Note that the the content from this is generate from the ```./src/main/java/com/redhat/coolstore/utils/Transformers.java```{open} and will return a random number of products, so you actual content may vary.
+This should print the body of the response  that looks somewhat like this. Note that the the content from this is generate from the ```./src/main/java/com/redhat/coolstore/utils/Transformers.java```{{open}} and will return a random number of products, so you actual content may vary.
 
 
 ```json
