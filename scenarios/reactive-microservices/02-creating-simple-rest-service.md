@@ -59,7 +59,7 @@ public class CartServiceVerticle extends AbstractVerticle {
     /**
      * This is the HashMap that holds the shopping cart. This should be replace with a replicated cache like Infinispan etc
      */
-    private final static Map<String,ShoppingCart> carts = new ConcurrentHashMap<>();
+    private final static Map&lt;String,ShoppingCart&gt; carts = new ConcurrentHashMap<>();
 
     private final Logger logger = LoggerFactory.getLogger(CartServiceVerticle.class.getName());
 
@@ -96,6 +96,8 @@ public class CartServiceVerticle extends AbstractVerticle {
 
 //TODO: Add handler for checking out a shopping cart
 
+//TODO: Add method for getting products
+
     private void sendCart(ShoppingCart cart, RoutingContext rc) {
         sendCart(cart,rc,200);
     }
@@ -116,11 +118,23 @@ public class CartServiceVerticle extends AbstractVerticle {
         logger.error("Error processing " + rc.request().method().name() + " request to " + rc.request().absoluteURI() + " with reason " + reason);
         rc.response().setStatusCode(500).end();
     }
+
+    private static ShoppingCart getCart(String cartId) {
+        if(carts.containsKey(cartId)) {
+            return carts.get(cartId);
+        } else {
+            ShoppingCart cart = new ShoppingCartImpl();
+            cart.setCartId(cartId);
+            carts.put(cartId,cart);
+            return cart;
+        }
+
+    }
 }
 </pre>
 
 
->**WARNING:** Don't remove the TODO markers. These will be used later to add new functionality. There are also some private method that we we will use later when we create our endpoints for the shoppping cart.
+>**WARNING:** Don't remove the TODO markers. These will be used later to add new functionality. There are also some private method that we we will use later when we create our endpoints for the shopping cart.
 
 Currently our verticle doesn't really do anything except logging some info. Let's however try it out.
 ``mvn compile vertx:run``{{execute}}
