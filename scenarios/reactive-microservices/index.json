@@ -8,12 +8,24 @@
     "details": {
         "steps": [
             {
-                "title": "Create",
-                "text": "01-create.md"
+                "title": "Examine the sample project",
+                "text": "01-examine-the-sample-project.md"
             },
             {
-                "title": "Read",
-                "text": "02-read.md"
+                "title": "Create a web server and a simple rest service",
+                "text": "02-creating-simple-rest-service.md"
+            },
+            {
+                "title": "Setup environment specific configuration",
+                "text": "03-environment-specific-configuration.md"
+            },
+            {
+                "title": "Create a REST endpoints for /services/carts",
+                "text": "04-create-get-carts-endpoint.md"
+            },
+            {
+                "title": "Create a REST endpoints for /services/cart",
+                "text": "05-create-post-item-endpoint.md"
             }
         ],
         "intro": {
@@ -29,15 +41,17 @@
         }
     },
     "files": [
-
+        "./src/main/java/com/redhat/coolstore/CartServiceVerticle.java",
+        "./src/main/java/com/redhat/coolstore/MainVerticle.java",
+        "./src/main/resources/config-default.json"
     ],
     "environment": {
         "uilayout": "editor-terminal",
         "uisettings": "java",
-        "uieditorpath": "/root/projects/monolith",
+        "uieditorpath": "/root/projects/cart",
         "showdashboard": true,
         "hideintro": false,
-        "dashboards": [{"name":"Local Web Browser","port":8080},{"name":"OpenShift Console","port":8443}],
+        "dashboards": [{"name":"Local Web Browser","port":8083},{"name":"OpenShift Console","port":8443}],
         "uimessage1": "\u001b[32mYour Interactive Bash Terminal. A safe place to learn and execute commands.\u001b[m\r\n"
     },
     "backend": {
