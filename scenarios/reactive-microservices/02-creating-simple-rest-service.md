@@ -190,13 +190,17 @@ It's actually not necessary to set the status, since it will default to HTTP OK 
 
 **3. Test the REST service**
 
-Let's execute a curl command in another terminal so like this. 
+Restart the application by running the following in the terminal or in clicking the execute button.
 
-```curl -X GET https://[[HOST_SUBDOMAIN]]-10080-[[KATACODA_HOST]].environments.katacoda.com/hello```{{execute T2}
+``mvn compile vertx:run``{{execute interrupt}}
+
+After Vert.x is start execute a curl command in another terminal so like this. 
+
+```curl -X GET https://[[HOST_SUBDOMAIN]]-10080-[[KATACODA_HOST]].environments.katacoda.com/hello```{{execute T2}}
 
 The response body should be a JSON string `{"message":"Hello"}`. You can also use the `-v` flag for verbose output to see more details about the header, response status etc.
 
-```curl -v -X GET https://[[HOST_SUBDOMAIN]]-10080-[[KATACODA_HOST]].environments.katacoda.com/hello```{{execute T2}
+```curl -v -X GET https://[[HOST_SUBDOMAIN]]-10080-[[KATACODA_HOST]].environments.katacoda.com/hello```{{execute T2}}
 
 
 ## Congratulations

@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-cd ${HOME}/projects/inventory
+cd ${HOME}/projects/cart
 git pull --quiet
