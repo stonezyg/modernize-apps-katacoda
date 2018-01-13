@@ -74,7 +74,7 @@ We are now ready to create our `getProduct` method
 Adding the following at the `//TODO: Add method for getting products` marker in class `CartServiceVerticle`
 
 <pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Add method for getting products">
-    private void getProduct(String itemId, Handler&lt;AsyncResult&lt;Product&gt;§gt; resultHandler) {
+    private void getProduct(String itemId, Handler&lt;AsyncResult&lt;Product&gt;&gt; resultHandler) {
         WebClient client = WebClient.create(vertx);
         Integer port = config().getInteger("catalog.service.port", 8080);
         String hostname = config().getString("catalog.service.hostname", "localhost");
