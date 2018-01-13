@@ -66,7 +66,6 @@ Copy this into the configuration file (or click the button):
     "catalog.service.port" : 8081,
     "catalog.service.hostname" : "localhost",
     "catalog.service.timeout" : 3000
-
 }
 </pre>
 
@@ -75,7 +74,7 @@ We are now ready to create our `getProduct` method
 Adding the following at the `//TODO: Add method for getting products` marker in class `CartServiceVerticle`
 
 <pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Add method for getting products">
-    private void getProduct(String itemId, Handler<AsyncResult<Product>> resultHandler) {
+    private void getProduct(String itemId, Handler&lt;AsyncResult&lt;Product&gt;§gt; resultHandler) {
         WebClient client = WebClient.create(vertx);
         Integer port = config().getInteger("catalog.service.port", 8080);
         String hostname = config().getString("catalog.service.hostname", "localhost");
@@ -104,7 +103,7 @@ Adding the following at the `//TODO: Get product from Catalog service and add it
                     if (reply.succeeded()) {
                         newItem.setProduct(reply.result());
                         cart.addShoppingCartItem(newItem);
-                        send(cart,rc);
+                        sendCart(cart,rc);
                     } else {
                         sendError(rc);
                     }
