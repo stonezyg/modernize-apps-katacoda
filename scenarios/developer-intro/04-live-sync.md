@@ -29,7 +29,7 @@ to open the application in a browser tab so you can watch changes.
 
 Turn on **Live sync** by executing this command:
 
-`oc rsync deployments/ $COOLSTORE_DEV_POD_NAME:/deployments --watch --no-perms &`{{execute}}
+`oc --server https://master:8443 rsync deployments/ $COOLSTORE_DEV_POD_NAME:/deployments --watch --no-perms &`{{execute}}
 
 > The `&` character at the end places the command into the background. We will kill it at the end of this step.
 

@@ -22,7 +22,7 @@ As you recall from the last step, we can use `oc rsh` to execute commands inside
 For our Coolstore Monolith running with JBoss EAP, the application is installed in the `/opt/eap` directory in the running
 container. Execute the `ls` command inside the container to see this:
 
-`oc rsh dc/coolstore ls -l /opt/eap`{{execute}}
+`oc --server https://master:8443 rsh dc/coolstore ls -l /opt/eap`{{execute}}
 
 You should see a listing of files in this directory **in the running container**.
 
@@ -56,7 +56,7 @@ Verify the variable holds the name of your pod with:
 
 Next, run the `oc rsync` command in your terminal window, using the new variable to refer to the name of the pod running our coolstore:
 
-`oc rsync $COOLSTORE_DEV_POD_NAME:/opt/eap/standalone/configuration/standalone-openshift.xml .`{{execute}}
+`oc --server https://master:8443 rsync $COOLSTORE_DEV_POD_NAME:/opt/eap/standalone/configuration/standalone-openshift.xml .`{{execute}}
 
 The output will show that the file was downloaded:
 

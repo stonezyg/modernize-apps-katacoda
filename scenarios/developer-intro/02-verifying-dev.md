@@ -58,7 +58,7 @@ coolstore-postgresql-1-jpcb8   1/1       Running   0          9m
 
 You can log into the running Postgres container using the following:
 
-`oc rsh dc/coolstore-postgresql`{{execute}}
+`oc --server https://master:8443 rsh dc/coolstore-postgresql`{{execute}}
 
 Once logged in, use the following command to execute an SQL statement to show some content from the database:
 

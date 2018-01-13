@@ -15,6 +15,8 @@ mvn clean
   --target eap:7
 ```{{execute T1}}
 
+**Wait for it to complete before continuing!**. You should see `Report created: /root/rhamt-report/index.html`.
+
 **2. View the results**
 
 The RHAMT CLI generates an updated HTML report.

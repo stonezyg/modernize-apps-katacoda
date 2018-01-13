@@ -78,9 +78,11 @@ to execute the RHAMT CLI and analyze the existing project:
 > Note the use of the ``--source`` and ``--target`` options. This allows you to target specific migration paths supported by RHMAT. Other
 migration paths include **IBM® WebSphere® Application Server** and **JBoss EAP** 5/6/7.
 
+**Wait for it to complete before continuing!**. You should see `Report created: /root/rhamt-report/index.html`.
+
 **3. View the results**
 
-The RHAMT CLI generates an HTML report. To view the report, first startup a simple web server in a separate terminal:
+The RHAMT CLI generated an HTML report. To view the report, first startup a simple web server in a separate terminal:
 
 ```docker run -v ~/rhamt-report:/usr/share/nginx/html:ro,z -p 9000:80 -it nginx```{{execute T2}}
 

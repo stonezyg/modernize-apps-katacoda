@@ -51,19 +51,5 @@ During this workshop, you will be using both the command line tool and the web c
 should be noted that there are plugins for several integrated development environments as well.
 For example, to use OpenShift from the Eclipse IDE, you would want to use the official [JBoss Tools](https://tools.jboss.org/features/openshift.html) plugin.
 
-### The Environment
-
-During this training course you will be using a hosted OpenShift environment that is created just for you.
-This environment is not shared with other users of the system.  Because each user taking this training has
-their own environment, we had to make some concessions to ensure the overall platform is stable and used
-only for this training.  For that reason, your environment will only be active for today. As you progress
-through the scenarios, your environment will remain the same, as long as you use the same browser
-session (don't worry if your browser crashes, the persistence is cookie-based and should survive).
-
-The OpenShift environment that has been created for you is running the latest version of our open source
-project called OpenShift Origin.  This deployment is a self contained environment that provides everything
-you need to be successful in learning the platform.  This includes such things as the command line, web
-console, and public URLs.
-
 Now that you know how to interact with OpenShift, let's focus on some core concepts that you as a developer
 will need to understand as you are building your applications!

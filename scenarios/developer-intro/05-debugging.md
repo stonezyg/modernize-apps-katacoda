@@ -11,7 +11,7 @@ Atari 2600 Joystick product shows nothing at all for inventory:
 
 Since the product list is provided by the monolith, take a look into the logs to see if there are any warnings:
 
-`oc logs dc/coolstore | grep -i warning`{{execute}}
+`oc --server https://master:8443 logs dc/coolstore | grep -i warning`{{execute}}
 
 Oh! Something seems to be wrong with the inventory for the product id **444437**
 
@@ -71,7 +71,7 @@ will just open it for ourselves with `oc port-forward`.
 
 Execute:
 
-`oc port-forward $COOLSTORE_DEV_POD_NAME 8787 &`{{execute}}
+`oc --server https://master:8443 port-forward $COOLSTORE_DEV_POD_NAME 8787 &`{{execute}}
 
 This will forward traffic to/from the container's port 8787 to your `localhost` port 8787.
 
@@ -211,7 +211,7 @@ With our code fix in place, let's re-build the application to test it out. To re
 
 Let's use our new `oc rsync` skills to re-deploy the app to the running container. Execute:
 
-`oc rsync deployments/ $COOLSTORE_DEV_POD_NAME:/deployments --no-perms`{{execute}}
+`oc --server https://master:8443 rsync deployments/ $COOLSTORE_DEV_POD_NAME:/deployments --no-perms`{{execute}}
 
 After a few seconds, reload the [Coolstore Application](http://www-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com) in your browser
 and notice now the application behaves properly and displays `Inventory Unavailable` whereas before it was totally and confusingly blank:
