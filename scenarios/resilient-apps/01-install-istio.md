@@ -7,6 +7,11 @@ Run the following to login as admin:
 
 `oc login [[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com -u admin -p admin --insecure-skip-tls-verify=true`{{execute}}
 
+Because this scenario does not use any of the previous projects, let's shut down (but not delete) the services.
+Execute:
+
+`oc scale --replicas=0 -n coolstore-dev dc/
+
 **If you are unable to login as admin or get any failures, ask an instructor for help.**
 
 Next, run the following command:

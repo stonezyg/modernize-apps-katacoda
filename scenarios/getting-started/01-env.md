@@ -13,10 +13,3 @@ from the beginning by simply reloading your browser's page.
 As you complete each step within a scenario, click the **Continue** button to move on to the next
 step.
 
-## OpenShift
-
-Your environment also has a complete instance of OpenShift Container Platform running for your use, which you
-will learn much more about later on. For now, make sure you can login to OpenShift using this command (click
-on it!):
-
-`oc login [[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com -u developer -p developer --insecure-skip-tls-verify=true`{{execute T1}}
