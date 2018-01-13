@@ -6,7 +6,7 @@ if [ "$(oc whoami)" -eq "system:admin"]; then
   echo "Since user is system:admin" | tee ${HOME}/.init.log
   MASTER_EXTERNAL_URL=$(oc get route/docker-registry -n default | grep -v NAME | awk '{print $2}' | sed 's/docker\-registry\-default\.//')
   oc adm policy add-role-to-user system:image-puller system:anonymous
-  do oc adm policy add-cluster-role-to-user cluster-admin admin
+  oc adm policy add-cluster-role-to-user cluster-admin admin
   oc import-image jenkins:v3.7 --from='registry.access.redhat.com/openshift3/jenkins-2-rhel7:v3.7' --confirm -n openshift
   oc export template jenkins-persistent -n openshift -o json | sed 's/jenkins:latest/jenkins:v3.7/g' | oc replace -f - -n openshift
   oc export template jenkins-ephemeral -n openshift -o json | sed 's/jenkins:latest/jenkins:v3.7/g' | oc replace -f - -n openshift
