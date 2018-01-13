@@ -41,8 +41,3 @@ Now let's write some code and create a domain model, service interface and a RES
 
 ![Inventory RESTful Service](/redhat-middleware-workshops/assets/mono-to-micro-part-1/wfswarm-inventory-arch.png)
 
-## OpenShift Login
-
-Before moving on, make sure you can login to OpenShift using this command:
-
-`oc login [[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com -u developer -p developer --insecure-skip-tls-verify=true`{{execute T1}}

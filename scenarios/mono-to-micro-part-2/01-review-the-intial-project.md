@@ -154,8 +154,3 @@ Now you've seen how to get started with Spring Boot development on Red Hat OpenS
 
 In next step of this scenario, we will add the logic to be able to read a list of fruits from the database.
 
-## OpenShift Login
-
-Before moving on, make sure you can login to OpenShift using this command:
-
-`oc login [[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com -u developer -p developer --insecure-skip-tls-verify=true`{{execute T1}}
