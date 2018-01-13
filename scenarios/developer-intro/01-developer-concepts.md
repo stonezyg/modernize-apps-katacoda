@@ -101,3 +101,9 @@ into a _dev_ environment, and you'll use more in this scenario to provision the 
 environment as well.
 
 Consult the [OpenShift documentation](https://docs.openshift.com) for more details on these and other concepts.
+
+## OpenShift Login
+
+Before moving on, make sure you can login to OpenShift using this command:
+
+`oc login [[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com -u developer -p developer --insecure-skip-tls-verify=true`{{execute T1}}

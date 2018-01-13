@@ -35,6 +35,11 @@ git checkout solution
 oc new-project coolstore-dev --display-name="Coolstore Monolith - Dev" || { echo "cant create project - ensure all projects gone with oc get projects and try again" ; exit 1; }
 oc new-app coolstore-monolith-binary-build
 mvn clean package -Popenshift
+
+# sleep a bit more
+echo "Monolith created. Sleeping 10 seconds to wait for build objects to be created"
+sleep 10
+
 oc start-build coolstore --from-file=deployments/ROOT.war
 
 # deploy inventory solution to inventory project
@@ -54,6 +59,11 @@ mvn clean
 git clean -df
 git clean -Xf
 git checkout master
+
+# checkout solution for previous projects
+cd $HOME/projects
+git checkout solution -- monolith
+git checkout solution -- inventory
 
 # start in right directory
 echo "---"

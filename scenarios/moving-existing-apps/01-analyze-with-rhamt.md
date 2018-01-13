@@ -129,3 +129,9 @@ There are several other sub-pages accessible by the menu near the top. Cick on e
 > Some of the above sections may not appear depending on what was detected in the project.
 
 Now that you have the RHAMT report available, let's get to work migrating the app!
+
+#### OpenShift Login
+
+Before moving on, make sure you can login to OpenShift using this command:
+
+`oc login [[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com -u developer -p developer --insecure-skip-tls-verify=true`{{execute T1}}

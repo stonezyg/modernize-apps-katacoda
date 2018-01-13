@@ -24,11 +24,11 @@ cases for reactive microservices.
 ### The Environment
 
 During this training course you will be using a hosted OpenShift environment that is created just for you.
-This environment is not shared with other users of the system.  Because each user taking this training has
-their own environment, we had to make some concessions to ensure the overall platform is stable and used
-only for this training.  For that reason, your environment will only be active for today. As you progress
-through the scenarios, your environment will remain the same, as long as you use the same browser
-session (don't worry if your browser crashes, the persistence is cookie-based and should survive).
+This environment is not shared with other users of the system. **Your environment will only be active for
+today**. As you progress
+through the scenarios, your environment will remain the same, **as long as you use the same browser
+session** (don't worry if your browser crashes or you accidentally close the browser tab, the persistence is
+cookie-based and should survive).
 
 The OpenShift environment that has been created for you is running the latest version of our open source
 project called OpenShift Origin.  This deployment is a self contained environment that provides everything

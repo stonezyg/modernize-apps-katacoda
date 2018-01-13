@@ -51,3 +51,8 @@ The domain model consists of a ShoppingCart which has many ShoppingCartItems whi
 
 ![Shopping Cart - Domain Model](../../assets/reactive-microservices/cart-model.png)
 
+## OpenShift Login
+
+Before moving on, make sure you can login to OpenShift using this command:
+
+`oc login [[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com -u developer -p developer --insecure-skip-tls-verify=true`{{execute T1}}

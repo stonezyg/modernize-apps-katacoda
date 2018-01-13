@@ -24,8 +24,8 @@ On the right, you'll see a set of tabs:
 ![Instructions](/redhat-middleware-workshops/assets/getting-started/tabs.png)
 These tabs are quick links for you to use:
 * **Terminal** - This tab is always present and is the main terminal into which you will type Linux commands like `ls` and others.
-* **Local Web Browser** - This tab will open a new tab in your browser and give you access to programs running on TCP port 80 on your environment. This is used to
-do "local" testing of applications that expose port 8080, without having to deploy to OpenShift. You'll use this later on.
+* **Local Web Browser** - This tab will open a new tab in your browser and give you access to programs running on HTTP port 8080 in your environment. This is used to
+do testing of applications that run outside of OpenShift. You'll use this later on.
 * **OpenShift Console** - This tab will open a new tab in your browser pointing to the OpenShift Web Console. You will use throughout
 the workshop.
 * **The Plus(+) Button** - This is used to open new Terminals and view applications running on other ports. You won't need to use this during the
