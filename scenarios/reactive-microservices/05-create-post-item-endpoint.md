@@ -12,7 +12,7 @@ So our implementation of this service needs to retrieve a Product object from th
 
 Let's start by adding a router, by adding the following where at the `//TODO: Create add router` marker in class `CartServiceVerticle` 
 
-<pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Create add router">
+<pre class="file" data-filename="src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Create add router">
 router.post("/services/cart/:cartId/:itemId/:quantity").handler(this::addToCart);
 </pre>
 
@@ -22,7 +22,7 @@ Our newly create route needs a handler. This method should look like this `void 
 
 Adding the following at the `//TODO: Add handler for adding a Item to the cart` marker in class `CartServiceVerticle`
 
-<pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Add handler for adding a Item to the cart">
+<pre class="file" data-filename="src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Add handler for adding a Item to the cart">
     private void addToCart(RoutingContext rc) {
         logger.info("Retrieved " + rc.request().method().name() + " request to " + rc.request().absoluteURI());
 
@@ -60,7 +60,7 @@ For making calls to external HTTP services Vert.x supplies a WebClient. The `Web
 
 Copy this into the configuration file (or click the button):
 
-<pre class="file" data-filename="./src/main/resources/config-default.json" data-target="replace">
+<pre class="file" data-filename="src/main/resources/config-default.json" data-target="replace">
 {
     "http.port" : 8082,
     "catalog.service.port" : 8081,
@@ -73,7 +73,7 @@ We are now ready to create our `getProduct` method
 
 Adding the following at the `//TODO: Add method for getting products` marker in class `CartServiceVerticle`
 
-<pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Add method for getting products">
+<pre class="file" data-filename="src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Add method for getting products">
     private void getProduct(String itemId, Handler&lt;AsyncResult&lt;Product&gt;&gt; resultHandler) {
         WebClient client = WebClient.create(vertx);
         Integer port = config().getInteger("catalog.service.port", 8080);
@@ -98,7 +98,7 @@ Now we can call this method from the `addToCart` method and pass a Lambda call b
 
 Adding the following at the `//TODO: Get product from Catalog service and add it to the ShoppingCartItem`
 
-<pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Get product from Catalog service and add it to the ShoppingCartItem">
+<pre class="file" data-filename="src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Get product from Catalog service and add it to the ShoppingCartItem">
                 this.getProduct(itemId, reply -> {
                     if (reply.succeeded()) {
                         newItem.setProduct(reply.result());
@@ -144,7 +144,7 @@ The CartService depends on the CatalogService and just like in the Spring Boot e
 
 First lets check if the catalog service is still running locally.
 
-```jps -l | grep com.redhat.coolstore.RestApplication```{{execute T1 interrupt}}
+```jps -l | grep com.redhat.coolstore.RestApplication```{{execute T2}}
 
 If this command doesn't return anything we need to start the Catalog application in a separate terminal like this:
 
