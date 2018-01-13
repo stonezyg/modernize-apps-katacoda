@@ -121,7 +121,7 @@ Copy this into the configuration file (or click the button):
 
 <pre class="file" data-filename="./src/main/resources/config-default.json" data-target="replace">
 {
-    "http.port" : 8083
+    "http.port" : 8082
 }
 </pre>
 
@@ -142,13 +142,13 @@ Restart the application by running the following in the terminal or in clicking 
 
 ``mvn compile vertx:run``{{execute T1 interrupt}}
 
-In the output you should now see that the server is starting on port 8083 and not 10080 like before
+In the output you should now see that the server is starting on port 8082 and not 10080 like before
 
-Click on the **Local Web Browser** tab in the console frame of this browser window, which will open another tab or window of your browser pointing to port 8083 on your client. 
+Click on the **Local Web Browser** tab in the console frame of this browser window, which will open another tab or window of your browser pointing to port 8082 on your client. 
 
 ![Local Web Browser Tab](../../assets/reactive-microservices/web-browser-tab.png)
 
-Or use [this](https://[[HOST_SUBDOMAIN]]-8083-[[KATACODA_HOST]].environments.katacoda.com/) link.
+Or use [this](https://[[HOST_SUBDOMAIN]]-8082-[[KATACODA_HOST]].environments.katacoda.com/) link.
 
 Again you should now see an HTML page that looks like this:
 

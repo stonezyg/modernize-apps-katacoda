@@ -1,4 +1,41 @@
-So now that you have learned how to create a rest service and also how to implement environmental specific configuration let's start building our rest endpoints.
+So now that you have learned how to create a rest service and also how to implement environmental specific configuration let's start building our rest endpoints. But before that lets discuss the `Router`, which is part of Vert.x Web.
+
+The `Router` in Vert.x is very flexible and makes it easy to deal with complex HTTP routing. Some of the key features of Vert.x-Web include:
+* Routing (based on method, path, etc)
+* Regular expression pattern matchingfor paths
+* Extraction of parameters from paths
+* Content negotiation
+* Request body handling
+* Body size limits
+* Cookie parsing and handling
+* Multipart forms
+* Multipart file uploads
+* Sub routers
+* Session support - both local (for sticky sessions) and clustered (for non sticky)
+* CORS (Cross Origin Resource Sharing) support
+* Error page handler
+* Basic Authentication
+* Redirect based authentication
+* Authorisation handlers
+* JWT based authorization
+* User/role/permission authorisation
+* Favicon handling
+* Template support for server side rendering, including support for the following template engines out of the box:
+  * Handlebars
+  * Jade,
+  * MVEL
+  * Thymeleaf
+  * Apache FreeMarker
+  * Pebble
+* Response time handler
+* Static file serving, including caching logic and directory listing.
+* Request timeout support
+* SockJS support
+* Event-bus bridge
+* CSRF Cross Site Request Forgery
+* VirtualHost
+
+In our example we will only use basic GET, POST and DELETE routing. Let's get started with the GET operations.
 
 **1. Creating a GET /services/cart endpoint**
 First we are going to create a very simple endpoint that returns a `ShopppingCart` object as a JSON String using the ```./src/main/java/com/redhat/coolstore/utils/Transformers.java```{open} to get a `JsonObject` that we can then return as String
