@@ -26,6 +26,8 @@ You can review the above resources in the OpenShift Web Console or using the `oc
 > instead of it with the OpenShift CLI. The same goes for **is** instead
 > of **imagestream**, **dc** instead of **deploymentconfig** and **svc** instead of **service**.
 
+> **NOTE**: Don't worry about reading and understanding the output of `oc describe`. Just make sure
+the command doesn't report errors!
 
 `oc describe bc coolstore`{{execute}}
 
