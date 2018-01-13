@@ -72,7 +72,15 @@ reviews. Note that you'll have three versions of the reviews microservice:
 
 `oc get pods`{{execute}}
 
-Notice that each of the microservices for bookinfo shows 2 containers ready for each service (one for the service and one for its
+```console
+...
+reviews-v1-1796424978-4ddjj          2/2       Running   0          28m
+reviews-v2-1209105036-xd5ch          2/2       Running   0          28m
+reviews-v3-3187719182-7mj8c          2/2       Running   0          28m
+...
+```
+
+Notice that each of the microservices shows `2/2` containers ready for each service (one for the service and one for its
 sidecar).
 
 Now that we have our application deployed and linked into the Istio service mesh, let's take a look at the

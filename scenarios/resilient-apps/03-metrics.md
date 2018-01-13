@@ -16,6 +16,9 @@ It should look like:
 
 ![Dotviz graph](/redhat-middleware-workshops/assets/resilient-apps/dotviz.png)
 
+This shows you a graph of the services and how they are connected, with some basic access metrics like
+how many requests per second each service receives.
+
 As you add and remove services over time in your projects, you can use this to verify the connections between services and provides
 a high-level telemetry showing the rate at which services are accessed.
 
@@ -52,7 +55,8 @@ You should see a listing of each of the application's services along with a coun
 
 ![Prometheus console](/redhat-middleware-workshops/assets/resilient-apps/prom.png)
 
-You can also graph the results over time by clicking on the _Graph_ tab:
+You can also graph the results over time by clicking on the _Graph_ tab (adjust the timeframe from 1h to 1minute for
+example):
 
 ![Prometheus graph](/redhat-middleware-workshops/assets/resilient-apps/promgraph.png)
 
@@ -82,6 +86,15 @@ The Grafana Dashboard for Istio consists of three main sections:
 1. **A Global Summary View.** This section provides high-level summary of HTTP requests flowing through the service mesh.
 1. **A Mesh Summary View.** This section provides slightly more detail than the Global Summary View, allowing per-service filtering and selection.
 1. **Individual Services View.** This section provides metrics about requests and responses for each individual service within the mesh (HTTP and TCP).
+
+Scroll down to the `ratings` service graph:
+
+![Grafana graph](/redhat-middleware-workshops/assets/resilient-apps/grafana-ratings.png)
+
+This graph shows which other services are accessing the `ratings` service. You can see that
+`reviews:v2` and `reviews:v3` are calling the `ratings` service, and each call is resulting in
+`HTTP 200 (OK)`. Since the default routing is _round-robin_, that means each reviews service is
+calling the ratings service equally. And `ratings:v1` never calls it, as we expect.
 
 For more on how to create, configure, and edit dashboards, please see the [Grafana documentation](http://docs.grafana.org/).
 
