@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 ssh -T root@host01 <<'EOSSH'
-set +e
 touch ${HOME}/.tqstart
 if [ "$(oc whoami)" -eq "system:admin"]; then
-  touch .tqtrue
+  touch ${HOME}/.tqtrue
   MASTER_EXTERNAL_URL=$(oc get route/docker-registry -n default | grep -v NAME | awk '{print $2}' | sed 's/docker\-registry\-default\.//')
   for i in {1..200}; do oc adm policy add-role-to-user system:image-puller system:anonymous && break || sleep 1; done'
   for i in {1..200}; do oc adm policy add-cluster-role-to-user cluster-admin admin && break || sleep 1; done'
@@ -13,7 +12,7 @@ if [ "$(oc whoami)" -eq "system:admin"]; then
 
   oc create -n openshift -f https://raw.githubusercontent.com/RedHat-Middleware-Workshops/modernize-apps-labs/master/monolith/src/main/openshift/template-binary.json
   oc create -n openshift -f https://raw.githubusercontent.com/RedHat-Middleware-Workshops/modernize-apps-labs/master/monolith/src/main/openshift/template-prod.json
-  touch .tqtemplate
+  touch ${HOME}/.tqtemplate
 
   yum install tree -y
   oc env dc/router ROUTER_DISABLE_NAMESPACE_OWNERSHIP_CHECK=true -n default
