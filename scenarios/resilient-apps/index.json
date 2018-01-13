@@ -3,8 +3,8 @@
     "icon": "fa-java",
     "title": "Resilient Apps",
     "description": "How to prevent cascading failures in a distributed environment, how to detect misbehaving services. How to avoid having to implement resiliency and monitoring in your business logic",
-    "difficulty": "intermediate",
-    "time": "1 hour",
+    "difficulty": "advanced",
+    "time": "60-90 minutes",
     "details": {
         "steps": [
             {
