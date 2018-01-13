@@ -100,7 +100,7 @@ Restart the application by running the following in the terminal or in clicking 
 ``mvn compile vertx:run``{{execute T1 interrupt}}
 
 Now test the route with a curl command in the terminal like this:
-```curl -X GET http://localhost:8083/services/carts; echo```{{execute T2}}
+```curl -X GET http://localhost:8082/services/carts; echo```{{execute T2}}
 
 This should print the body of the response  that looks somewhat like this. Note that the the content from this is generate from the ```./src/main/java/com/redhat/coolstore/utils/Transformers.java```{{open}} and will return a random number of products, so you actual content may vary.
 
@@ -168,13 +168,13 @@ This should print the body of the response  that looks somewhat like this. Note 
 ```
 
 Also test getting a single cart curl like this:
-```curl -X GET http://localhost:8083/services/cart/99999; echo```{{execute T2}}
+```curl -X GET http://localhost:8082/services/cart/99999; echo```{{execute T2}}
 
-Click on the **Local Web Browser** tab in the console frame of this browser window, which will open another tab or window of your browser pointing to port 8083 on your client. 
+Click on the **Local Web Browser** tab in the console frame of this browser window, which will open another tab or window of your browser pointing to port 8082 on your client. 
 
 ![Local Web Browser Tab](../../assets/reactive-microservices/web-browser-tab.png)
 
-Or use [this](https://[[HOST_SUBDOMAIN]]-8083-[[KATACODA_HOST]].environments.katacoda.com/) link.
+Or use [this](https://[[HOST_SUBDOMAIN]]-8082-[[KATACODA_HOST]].environments.katacoda.com/) link.
 
 Now the default page should have an entry in the table matching the values for your JSON file above.
 

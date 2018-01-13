@@ -1,5 +1,5 @@
 # Reactive programing 
-In the previous step you did a bit of reactive programming, but Vert.x also support using RxJava. RxJava is a Java VM implementation of [ReactiveX (Reactive Extensions)](https://reactivex.io/) a library for composing asynchronous and event-based programs by using observable sequences.
+In the previous step you did a bit of reactive programming, but Vert.x also support using RxJava. RxJava is a Java VM implementation of [ReactiveX (Reactive Extensions)](http://reactivex.io/) a library for composing asynchronous and event-based programs by using observable sequences.
 
 With the introduction of Lambda in Java8 there we don't have to use RxJava for programming in Vert.x, but depending on your preference and experience you might want to use RxJava instead. Everything we do in this lab is possible to also implement using RxJava. However for simplicity and since RxJava is harder to understand for someone that never used it before we will stick with Java8 and Lambda in this lab.
 
@@ -48,7 +48,7 @@ Then in our start method of our Verticle we could run
 ```java
 public void start() {
     setupConfiguration(vertx);
-    Integer serverPort = config().getInteger("http.port", 8889);
+    Integer serverPort = config().getInteger("http.port", 10080);
     Router router = Router.router(vertx);
     router.get("/*").handler(StaticHandler.create());
     vertx.createHttpServer().requestHandler(router::accept).listen(serverPort);
