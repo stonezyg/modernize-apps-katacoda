@@ -67,7 +67,7 @@ One solution to this problem is to load our Verticle from another verticle and p
 
 Let's add a MainVerticle that will load the CartServiceVerticle like this:
 
-<pre class="file" data-filename="src/main/java/com/redhat/coolstore/MainVerticle.java" data-target="replace">
+<pre class="file" data-filename="./src/main/java/com/redhat/coolstore/MainVerticle.java" data-target="replace">
 package com.redhat.coolstore;
 
 import io.vertx.config.ConfigRetriever;
@@ -119,7 +119,7 @@ At the moment we only need one value in the configuration file, but we will add 
 
 Copy this into the configuration file (or click the button):
 
-<pre class="file" data-filename="src/main/resources/config-default.json" data-target="replace">
+<pre class="file" data-filename="./src/main/resources/config-default.json" data-target="replace">
 {
     "http.port" : 8082
 }
@@ -131,7 +131,7 @@ First open the ```pom.xml```{{open}}
 
 Then Change the `<vertx.verticle>com.redhat.coolstore.MainVerticle</vertx.verticle>` to `<vertx.verticle>com.redhat.coolstore.CartServiceVerticle</vertx.verticle>`
 
-<pre class="file" data-filename="pom.xml" data-target="insert" data-marker="com.redhat.coolstore.CartServiceVerticle">
+<pre class="file" data-filename="./pom.xml" data-target="insert" data-marker="com.redhat.coolstore.CartServiceVerticle">
 com.redhat.coolstore.MainVerticle
 </pre>
 
