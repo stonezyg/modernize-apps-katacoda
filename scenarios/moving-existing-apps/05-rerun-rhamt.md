@@ -27,7 +27,7 @@ To view the updated report, first stop the web server:
 
 Then start it again:
 
-`docker run -v ~/rhamt-report:/usr/share/nginx/html:ro,z -p 9000:80 -it nginx`{{execute T2}}
+`docker run --privileged -v ~/rhamt-report:/usr/share/nginx/html:ro,z -p 9000:80 -it nginx`{{execute T2}}
 
 If this does not work you may need to manually click into the **Terminal 2** and type `CTRL-C` to stop the web server, then restart using
 the above command.
