@@ -132,7 +132,7 @@ will also use the `oc` command line tool.
 
 To begin with, click on the **Local Web Browser** tab in the console frame of this browser window, which will open another tab or window of your browser pointing to port 8081 on your client.
 
-![Local Web Browser Tab](/redhat-middleware-workshops/assets/middleware/mono-to-micro-part-2/web-browser-tab.png)
+![Local Web Browser Tab](/redhat-middleware-workshops/assets/mono-to-micro-part-2/web-browser-tab.png)
 
 or use [this](https://[[HOST_SUBDOMAIN]]-8081-[[KATACODA_HOST]].environments.katacoda.com/) link.
 

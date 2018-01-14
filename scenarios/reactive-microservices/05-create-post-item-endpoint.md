@@ -1,10 +1,10 @@
 In this step we will implement POST operation for adding a product. The UI in Coolstore Monolith uses a POST operation when a user click `Add to Cart`. 
 
-![Add To Cart](../../assets/reactive-microservices/add-product.png)
+![Add To Cart](/redhat-middleware-workshops/assets/reactive-microservices/add-product.png)
 
 The UI will then issue a POST request to `/services/cart/<cartId>/<prodId>/<quantity>`. However when adding a product to the ShoppingCartItem we need an actual `Product` object.
 
-![Add To Cart](../../assets/reactive-microservices/cart-model.png)
+![Add To Cart](/redhat-middleware-workshops/assets/reactive-microservices/cart-model.png)
 
 So our implementation of this service needs to retrieve a Product object from the `CatalogService`. Let's get started with this implementation.
 
@@ -147,7 +147,7 @@ First lets check if the catalog service is still running locally.
 ```jps -l | grep com.redhat.coolstore.RestApplication```{{execute T2}}
 
 If this command doesn't return anything we need to start the Catalog application in a separate terminal like this:
-
+
 ```cd ~/projects/catalog; mvn clean spring-boot:run```{{execute T2}}
 
 To test to add a product we are going to use a new shopping cart id like this.

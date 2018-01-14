@@ -2,7 +2,7 @@ In this scenario, you will learn more about Reactive Microservices using [Eclips
 
 This scenario will actually create three different services that interact using an EventBus and also does a REST call to the CatalogService we built in the previous example.
 
-![Architecture](../../assets/reactive-microservices/reactive-ms-architecture.png) 
+![Architecture](/redhat-middleware-workshops/assets/reactive-microservices/reactive-ms-architecture.png)
 
 >**NOTE:** To simplify the deployment you will deploy all the services in a single Vert.x Server. However the code is 99% the same if we where to deploy these in separate services.
 
@@ -18,7 +18,7 @@ The asynchronous behavior or reactive systems will also save resources. In synch
 
 ## What is Eclipse Vert.x?
 
-![Local Web Browser Tab](../../assets/reactive-microservices/vertx-logo.png)
+![Local Web Browser Tab](/redhat-middleware-workshops/assets/reactive-microservices/vertx-logo.png)
 
 Eclipse Vert.x is a reactive toolkit for the Java Virtual Machine that is polyglot (e.g., supports multiple programming languages).
 In this session, we will focus on Java, but it would be possible to build the same application in JavaScript, Groovy, Ruby, Ceylon, Scala, and Kotlin.

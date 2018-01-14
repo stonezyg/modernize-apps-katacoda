@@ -22,7 +22,7 @@ There are 3 versions of the reviews microservice:
 
 The end-to-end architecture of the application is shown below.
 
-![Bookinfo Architecture](https://blog.openshift.com/wp-content/uploads/istio_bookinfo.png)
+![Bookinfo Architecture](/redhat-middleware-workshops/assets/resilient-apps/istio_bookinfo.png)
 
 ## Install Bookinfo
 

@@ -1,9 +1,9 @@
-# Reactive programing 
+## Reactive programing
 In the previous step you did a bit of reactive programming, but Vert.x also support using RxJava. RxJava is a Java VM implementation of [ReactiveX (Reactive Extensions)](http://reactivex.io/) a library for composing asynchronous and event-based programs by using observable sequences.
 
 With the introduction of Lambda in Java8 there we don't have to use RxJava for programming in Vert.x, but depending on your preference and experience you might want to use RxJava instead. Everything we do in this lab is possible to also implement using RxJava. However for simplicity and since RxJava is harder to understand for someone that never used it before we will stick with Java8 and Lambda in this lab.
 
-# 1. Configuration and Vert.x
+## 1. Configuration and Vert.x
 Vert.x has a very powerful configuration library called [Vert.x Config](http://vertx.io/docs/vertx-config/java/). The Config library can read configuration as Properties, Json, YaML, etc and it support a number stores like files, directories, http, git (extension), redis (extension), system properties, environment properties. 
 
 The Config library is structured around:
@@ -146,13 +146,13 @@ In the output you should now see that the server is starting on port 8082 and no
 
 Click on the **Local Web Browser** tab in the console frame of this browser window, which will open another tab or window of your browser pointing to port 8082 on your client. 
 
-![Local Web Browser Tab](../../assets/reactive-microservices/web-browser-tab.png)
+![Local Web Browser Tab](/redhat-middleware-workshops/assets/reactive-microservices/web-browser-tab.png)
 
 Or use [this](https://[[HOST_SUBDOMAIN]]-8082-[[KATACODA_HOST]].environments.katacoda.com/) link.
 
 Again you should now see an HTML page that looks like this:
 
-![Local Web Browser Tab](../../assets/reactive-microservices/web-page.png)
+![Local Web Browser Tab](/redhat-middleware-workshops/assets/reactive-microservices/web-page.png)
 
 
 ## Congratulations

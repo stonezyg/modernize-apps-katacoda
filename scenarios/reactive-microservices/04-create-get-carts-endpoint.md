@@ -172,13 +172,13 @@ Also test getting a single cart curl like this:
 
 Click on the **Local Web Browser** tab in the console frame of this browser window, which will open another tab or window of your browser pointing to port 8082 on your client. 
 
-![Local Web Browser Tab](../../assets/reactive-microservices/web-browser-tab.png)
+![Local Web Browser Tab](/redhat-middleware-workshops/assets/reactive-microservices/web-browser-tab.png)
 
 Or use [this](https://[[HOST_SUBDOMAIN]]-8082-[[KATACODA_HOST]].environments.katacoda.com/) link.
 
 Now the default page should have an entry in the table matching the values for your JSON file above.
 
-![Local Web Browser Tab](../../assets/reactive-microservices/web-page-content.png)
+![Local Web Browser Tab](/redhat-middleware-workshops/assets/reactive-microservices/web-page-content.png)
 
 ## Congratulations
 

@@ -1,4 +1,4 @@
-# What is a verticle?
+## What is a verticle?
 Verticles — the Building Blocks of Eclipse Vert.x
 
 Vert.x gives you a lot of freedom in how you can shape your application and code. But it also provides bricks to start writing reactive applications. Verticles are chunks of code that get deployed and run by Vert.x. An application, such as a microservice, would typically be comprised of many verticles. A verticle typically creates servers or clients, registers a set of Handlers', and encapsulates a part of the business logic of the system.
@@ -182,7 +182,7 @@ Click on the [this](https://[[HOST_SUBDOMAIN]]-10080-[[KATACODA_HOST]].environme
 
 You should now see an HTML page that looks like this:
 
-![Local Web Browser Tab](../../assets/reactive-microservices/web-page.png)
+![Local Web Browser Tab](/redhat-middleware-workshops/assets/reactive-microservices/web-page.png)
 
 > **NOTE:** The Fetch button doesn't work yet, but we will fix that later in this lab.
 

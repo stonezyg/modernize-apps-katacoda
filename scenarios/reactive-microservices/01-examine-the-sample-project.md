@@ -49,5 +49,5 @@ If you have used Maven and Java before this should look familiar. This is how a 
 
 The domain model consists of a ShoppingCart which has many ShoppingCartItems which has a one-to-one dependency to Product. The domain also consists of Different Promotions that uses the ShoppingCart state to see if it matches the criteria of the promotion.
 
-![Shopping Cart - Domain Model](../../assets/reactive-microservices/cart-model.png)
+![Shopping Cart - Domain Model](/redhat-middleware-workshops/assets/reactive-microservices/cart-model.png)
 
