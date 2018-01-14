@@ -11,7 +11,7 @@ We will then take the following steps to migrate (lift & shift) an existing Java
 * Deploy to OpenShift
 * Use OpenShift features like automatic clustering and failover to enhance the application
 
-# What is Red Hat Application Migration Toolkit?
+## What is Red Hat Application Migration Toolkit?
 
 ![Logo](/redhat-middleware-workshops/assets/moving-existing-apps/rhamt-logo.png)
 
@@ -28,7 +28,7 @@ It is used by organizations for:
 
 RHAMT examines application artifacts, including project source directories and application archives, then produces an HTML report that highlights areas needing changes. RHAMT can be used to migrate Java applications from previous versions of Red Hat JBoss Enterprise Application Platform or from other containers, such as Oracle® WebLogic Server or IBM® WebSphere® Application Server.
 
-# How Does Red Hat Application Migration Toolkit Simplify Migration?
+## How Does Red Hat Application Migration Toolkit Simplify Migration?
 
 Red Hat Application Migration Toolkit looks for common resources and highlights technologies and known trouble spots when migrating applications. The goal is to provide a high-level view into the technologies used by the application and provide a detailed report organizations can use to estimate, document, and migrate enterprise applications to Java EE and Red Hat JBoss Enterprise Application Platform.
 
@@ -36,7 +36,7 @@ Red Hat Application Migration Toolkit looks for common resources and highlights 
 migration is a simple affair and takes an hour or less! To learn more about Red Hat's philosophy and proven methodology, check out
 the [RHAMT documentation](https://access.redhat.com/documentation/en/red-hat-application-migration-toolkit) and contact your local Red Hat representative when embarking on a real world migration and modernization strategy.
 
-# More RHAMT Resources
+## More RHAMT Resources
 
 * [Documentation](https://access.redhat.com/documentation/en/red-hat-application-migration-toolkit)
 * [Developer Homepage](https://developers.redhat.com/products/rhamt/overview/)

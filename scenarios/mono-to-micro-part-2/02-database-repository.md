@@ -1,6 +1,6 @@
 
 
-# Creating a test. 
+## Creating a test.
 
 Before we create the database repository class to access the data it's good practice to create test cases for the different methods that we will use.
 
@@ -70,7 +70,7 @@ The `ProductRepository` should also provide a methods called `readAll()` that re
     }
 </pre>
 
-# Implement the database repository
+## Implement the database repository
 
 We are now ready to implement the database repository.  
 

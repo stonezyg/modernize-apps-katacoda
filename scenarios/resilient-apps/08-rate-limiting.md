@@ -1,7 +1,7 @@
 In this step we will use Istio's Quota Management feature to apply
 a rate limit on the `ratings` service.
 
-# Quotas in Istio
+## Quotas in Istio
 Quota Management enables services to allocate and free quota on a
 based on rules called _dimensions_. Quotas are used as a relatively
 simple resource management tool to provide some fairness between

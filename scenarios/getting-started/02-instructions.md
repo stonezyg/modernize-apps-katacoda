@@ -21,8 +21,11 @@ a separate tab in your browser. You can then continue the scenario by returning 
 ## Terminal Tabs
 
 On the right, you'll see a set of tabs:
+
 ![Instructions](/redhat-middleware-workshops/assets/getting-started/tabs.png)
+
 These tabs are quick links for you to use:
+
 * **Terminal** - This tab is always present and is the main terminal into which you will type Linux commands like `ls` and others.
 * **Local Web Browser** - This tab will open a new tab in your browser and give you access to programs running on HTTP port 8080 in your environment. This is used to
 do testing of applications that run outside of OpenShift. You'll use this later on.
