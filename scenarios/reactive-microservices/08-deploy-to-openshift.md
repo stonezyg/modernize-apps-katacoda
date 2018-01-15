@@ -32,7 +32,7 @@ Create the file by clicking on open ``src/main/fabric8/deployment.yml``{{open}}
 
 Add the following content by clicking on *Copy to Editor*:
 
-<pre class="file" data-filename="./src/main/resources/config-openshift.json" data-target="replace">
+<pre class="file" data-filename="./src/main/fabric8/deployment.yml" data-target="replace">
 apiVersion: v1
 kind: Deployment
 metadata:
@@ -53,7 +53,7 @@ Create the file by clicking on open ``src/main/fabric8/route.yml``{{open}}
 
 Add the following content by clicking on *Copy to Editor*:
 
-<pre class="file" data-filename="./src/main/resources/config-openshift.json" data-target="replace">
+<pre class="file" data-filename="./src/main/fabric8/route.yml" data-target="replace">
 apiVersion: v1
 kind: Route
 metadata:
