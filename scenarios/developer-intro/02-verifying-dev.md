@@ -20,22 +20,25 @@ or IP).
 * Route: **www** route registers the service on the built-in external load-balancer
 and assigns a public DNS name to it so that it can be reached from outside OpenShift cluster.
 
-You can review the above resources in the OpenShift Web Console or using the `oc describe` command:
+You can review the above resources in the OpenShift Web Console or using the `oc get` or `oc describe` commands
+(`oc describe` gives more detailed info):
 
-> **bc** is the short-form of **buildconfig** and can be interchangeably used
-> instead of it with the OpenShift CLI. The same goes for **is** instead
-> of **imagestream**, **dc** instead of **deploymentconfig** and **svc** instead of **service**.
+> You can use short synonyms for long words, like `bc` instead of `buildconfig`,
+and `is` for `imagestream`, `dc` for `deploymentconfig`, `svc` for service,
+etc.
 
 > **NOTE**: Don't worry about reading and understanding the output of `oc describe`. Just make sure
 the command doesn't report errors!
 
-`oc describe bc coolstore`{{execute}}
+Run these commands to inspect the elements:
 
-`oc describe is coolstore`{{execute}}
+`oc get bc coolstore`{{execute}}
 
-`oc describe dc coolstore`{{execute}}
+`oc get is coolstore`{{execute}}
 
-`oc describe svc coolstore`{{execute}}
+`oc get dc coolstore`{{execute}}
+
+`oc get svc coolstore`{{execute}}
 
 `oc describe route www`{{execute}}
 

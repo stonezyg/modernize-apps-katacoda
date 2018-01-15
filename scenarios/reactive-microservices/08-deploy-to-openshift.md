@@ -5,6 +5,7 @@ Now that you've logged into OpenShift, let's deploy our new cart microservice:
 Create the file by clicking on open ``src/main/resources/config-openshift.json``{{open}}
 
 Copy the following content to the file:
+
 <pre class="file" data-filename="./src/main/resources/config-openshift.json" data-target="replace">
 {
     "http.port" : 8080,
@@ -30,6 +31,7 @@ Let's add a deployment.yml that will set the system property to use our `config-
 Create the file by clicking on open ``src/main/fabric8/deployment.yml``{{open}}
 
 Add the following content by clicking on *Copy to Editor*:
+
 <pre class="file" data-filename="./src/main/resources/config-openshift.json" data-target="replace">
 apiVersion: v1
 kind: Deployment
@@ -50,6 +52,7 @@ We also need to add a route.yml like this:
 Create the file by clicking on open ``src/main/fabric8/route.yml``{{open}}
 
 Add the following content by clicking on *Copy to Editor*:
+
 <pre class="file" data-filename="./src/main/resources/config-openshift.json" data-target="replace">
 apiVersion: v1
 kind: Route
@@ -74,7 +77,6 @@ After the maven build finishes it will take less than a minute for the applicati
 To verify that everything is started, run the following command and wait for it complete successfully:
 
 `oc rollout status -w dc/cart`{{execute}}
-
 
 **3. Access the application running on OpenShift**
 
