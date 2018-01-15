@@ -100,6 +100,8 @@ public class CartServiceVerticle extends AbstractVerticle {
 
 //TODO: Add method for getting products
 
+//TODO: Add method for getting the shipping fee
+
     private void sendCart(ShoppingCart cart, RoutingContext rc) {
         sendCart(cart,rc,200);
     }

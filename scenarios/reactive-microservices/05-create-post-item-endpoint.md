@@ -39,6 +39,7 @@ Adding the following at the `//TODO: Add handler for adding a Item to the cart` 
             cart.getShoppingCartItemList().forEach(item -&gt; {
                 if (item.getProduct().getItemId().equals(itemId)) {
                     item.setQuantity(item.getQuantity() + quantity);
+//TODO: update the shipping fee
                     sendCart(cart,rc);
                 }
             });
@@ -99,10 +100,11 @@ Now we can call this method from the `addToCart` method and pass a Lambda call b
 Adding the following at the `//TODO: Get product from Catalog service and add it to the ShoppingCartItem`
 
 <pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Get product from Catalog service and add it to the ShoppingCartItem">
-                this.getProduct(itemId, reply -> {
+                this.getProduct(itemId, reply -&gt; {
                     if (reply.succeeded()) {
                         newItem.setProduct(reply.result());
                         cart.addShoppingCartItem(newItem);
+//TODO: update the shipping fee, here as well
                         sendCart(cart,rc);
                     } else {
                         sendError(rc);
@@ -144,9 +146,9 @@ The CartService depends on the CatalogService and just like in the Spring Boot e
 
 First lets check if the catalog service is still running locally.
 
-```jps -l | grep com.redhat.coolstore.RestApplication```{{execute T2}}
+```curl -v http://localhost:8081/services/products 2>&1 | grep "HTTP/1.1 200"```{{execute T2}}
 
-If this command doesn't return anything we need to start the Catalog application in a separate terminal like this:
+If that prints `< HTTP/1.1 200` then our service is responding correctly otherwise we need to start the Catalog application in a separate terminal like this:
 
 ```cd ~/projects/catalog; mvn clean spring-boot:run```{{execute T2}}
 
@@ -177,6 +179,62 @@ This should print the follow:
   } ]
 }%   
 ```
+
+**5. Add endpoint for deleting items**
+Since we are now so skilled in writing endpoints lets go ahead and also create the endpoint for removing a product. The only tricky part about removing is that the request might not remove all products in once. E.g. If we have 10 Red Hat Fedoras and the request just decreases 3 we should not remove the Shopping Cart item, but instead lower the quantity to 7. 
+
+
+Adding the following at the `//TODO: Add handler for removing an item from the cart`
+
+<pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Add handler for removing an item from the cart">
+    private void removeShoppingCartItem(RoutingContext rc) {
+        logger.info("Retrieved " + rc.request().method().name() + " request to " + rc.request().absoluteURI());
+        String cartId = rc.pathParam("cartId");
+        String itemId = rc.pathParam("itemId");
+        int quantity = Integer.parseInt(rc.pathParam("quantity"));
+        ShoppingCart cart = getCart(cartId);
+
+        //If all quantity with the same Id should be removed then remove it from the list completely. The is the normal use-case
+        cart.getShoppingCartItemList().removeIf(i -&gt; i.getProduct().getItemId().equals(itemId) && i.getQuantity()&lt;=quantity);
+
+        //If not all quantities should be removed we need to update the list
+        cart.getShoppingCartItemList().forEach(i -&gt;  {
+                if(i.getProduct().getItemId().equals(itemId))
+                    i.setQuantity(i.getQuantity()-quantity);
+            }
+        );
+        sendCart(cart,rc);
+    }
+</pre>
+
+Now let's go ahead and create the route.
+
+Add the following where at the `//TODO: Create add router` marker in class `CartServiceVerticle.start` 
+<pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Create add router">
+router.delete("/services/cart/:cartId/:itemId/:quantity").handler(this::removeShoppingCartItem);
+</pre>
+
+**4. Test to remove a product**
+
+Let's first test to decreasing the quantity for a product that is already in the shopping cart
+
+Start the cart service
+``mvn compile vertx:run``{{execute T1 interrupt}}
+
+```curl -s http://localhost:8082/services/cart/99999 | grep -A7  "\"itemId\" : \"329299\"" | grep quantity```{{execute T2}}
+
+This will return the quantity like below, but the actual number may be different.
+
+`"quantity" : 4`
+
+Now let's call our addToCart method.
+
+```curl -s -X DELETE http://localhost:8082/services/cart/99999/329299/1 | grep -A7  "\"itemId\" : \"329299\"" | grep quantity```{{execute T2}}
+
+This should now return a shopping cart where one more instance of the product is added, because of our grep commands you would see something like this:
+
+`"quantity" : 3`
+
 
 
 ## Congratulations
