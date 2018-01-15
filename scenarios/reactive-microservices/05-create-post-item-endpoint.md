@@ -221,7 +221,7 @@ Let's first test to decreasing the quantity for a product that is already in the
 Start the cart service
 ``mvn compile vertx:run``{{execute T1 interrupt}}
 
-```curl -s http://localhost:8082/services/cart/99999 | grep -A7  "\"itemId\" : \"329299\"" | grep quantity```{{execute T2}}
+```curl -s http://localhost:8082/services/cart/99999 | grep -A7  "\"itemId\" : \"329299\"" | grep quantity```{{execute T3}}
 
 This will return the quantity like below, but the actual number may be different.
 
@@ -229,7 +229,7 @@ This will return the quantity like below, but the actual number may be different
 
 Now let's call our addToCart method.
 
-```curl -s -X DELETE http://localhost:8082/services/cart/99999/329299/1 | grep -A7  "\"itemId\" : \"329299\"" | grep quantity```{{execute T2}}
+```curl -s -X DELETE http://localhost:8082/services/cart/99999/329299/1 | grep -A7  "\"itemId\" : \"329299\"" | grep quantity```{{execute T3}}
 
 This should now return a shopping cart where one more instance of the product is added, because of our grep commands you would see something like this:
 
