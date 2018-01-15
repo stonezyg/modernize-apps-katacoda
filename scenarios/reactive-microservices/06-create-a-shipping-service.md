@@ -134,21 +134,22 @@ We will implement the shipping fee similary to how we implemented the `getProduc
 
 In the ``src/main/java/com/redhat/coolstore/CartServiceVerticle.java``{{open}} we will add the following method at the marker: `//TODO: Add method for getting the shipping fee`. Copy the content below or click on the CopyToEditor button.
 
-//TODO: Add method for getting the shipping fee
 <pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Add method for getting the shipping fee">
-    private void getShippingFee(ShoppingCart cart, Handler&lt;AsyncResult&lt;Double&gt;&gt; resultHandler) {
-        EventBus eb = vertx.eventBus();
+private void getShippingFee(ShoppingCart cart, Handler&lt;AsyncResult&lt;Double&gt;&gt; resultHandler) {
+    EventBus eb = vertx.eventBus();
 
-        eb.send("shipping",
-            Transformers.shoppingCartToJson(cart).encode(),
-            reply -&gt; {
-                if(reply.succeeded()) {
-                    resultHandler.handle(Future.succeededFuture(new JsonObject(reply.result().body().toString()).getDouble("shippingFee")));
-                } else {
-                    resultHandler.handle(Future.failedFuture(reply.cause()));
-                }
-            });
-    }
+    eb.send("shipping",
+        Transformers.shoppingCartToJson(cart).encode(),
+        reply -&gt; {
+            if(reply.succeeded()) {
+                resultHandler.handle(Future.succeededFuture(((JsonObject)reply.result().body()).getDouble("shippingFee")));
+
+            } else {
+                resultHandler.handle(Future.failedFuture(reply.cause()));
+            }
+        }
+    );
+}
 </pre>
 
 Now, lets update the `addProduct` request handler method. Click to add:
