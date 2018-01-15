@@ -134,7 +134,6 @@ We will implement the shipping fee similary to how we implemented the `getProduc
 
 In the ``src/main/java/com/redhat/coolstore/CartServiceVerticle.java``{{open}} we will add the following method at the marker: `//TODO: Add method for getting the shipping fee`. Copy the content below or click on the CopyToEditor button.
 
-//TODO: Add method for getting the shipping fee
 <pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Add method for getting the shipping fee">
 private void getShippingFee(ShoppingCart cart, Handler&lt;AsyncResult&lt;Double&gt;&gt; resultHandler) {
     EventBus eb = vertx.eventBus();
