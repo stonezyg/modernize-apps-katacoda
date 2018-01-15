@@ -23,7 +23,6 @@ Click on the "OpenShift Console" tab:
 
 And navigate to the new _catalog_ project overview page (or use [this quick link](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/cart/)
 
-TODO: Change below screen shot
 ![Web Console Overview](/redhat-middleware-workshops/assets/mono-to-micro-part-2/overview.png)
 
 There's nothing there now, but that's about to change.
