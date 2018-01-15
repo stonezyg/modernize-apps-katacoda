@@ -7,33 +7,7 @@ The `Router` in Vert.x is very flexible and makes it easy to deal with complex H
 * Content negotiation
 * Request body handling
 * Body size limits
-* Cookie parsing and handling
-* Multipart forms
-* Multipart file uploads
-* Sub routers
-* Session support - both local (for sticky sessions) and clustered (for non sticky)
-* CORS (Cross Origin Resource Sharing) support
-* Error page handler
-* Basic Authentication
-* Redirect based authentication
-* Authorisation handlers
-* JWT based authorization
-* User/role/permission authorisation
-* Favicon handling
-* Template support for server side rendering, including support for the following template engines out of the box:
-  * Handlebars
-  * Jade,
-  * MVEL
-  * Thymeleaf
-  * Apache FreeMarker
-  * Pebble
-* Response time handler
-* Static file serving, including caching logic and directory listing.
-* Request timeout support
-* SockJS support
-* Event-bus bridge
-* CSRF Cross Site Request Forgery
-* VirtualHost
+* ... and [much more](http://vertx.io/docs/vertx-web/js/)
 
 In our example we will only use basic GET, POST and DELETE routing. Let's get started with the GET operations.
 
@@ -100,6 +74,7 @@ Restart the application by running the following in the terminal or in clicking 
 ``mvn compile vertx:run``{{execute T1 interrupt}}
 
 Now test the route with a curl command in the terminal like this:
+
 ```curl -X GET http://localhost:8082/services/carts; echo```{{execute T2}}
 
 This should print the body of the response  that looks somewhat like this. Note that the the content from this is generate from the ```src/main/java/com/redhat/coolstore/utils/Transformers.java```{{open}} and will return a random number of products, so you actual content may vary.
@@ -182,6 +157,6 @@ Now the default page should have an entry in the table matching the values for y
 
 ## Congratulations
 
-You have now successfully implemented the first out of many endpoints that we need to strangle the monolith. You have also learned that `<object>::<method>` is a convenient way to reference a lambda expression. 
+You have now successfully implemented the first out of many endpoints that we need to continue to strangle the monolith. You have also learned that `<object>::<method>` is a convenient way to reference a lambda expression.
 
 In the next step we will implement another endpoint and this time it will also call out to an external service using rest.

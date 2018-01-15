@@ -1,7 +1,5 @@
 In addition to being able to manually upload or download files when you choose to, the ``oc rsync``
 command can also be set up to perform live synchronization of files between your local computer and the container.
-
-That is, the file system of your local computer will be monitored for any changes made to files.
 When there is a change to a file, the changed file will be automatically copied up to the container.
 
 This same process can also be run in the opposite direction if required, with changes made in the

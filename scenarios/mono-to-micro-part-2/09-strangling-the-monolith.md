@@ -51,6 +51,9 @@ Open the monolith UI and observe that the new catalog is being used along with t
 
 ![Greeting](/redhat-middleware-workshops/assets/mono-to-micro-part-2/coolstore-web.png)
 
+The screen will look the same, but notice that the earlier product _Atari 2600 Joystick_ is now gone,
+as it has been removed in our new catalog microservice.
+
 ## Congratulations!
 
 You have now successfully begun to _strangle_ the monolith. Part of the monolith's functionality (Inventory and Catalog) are

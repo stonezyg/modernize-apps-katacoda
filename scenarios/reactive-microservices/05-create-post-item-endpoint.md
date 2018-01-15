@@ -1,4 +1,4 @@
-In this step we will implement POST operation for adding a product. The UI in Coolstore Monolith uses a POST operation when a user click `Add to Cart`. 
+In this step we will implement POST operation for adding a product. The UI in Coolstore Monolith uses a POST operation when a user clicks `Add to Cart`.
 
 ![Add To Cart](/redhat-middleware-workshops/assets/reactive-microservices/add-product.png)
 
@@ -112,7 +112,7 @@ Adding the following at the `//TODO: Get product from Catalog service and add it
 
 To summarize our `addToCart` handler will now first check if the product already exists in the shopping cart. If it does exist we update the quantity and then send the response. If it doesn't exist we call the catalog service to retrieve the data about the product, create a new ShoppingCartItem, set the quantity, add the retrieved product, add it the `ShoppingCartItem`, add the item to the shopping cart and then finally send the response to the client. 
 
-Phu! That wasn't easy... However, in real life thing are never as easy as they sometimes seem to appear. Rather than present you with a set of Hello World demos we believe that it's much more educational to use a more realistic example. 
+Phew! That wasn't easy... However, in real life thing are never as easy as they sometimes seem to appear. Rather than present you with a set of Hello World demos we believe that it's much more educational to use a more realistic example.
 
 
 **4. Test our changes**

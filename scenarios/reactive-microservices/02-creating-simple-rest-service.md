@@ -1,7 +1,8 @@
 ## What is a verticle?
+
 Verticles — the Building Blocks of Eclipse Vert.x
 
-Vert.x gives you a lot of freedom in how you can shape your application and code. But it also provides bricks to start writing reactive applications. Verticles are chunks of code that get deployed and run by Vert.x. An application, such as a microservice, would typically be comprised of many verticles. A verticle typically creates servers or clients, registers a set of Handlers', and encapsulates a part of the business logic of the system.
+Vert.x gives you a lot of freedom in how you can shape your application and code. But it also provides bricks to start writing reactive applications. _Verticles_ are chunks of code that get deployed and run by Vert.x. An application, such as a microservice, would typically be comprised of many verticles. A verticle typically creates servers or clients, registers a set of Handlers', and encapsulates a part of the business logic of the system.
 
 In Java, a verticle is a class extending the Abstract Verticle class:
 
@@ -138,7 +139,8 @@ public class CartServiceVerticle extends AbstractVerticle {
 
 >**WARNING:** Don't remove the TODO markers. These will be used later to add new functionality. There are also some private method that we we will use later when we create our endpoints for the shopping cart.
 
-Currently our verticle doesn't really do anything except logging some info. Let's however try it out.
+Currently our verticle doesn't really do anything except logging some info. Let's try it out. Execute:
+
 ``mvn compile vertx:run``{{execute}}
 
 You should see output that looks like this:
@@ -154,7 +156,7 @@ You should see output that looks like this:
 ```
 
 **3. Add a router that can serve static content**
-Now let's add a Web server that can server static content, This does only require three lines of code
+Now let's add a Web server that can server static content, which only requires three lines of code
 
 Create the router object:
 <pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Create Router">
@@ -198,9 +200,9 @@ router.get("/hello").handler(rc-&gt; rc.response()
             .end(new JsonObject().put("message","Hello").encode()));
 </pre>
 
-Notice that we add this handler above the static router. This is because the order we add routes does matter and if added "/hello" after "/*" the hello router would never be used, since the static router is set to take care of all request. However, since we add the hello router before the static router it will take priority over the static router.
+Notice that we add this handler above the static router. This is because the order we add routes does matter and if you added "/hello" after "/*" the hello router would never be used, since the static router is set to take care of all requests. However, since we add the hello router before the static router it will take priority over the static router.
 
-If you never used Lambda expressions in Java before this might look a bit complex, but it's actually very simple. As we discussed in the intro Vert.x is a Reactive toolkit and the web server is asynchronous and will react to incoming request. In order to register a handler we provide the implementation directly. `rc` is the input parameter of type `RoutingContext` and `->` indicated that the following is a method implementation. We could have wrapped it in `{..}`, but since it's only one line it's not required.
+If you've never used Lambda expressions in Java before this might look a bit complex, but it's actually very simple. As we discussed in the intro Vert.x is a Reactive toolkit and the web server is asynchronous and will react to incoming request. In order to register a handler we provide the implementation directly. `rc` is the input parameter of type `RoutingContext` and `->` indicated that the following is a method implementation. We could have wrapped it in `{..}`, but since it's only one line it's not required.
 
 It's actually not necessary to set the status, since it will default to HTTP OK (e.g. 200), but for REST services it's recommended to be explicit since different action may return different status codes. We also set the content type to "application/json" so that the request knows what type of content we are returning. Finally we create a simple `JsonObject` and add a `message` with value `Hello`. The `encode()` method returns a `JsonObject` encoded as a string. E.g `{"message","Hello"}`
 
@@ -221,8 +223,8 @@ The response body should be a JSON string `{"message":"Hello"}`. You can also us
 
 ## Congratulations
 
-You have now successfully created a simple reactive rest service using Eclipse Vert.x
+You have now successfully created a simple reactive rest service using Eclipse Vert.x.
 
-It only took three lines of code can create an HTTP Server that is capable of serving static content using the Vert.x Toolkit and one more line to add a rest endpoint.
+It only took three lines of code to create an HTTP server that is capable of serving static content using the Vert.x Toolkit and a few lines to add a rest endpoint.
 
-In next step of this scenario, we will take a bit a about configuration in Vert.x.
+In next step of this scenario, we will discuss a bit a about configuration in Vert.x.

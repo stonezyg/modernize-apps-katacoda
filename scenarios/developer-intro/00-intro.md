@@ -16,13 +16,6 @@ enables them to take advantage of both containerized applications and orchestrat
 know the details.  Developers are free to focus on their code instead of spending time writing Dockerfiles
 and running docker builds.
 
-OpenShift is a full platform that incorporates several upstream projects while also providing additional
-features and functionality to make those upstream projects easier to consume.  The core of the platform is
-containers and orchestration.  For the container side of the house, the platform uses images based upon
-the docker image format.  For the orchestration side, we have a put a lot of work into the upstream
-Kubernetes project.  Beyond these two upstream projects, we have created a set of additional Kubernetes
-objects such as routes and deployment configs that we will learn how to use during this course.
-
 Both Developers and Operators communicate with the OpenShift Platform via one of the following methods:
 
 ### Command Line Interface

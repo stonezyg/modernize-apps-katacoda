@@ -8,15 +8,13 @@ Vert.x has a very powerful configuration library called [Vert.x Config](http://v
 
 The Config library is structured around:
 
-* a **Config Retriever** instantiated and used by the Vert.x application. It configures a set of configuration store
+* A **Config Retriever** instantiated and used by the Vert.x application. It configures a set of configuration items in the Configuration Store.
 
-* **Configuration store** defines a location from where the configuration data is read and and a syntax (json by default)
+* **Configuration store** defines a location from where the configuration data is read and and a syntax (the configuration is retrieved as a JSON Object by default)
 
-The configuration is retrieved as a JSON Object.
+By default you can access the configuration in verticle by calling `config().get...`, however it does not support environment-specific configuration like for example Spring Boot. If you recall from the previous lab we used different configuration files for local vs OpenShift. If we like the same behavior in Vert.x we need to implement this ourselves.
 
-Default you can access the configuration in verticle by calling config().get..., it does however not support environment specific configuration like for ex SpringBoot. If you recall from the previous lab we used different configuration files for local vs OpenShift. If we like the same behavior in Vert.x we need to implement our selfs.
-
-One thing that can seem a bit strange is that the **Config Retriever** reads the configuration async. So if we want to change the default behaviour we need to take that into consideration. 
+One thing that can seem a bit strange is that the **Config Retriever** reads the configuration asynchronously. So if we want to change the default behaviour we need to take that into consideration.
 
 Consider the following example.
 
@@ -55,17 +53,17 @@ public void start() {
 }
 ```
 
-At a first glance this may look like a good way to implement an environment specific configuration. Basically it will use a default config call `config-default.json` and if we start he application with parameter -Dvertx.profiles.active=[name] it will overload the default config with values from `config-[name].json`.
+At a first glance this may look like a good way to implement an environment specific configuration. Basically it will use a default config call `config-default.json` and if we start he application with parameter `-Dvertx.profiles.active=[name]` it will overload the default config with values from `config-[name].json`.
 
 **THIS WILL NOT WORK!**
 
-The reason that it doesn't work is that when we calling setupConfiguration() the `ConfigStore` etc will execute sync, but the actual retrieval of the configuration values is asynchronous and while the program is waiting for async operations like opening a file and read it the `start()` method will continue to run and when it gets to `Integer serverPort = config().getInteger("http.port", 8889);` the value has not been populated yet. E.g. the config "http.port" will fail and the default value of 8889 will always be used. 
+The reason that it doesn't work is that when we calling `setupConfiguration()` the `ConfigStore` will execute synchronously, but the actual retrieval of the configuration values is asynchronous and while the program is waiting for async operation like opening a file and read it the `start()` method will continue to run and when it gets to `Integer serverPort = config().getInteger("http.port", 8889);` the value has not been populated yet. E.g. the config `http.port` will fail and the default value of `8889` will always be used.
 
 **1. Load configuration and other Verticles**
 
-One solution to this problem is to load our Verticle from another verticle and pass the configuration as a depoyment option. 
+One solution to this problem is to load our Verticle from another verticle and pass the configuration as a deployment option.
 
-Let's add a MainVerticle that will load the CartServiceVerticle like this:
+Let's add a `MainVerticle` that will load the `CartServiceVerticle` like this:
 
 <pre class="file" data-filename="./src/main/java/com/redhat/coolstore/MainVerticle.java" data-target="replace">
 package com.redhat.coolstore;
@@ -142,7 +140,7 @@ Restart the application by running the following in the terminal or in clicking 
 
 ``mvn compile vertx:run``{{execute T1 interrupt}}
 
-In the output you should now see that the server is starting on port 8082 and not 10080 like before
+In the output you should now see that the server is starting on port 8082 and not 10080 like before.
 
 Click on the **Local Web Browser** tab in the console frame of this browser window, which will open another tab or window of your browser pointing to port 8082 on your client. 
 
