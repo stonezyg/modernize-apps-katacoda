@@ -210,11 +210,11 @@ Adding the following at the `//TODO: Add handler for removing an item from the c
 Now let's go ahead and create the route.
 
 Add the following where at the `//TODO: Create add router` marker in class `CartServiceVerticle.start` 
-<pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Create add router">
+<pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Create remove router">
 router.delete("/services/cart/:cartId/:itemId/:quantity").handler(this::removeShoppingCartItem);
 </pre>
 
-**4. Test to remove a product**
+**6. Test to remove a product**
 
 Let's first test to decreasing the quantity for a product that is already in the shopping cart
 
