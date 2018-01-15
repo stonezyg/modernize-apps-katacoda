@@ -39,8 +39,7 @@ Adding the following at the `//TODO: Add handler for adding a Item to the cart` 
             cart.getShoppingCartItemList().forEach(item -&gt; {
                 if (item.getProduct().getItemId().equals(itemId)) {
                     item.setQuantity(item.getQuantity() + quantity);
-//TODO: update the shipping fee
-                    sendCart(cart,rc);
+                    sendCart(cart,rc); //TODO: update the shipping fee
                 }
             });
         } else {
@@ -104,8 +103,7 @@ Adding the following at the `//TODO: Get product from Catalog service and add it
                     if (reply.succeeded()) {
                         newItem.setProduct(reply.result());
                         cart.addShoppingCartItem(newItem);
-//TODO: update the shipping fee, here as well
-                        sendCart(cart,rc);
+                        sendCart(cart,rc); //TODO: update the shipping fee, here as well
                     } else {
                         sendError(rc);
                     }
@@ -133,7 +131,6 @@ This will return the quantity like below, but the actual number may be different
 Now let's call our addToCart method.
 
 ```curl -s -X POST http://localhost:8082/services/cart/99999/329299/1 | grep -A7  "\"itemId\" : \"329299\"" | grep quantity```{{execute T2}}
-
 This should now return a shopping cart where one more instance of the product is added, because of our grep commands you would see something like this:
 
 `"quantity" : 4`

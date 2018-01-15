@@ -143,7 +143,7 @@ In the ``src/main/java/com/redhat/coolstore/CartServiceVerticle.java``{{open}} w
             Transformers.shoppingCartToJson(cart).encode(),
             reply -&gt; {
                 if(reply.succeeded()) {
-                    resultHandler.handle(Future.succeededFuture(reply.result().body());
+                    resultHandler.handle(Future.succeededFuture(reply.result().body()));
                     
                 } else {
                     resultHandler.handle(Future.failedFuture(reply.cause()));
@@ -154,10 +154,54 @@ In the ``src/main/java/com/redhat/coolstore/CartServiceVerticle.java``{{open}} w
 
 Now, lets update the `addProduct` request handler method.
 
-<pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: update the shipping fee">
+<pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="                    sendCart(cart,rc); //TODO: update the shipping fee">
+                    this.getShippingFee(cart, message -> {
+                        if(message.succeeded()) {
+                            cart.setShippingTotal(message.result());
+                            sendCart(cart,rc);
+                        } else {
+                            sendError(rc);
+                        }
 
+                    });
 </pre>
 
+Since we have the special case of product already exists we need to update it twice
+
+<pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="                        sendCart(cart,rc); //TODO: update the shipping fee, here as well">
+                        this.getShippingFee(cart, message -> {
+                            if(message.succeeded()) {
+                                cart.setShippingTotal(message.result());
+                                sendCart(cart,rc);
+                            } else {
+                                sendError(rc);
+                            }
+
+                        });
+</pre>
+
+**3. Test our changes**
+
+So now when we add something to the shopping cart it should also update the shipping fee and set it to 37.0
+
+Firstly, build and start the cart service
+``mvn compile vertx:run``{{execute T1 interrupt}}
+
+Now issue a curl command to add a product that exists
+
+```curl -s -X POST http://localhost:8082/services/cart/99999/329299/1 | grep -A7  "\"itemId\" : \"329299\"" | grep quantity```{{execute T3}}
+
+Let's also make sure that it works with a totally new shopping cart, which would test the second part of our changes:
+
+```curl -s -X POST http://localhost:8082/services/cart/99999/329299/1 | grep -A7  "\"itemId\" : \"329299\"" | grep quantity```{{execute T3}}
+
+This should now return a shopping cart where one more instance of the product is added, because of our grep commands you would see something like this:
+
+`"quantity" : 4`
+
+Now let's try adding a new product.
+
+The CartService depends on the CatalogService and just like in the Spring Boot example we could have created mocks for calling the Catalog Service, however since our example is already complex, we will simply test it with the CatalogService running. 
 
 
-//TODO: update the shipping fee, here as well
+## Summary
