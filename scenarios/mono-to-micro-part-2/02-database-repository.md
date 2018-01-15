@@ -139,7 +139,7 @@ The `ProductRepositoryTest` also used another method called `findById(String id)
 
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/ProductRepository.java" data-target="insert" data-marker="//TODO: Create a method for returning one product">
 public Product findById(String id) {
-    return jdbcTemplate.queryForObject("SELECT * FROM catalog WHERE itemId = " + id, rowMapper);
+    return jdbcTemplate.queryForObject("SELECT * FROM catalog WHERE itemId = '" + id + "'", rowMapper);
 }
 </pre>
 
