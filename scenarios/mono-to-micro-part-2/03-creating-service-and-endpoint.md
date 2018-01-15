@@ -55,7 +55,7 @@ As you can see there is a number of **TODO** in the code, and later we will use 
 Now we are ready to create the endpoints that will expose REST service. Let's again first start by creating a test case for our endpoint. We need to endpoints, one that exposes for GET calls to `/services/products` that will return all product in the catalog as JSON array, and the second one exposes GET calls to `/services/product/{prodId}` which will return a single Product as a JSON Object. Let's again start by creating a test case. 
 
 
-Create the test case by opening ``src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java``{{open}}
+Create the test case by opening: ``src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java``{{open}}
 
 Add the following code to the test case and make sure to review it so that you understand how it works.
 
@@ -96,7 +96,7 @@ public class CatalogEndpointTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    //TODO: Add ClassRule for HoverFly Inventory simulation
+//TODO: Add ClassRule for HoverFly Inventory simulation
 
     @Test
     public void test_retriving_one_proudct() {
@@ -106,7 +106,7 @@ public class CatalogEndpointTest {
         assertThat(response.getBody())
                 .returns("329199",Product::getItemId)
                 .returns("Forge Laptop Sticker",Product::getName)
-                //TODO: Add check for Quantity
+//TODO: Add check for Quantity
                 .returns(8.50,Product::getPrice);
     }
 
@@ -129,7 +129,7 @@ public class CatalogEndpointTest {
         assertThat(fedora)
                 .returns("329299",Product::getItemId)
                 .returns("Red Fedora", Product::getName)
-                //TODO: Add check for Quantity
+//TODO: Add check for Quantity
                 .returns(34.99,Product::getPrice);
     }
 
@@ -138,7 +138,7 @@ public class CatalogEndpointTest {
 
 Now we are ready to implement the `CatalogEndpoint`.
 
-Start by creating the file by opening ``src/main/java/com/redhat/coolstore/service/CatalogEndpoint.java``{{open}}
+Start by creating the file by opening: ``src/main/java/com/redhat/coolstore/service/CatalogEndpoint.java``{{open}}
 
 The add the following content: 
 
@@ -189,7 +189,7 @@ Start the application by running the following command
 
 Wait for the application to start. Then we can verify the endpoint, but running the following command in a new terminal (Note the link below will execute in a second terminal)
 
-``curl http://localhost:8081/services/products``{{execute T2}}
+``curl http://localhost:8081/services/products ; echo``{{execute T2}}
 
 You should get a full JSON array consisting of all the products:
 
@@ -219,7 +219,7 @@ In the next scenario we will also call another service to enrich the endpoint re
 ## Before moving on
 
 Be sure to stop the service by clicking on the first Terminal window and typing `CTRL-C` (or
-click `clear`{{execute T1}} to do it for you).
+click `clear`{{execute T1 interrupt}} to do it for you).
 
 ## Congratulations!
 

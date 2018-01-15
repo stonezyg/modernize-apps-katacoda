@@ -11,18 +11,18 @@ And paste:
 
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/client/InventoryClient.java"
 data-target="insert" data-marker="//TODO: Add Fallback factory here">
-    @Component
-    static class InventoryClientFallbackFactory implements FallbackFactory&lt;InventoryClient&gt; {
-        @Override
-        public InventoryClient create(Throwable cause) {
-            return new InventoryClient() {
-                @Override
-                public Inventory getInventoryStatus(@PathVariable("itemId") String itemId) {
-                    return new Inventory(itemId,-1);
-                }
-            };
-        }
+@Component
+static class InventoryClientFallbackFactory implements FallbackFactory&lt;InventoryClient&gt; {
+    @Override
+    public InventoryClient create(Throwable cause) {
+        return new InventoryClient() {
+            @Override
+            public Inventory getInventoryStatus(@PathVariable("itemId") String itemId) {
+                return new Inventory(itemId,-1);
+            }
+        };
     }
+}
 
 </pre>
 
@@ -39,33 +39,33 @@ data-target="insert" data-marker="@FeignClient(name=&quot;inventory&quot;)">
 Now let's see if we can test the fallback. Optimally we should create a different test that fails the request and then verify the fallback value, however in because we are limited in time we are just going to change our test so that it returns a server error and then verify that the test fails. 
 
 Open ``src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java``{{open}} and change the following lines:
-```
-    @ClassRule
-    public static HoverflyRule hoverflyRule = HoverflyRule.inSimulationMode(dsl(
-            service("inventory:8080")
-//                    .andDelay(2500, TimeUnit.MILLISECONDS).forMethod("GET")
-                    .get(startsWith("/services/inventory"))
-//                    .willReturn(serverError())
-                    .willReturn(success(json(new Inventory("9999",9999))))
 
-    ));
+```
+@ClassRule
+public static HoverflyRule hoverflyRule = HoverflyRule.inSimulationMode(dsl(
+        service("inventory:8080")
+//                    .andDelay(2500, TimeUnit.MILLISECONDS).forMethod("GET")
+                .get(startsWith("/services/inventory"))
+//                    .willReturn(serverError())
+                .willReturn(success(json(new Inventory("9999",9999))))
+
+));
 ```
 
 TO
 
 ```
-    @ClassRule
-    public static HoverflyRule hoverflyRule = HoverflyRule.inSimulationMode(dsl(
-            service("inventory:8080")
+@ClassRule
+public static HoverflyRule hoverflyRule = HoverflyRule.inSimulationMode(dsl(
+        service("inventory:8080")
 //                    .andDelay(2500, TimeUnit.MILLISECONDS).forMethod("GET")
-                    .get(startsWith("/services/inventory"))
-                    .willReturn(serverError())
+                .get(startsWith("/services/inventory"))
+                .willReturn(serverError())
 //                    .willReturn(success(json(new Inventory("9999",9999))))
 
-    ));
+));
 ```
 Notice that the Hoverfly Rule will now return serverError for all request to inventory.
-
 
 Now if you run ``mvn verify -Dtest=CatalogEndpointTest``{{execute}} the test will fail with the following error message:
 
@@ -75,15 +75,15 @@ So since even if our inventory service fails we are still returning inventory qu
 
 Change back the class rule so that we don't fail the tests like this:
 ```
-    @ClassRule
-    public static HoverflyRule hoverflyRule = HoverflyRule.inSimulationMode(dsl(
-            service("inventory:8080")
+@ClassRule
+public static HoverflyRule hoverflyRule = HoverflyRule.inSimulationMode(dsl(
+        service("inventory:8080")
 //                    .andDelay(2500, TimeUnit.MILLISECONDS).forMethod("GET")
-                    .get(startsWith("/services/inventory"))
+                .get(startsWith("/services/inventory"))
 //                    .willReturn(serverError())
-                    .willReturn(success(json(new Inventory("9999",9999))))
+                .willReturn(success(json(new Inventory("9999",9999))))
 
-    ));
+));
 ```
 
 Make sure the test works again by running ``mvn verify -Dtest=CatalogEndpointTest``{{execute}}
@@ -103,7 +103,7 @@ Now if you run ``mvn verify -Dtest=CatalogEndpointTest``{{execute}} the test wil
 
 `Failed tests:   test_retriving_one_proudct(com.redhat.coolstore.service.CatalogEndpointTest): expected:<[9999]> but was:<[-1]>`
 
-This shows that the timeout works nicely. However, since we want our test to be successful you should comment out `.andDelay(2500, TimeUnit.MILLISECONDS).forMethod("GET")` again and then verify that the test works.
+This shows that the timeout works nicely. However, since we want our test to be successful **you should now comment out** `.andDelay(2500, TimeUnit.MILLISECONDS).forMethod("GET")` again and then verify that the test works by executing:
 
 ``mvn verify -Dtest=CatalogEndpointTest``{{execute}}
 

@@ -21,6 +21,8 @@ The output should look something like this
     │   │           └── coolstore
     │   │               ├── client
     │   │               ├── model
+    │   │               │   ├── Inventory.java
+    │   │               │   └── Product.java
     │   │               ├── RestApplication.java
     │   │               └── service
     │   └── resources
@@ -37,7 +39,7 @@ The output should look something like this
 ```
 
 
-As you can see, there are some files that we have prepared for you in the project. Under `src/main/resources/index.html`{{open}}
+As you can see, there are some files that we have prepared for you in the project. Under `src/main/resources/static/index.html`{{open}}
 we have for example prepared a simple html-based UI file for you. Except for the `fabric8/` folder and `index.html`, this
 matches very well what you would get if you generated an empty project from the [Spring Initializr](https://start.spring.io) web
 page. For the moment you can ignore the content of the `fabric8/` folder (we will discuss this later).
@@ -54,17 +56,17 @@ Notice that we are not using the default BOM (Bill of material) that Spring Boot
 a BOM provided by Red Hat as part of the [Snowdrop](http://snowdrop.me/) project.
 
 ```xml
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>me.snowdrop</groupId>
-        <artifactId>spring-boot-bom</artifactId>
-        <version>${spring-boot.bom.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
+<dependencyManagement>
+<dependencies>
+  <dependency>
+    <groupId>me.snowdrop</groupId>
+    <artifactId>spring-boot-bom</artifactId>
+    <version>${spring-boot.bom.version}</version>
+    <type>pom</type>
+    <scope>import</scope>
+  </dependency>
+</dependencies>
+</dependencyManagement>
 ```
 
 We use this bill of material to make sure that we are using the version of for example Apache Tomcat that Red Hat supports. 
@@ -98,7 +100,7 @@ We will also make use of Java Persistance API (JPA) so we need to add the follow
 
 We will go ahead and add a bunch of other dependencies while we have the pom.xml open. These will be explained later.
 
-<pre class="file" data-filename="pom.xml" data-target="insert" data-marker=" <!-- TODO: Add actuator, Feign and hystrix dependency here -->">
+<pre class="file" data-filename="pom.xml" data-target="insert" data-marker=" <!-- TODO: Add actuator, feign and hystrix dependency here -->">
     &lt;dependency&gt;
       &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
       &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;
@@ -146,7 +148,7 @@ You should now see an HTML page that looks like this:
 
 **4. Stop the application**
 
-Before moving on, click in the terminal window and then press **CTRL-C** to stop the running application!
+Before moving on, click here: `clear`{{execute interrupt}} to stop the running application.
 
 ## Congratulations
 

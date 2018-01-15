@@ -7,31 +7,31 @@ Open the `pom.xml`{{open}} file.
 At the `<!-- TODO: Add OpenShift profile here -->` we are going to add a the following configuration to the pom.xml
 
 <pre class="file" data-filename="pom.xml" data-target="insert" data-marker="<!-- TODO: Add OpenShift profile here -->">
-          &lt;profile&gt;
-              &lt;id&gt;openshift&lt;/id&gt;
-              &lt;build&gt;
-                  &lt;plugins&gt;
-                      &lt;plugin&gt;
-                          &lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;
-                          &lt;version&gt;2.6&lt;/version&gt;
-                          &lt;configuration&gt;
-                              &lt;webResources&gt;
-                                  &lt;resource&gt;
-                                      &lt;directory&gt;${basedir}/src/main/webapp/WEB-INF&lt;/directory&gt;
-                                      &lt;filtering&gt;true&lt;/filtering&gt;		
-                                      &lt;targetPath&gt;WEB-INF&lt;/targetPath&gt;
-                                  &lt;/resource&gt;
-                              &lt;/webResources&gt;
-                              &lt;outputDirectory&gt;deployments&lt;/outputDirectory&gt;
-                              &lt;warName&gt;ROOT&lt;/warName&gt;		
-                          &lt;/configuration&gt;
-                      &lt;/plugin&gt;
-                  &lt;/plugins&gt;
-              &lt;/build&gt;
-          &lt;/profile&gt;
+&lt;profile&gt;
+  &lt;id&gt;openshift&lt;/id&gt;
+  &lt;build&gt;
+      &lt;plugins&gt;
+          &lt;plugin&gt;
+              &lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;
+              &lt;version&gt;2.6&lt;/version&gt;
+              &lt;configuration&gt;
+                  &lt;webResources&gt;
+                      &lt;resource&gt;
+                          &lt;directory&gt;${basedir}/src/main/webapp/WEB-INF&lt;/directory&gt;
+                          &lt;filtering&gt;true&lt;/filtering&gt;
+                          &lt;targetPath&gt;WEB-INF&lt;/targetPath&gt;
+                      &lt;/resource&gt;
+                  &lt;/webResources&gt;
+                  &lt;outputDirectory&gt;deployments&lt;/outputDirectory&gt;
+                  &lt;warName&gt;ROOT&lt;/warName&gt;
+              &lt;/configuration&gt;
+          &lt;/plugin&gt;
+      &lt;/plugins&gt;
+  &lt;/build&gt;
+&lt;/profile&gt;
 </pre>
 
-**2. Create the OpenShift projcet**
+**2. Create the OpenShift project**
 
 First, click on the **OpenShift Console** tab next to the Terminal tab:
 
@@ -104,6 +104,8 @@ Build the project:
 
 ``mvn clean package -Popenshift``{{execute T1}}
 
+Wait for the build to finish and the `BUILD SUCCESS` message!
+
 And finally, start the build process that will take the `.war` file and combine it with JBoss
 EAP and produce a Linux container image which will be automatically deployed into the project,
 thanks to the *DeploymentConfig* object created from the template:
@@ -129,8 +131,8 @@ database and the monolith:
 
 ![OpenShift Console](/redhat-middleware-workshops/assets/moving-existing-apps/build-done.png)
 
-Test the application by clicking on the route link, which will open the same monolith Coolstore
-in your browser, this time running on OpenShift:
+Test the application by clicking on the [Route link](http://www-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com),
+which will open the same monolith Coolstore in your browser, this time running on OpenShift:
 
 ![OpenShift Console](/redhat-middleware-workshops/assets/moving-existing-apps/route-link.png)
 

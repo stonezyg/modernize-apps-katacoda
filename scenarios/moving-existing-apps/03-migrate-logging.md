@@ -12,7 +12,7 @@ The WebLogic `NonCatalogLogger` is not supported on JBoss EAP (or any other Java
 
 Click here to open the offending file `src/main/java/com/redhat/coolstore/service/OrderServiceMDB.java`{{open}}
 
-**3. Remove weblogic-specific `import` statements and inheritance**
+**2. Remove weblogic-specific `import` statements and inheritance**
 
 The first step is to remove all instances of `import weblogic.x.y.z` at the top of the file. This ensures that our code will
 not compile or run until we complete the migration. Remove the import statements for `import weblogic.i18n.logging.NonCatalogLogger;`.

@@ -87,7 +87,7 @@ the same credentials as OpenShift:
 * Username: `developer`
 * Password: `developer`
 
-Accept the permissions, and then you'll find yourself at the approval prompt:
+Accept the browser certificate warning and the Jenkins/OpenShift permissions, and then you'll find yourself at the approval prompt:
 
 ![Prod](/redhat-middleware-workshops/assets/developer-intro/pipe-jenkins-prompt.png)
 

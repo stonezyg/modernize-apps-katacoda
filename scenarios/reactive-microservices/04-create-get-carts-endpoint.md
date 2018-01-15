@@ -15,12 +15,12 @@ In our example we will only use basic GET, POST and DELETE routing. Let's get st
 First we are going to create a very simple endpoint that returns a `ShopppingCart` object as a JSON String using the ```src/main/java/com/redhat/coolstore/utils/Transformers.java```{open} to get a `JsonObject` that we can then return as String
 
 <pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Add handler for getting a shoppingCart by id">
-    private void getCart(RoutingContext rc) {
-        logger.info("Retrieved " + rc.request().method().name() + " request to " + rc.request().absoluteURI());
-        String cartId = rc.pathParam("cartId");
-        ShoppingCart cart = getCart(cartId);
-        sendCart(cart,rc);
-    }
+private void getCart(RoutingContext rc) {
+    logger.info("Retrieved " + rc.request().method().name() + " request to " + rc.request().absoluteURI());
+    String cartId = rc.pathParam("cartId");
+    ShoppingCart cart = getCart(cartId);
+    sendCart(cart,rc);
+}
 </pre>
 
 
@@ -29,15 +29,15 @@ First we are going to create a very simple endpoint that returns a `ShopppingCar
 Now let's create a bit more complex implementation that returns many `ShoppingCarts` as a JSON array.
 
 <pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Add handler for getting a list of shoppingCarts">
-    private void getCarts(RoutingContext rc) {
-        logger.info("Retrieved " + rc.request().method().name() + " request to " + rc.request().absoluteURI());
-        JsonArray cartList = new JsonArray();
-        carts.keySet().forEach(cartId -&gt; cartList.add(Transformers.shoppingCartToJson(carts.get(cartId))));
-        rc.response()
-            .setStatusCode(200)
-            .putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-            .end(cartList.encodePrettily());
-    }
+private void getCarts(RoutingContext rc) {
+    logger.info("Retrieved " + rc.request().method().name() + " request to " + rc.request().absoluteURI());
+    JsonArray cartList = new JsonArray();
+    carts.keySet().forEach(cartId -&gt; cartList.add(Transformers.shoppingCartToJson(carts.get(cartId))));
+    rc.response()
+        .setStatusCode(200)
+        .putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
+        .end(cartList.encodePrettily());
+}
 </pre>
 
 The most important line in this method is this:
@@ -83,61 +83,21 @@ This should print the body of the response  that looks somewhat like this. Note 
 ```json
 [ {
   "cartId" : "99999",
-  "orderValue" : 1791.85,
-  "retailPrice" : 1741.49,
-  "discount" : 0.0,
-  "shippingFee" : 61.4,
-  "shippingDiscount" : 11.04,
-  "items" : [ {
+  "cartTotal" : 632.36,
+  "retailPrice" : 582.97,
+  "cartItemPromoSavings" : 0.0,
+  "shippingTotal" : 90.28,
+  "shippingPromoSavings" : 40.89,
+  "shoppingCartItemList" : [ {
     "product" : {
       "itemId" : "329299",
-      "price" : 166.89,
+      "price" : 162.49,
       "name" : "Red Fedora",
       "desc" : null,
       "location" : null,
       "link" : null
     },
-    "quantity" : 2
-  }, {
-    "product" : {
-      "itemId" : "329199",
-      "price" : 187.8,
-      "name" : "Forge Laptop Sticker",
-      "desc" : null,
-      "location" : null,
-      "link" : null
-    },
-    "quantity" : 4
-  }, {
-    "product" : {
-      "itemId" : "165613",
-      "price" : 148.02,
-      "name" : "Solid Performance Polo",
-      "desc" : null,
-      "location" : null,
-      "link" : null
-    },
-    "quantity" : 2
-  }, {
-    "product" : {
-      "itemId" : "165614",
-      "price" : 144.83,
-      "name" : "Ogio Caliber Polo",
-      "desc" : null,
-      "location" : null,
-      "link" : null
-    },
     "quantity" : 1
-  }, {
-    "product" : {
-      "itemId" : "165954",
-      "price" : 107.82,
-      "name" : "16 oz. Vortex Tumbler",
-      "desc" : null,
-      "location" : null,
-      "link" : null
-    },
-    "quantity" : 2
   } ]
 } ]
 ```

@@ -86,7 +86,7 @@ The RHAMT CLI generated an HTML report. To view the report, first startup a simp
 
 ```docker run --privileged -v ~/rhamt-report:/usr/share/nginx/html:ro,z -p 9000:80 -it nginx```{{execute T2}}
 
-> This command will not output anything
+> **NOTE**: This command will not output anything
 
 Then [click to view the report](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/)
 
@@ -110,6 +110,7 @@ The Dashboard gives an overview of the entire application migration effort. It s
 
 > Story points are an abstract metric commonly used in Agile software development to estimate the relative level of effort needed to implement a feature or change.
 Red Hat Application Migration Toolkit uses story points to express the level of effort needed to migrate particular application constructs, and the application as a whole.
+The level of effort will vary greatly depending on the size and complexity of the application(s) to migrate.
 
 There are several other sub-pages accessible by the menu near the top. Cick on each one and observe the results for each of these pages:
 

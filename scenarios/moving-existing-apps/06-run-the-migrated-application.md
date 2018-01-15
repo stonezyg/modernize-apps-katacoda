@@ -18,62 +18,59 @@ JBoss EAP comes with a nice maven-plugin tool that can stop, start, deploy, and 
 At the `TODO: Add wildfly plugin here` we are going to add a the following configuration
 
 <pre class="file" data-filename="pom.xml" data-target="insert" data-marker="<!-- TODO: Add wildfly plugin here -->">
-            &lt;plugin&gt;
-                &lt;groupId&gt;org.wildfly.plugins&lt;/groupId&gt;
-                &lt;artifactId&gt;wildfly-maven-plugin&lt;/artifactId&gt;
-                &lt;version&gt;1.2.1.Final&lt;/version&gt;
-                &lt;!-- TODO: Add configuration here --&gt;
-            &lt;/plugin&gt;
+&lt;plugin&gt;
+    &lt;groupId&gt;org.wildfly.plugins&lt;/groupId&gt;
+    &lt;artifactId&gt;wildfly-maven-plugin&lt;/artifactId&gt;
+    &lt;version&gt;1.2.1.Final&lt;/version&gt;
+    &lt;!-- TODO: Add configuration here --&gt;
+&lt;/plugin&gt;
 </pre>
 
 Next we are going to add some configuration. First we need to point to our JBoss EAP installation using the `jboss-home` configuration. After that we will also have to tell JBoss EAP to use the profile configured for full Java EE, since it defaults to use the Java EE Web Profile. This is done by adding a `server-config` and set it to value `standalone-full.xml`
 
 <pre class="file" data-filename="pom.xml" data-target="insert" data-marker="<!-- TODO: Add configuration here -->">
-                &lt;configuration&gt;
-                    &lt;jboss-home&gt;${env.JBOSS_HOME}&lt;/jboss-home&gt;
-                    &lt;server-config&gt;standalone-full.xml&lt;/server-config&gt;
-                    &lt;resources&gt;
-                    &lt;!-- TODO: Add Datasource definition here --&gt;
-                    &lt;!-- TODO: Add JMS Topic definition here --&gt;
-                    &lt;/resources&gt;
-                    &lt;server-args&gt;
-                        &lt;server-arg&gt;-Djboss.https.port=8888&lt;/server-arg&gt;
-                        &lt;server-arg&gt;-Djboss.bind.address=0.0.0.0&lt;/server-arg&gt;
-                    &lt;/server-args&gt;
-                    &lt;javaOpts&gt;-Djava.net.preferIPv4Stack=true&lt;/javaOpts&gt;
-                &lt;/configuration&gt;
+&lt;configuration&gt;
+    &lt;jboss-home&gt;${env.JBOSS_HOME}&lt;/jboss-home&gt;
+    &lt;server-config&gt;standalone-full.xml&lt;/server-config&gt;
+    &lt;resources&gt;
+&lt;!-- TODO: Add Datasource definition here --&gt;
+&lt;!-- TODO: Add JMS Topic definition here --&gt;
+    &lt;/resources&gt;
+    &lt;server-args&gt;
+        &lt;server-arg&gt;-Djboss.https.port=8888&lt;/server-arg&gt;
+        &lt;server-arg&gt;-Djboss.bind.address=0.0.0.0&lt;/server-arg&gt;
+    &lt;/server-args&gt;
+    &lt;javaOpts&gt;-Djava.net.preferIPv4Stack=true&lt;/javaOpts&gt;
+&lt;/configuration&gt;
 </pre>
 
 Since our application is using a Database we also configuration that by adding the following at the ```<-- TODO: Add Datasource definition here -->``` comment
 
 <pre class="file" data-filename="pom.xml" data-target="insert" data-marker="<!-- TODO: Add Datasource definition here -->">
-                        &lt;resource&gt;
-                            &lt;addIfAbsent&gt;true&lt;/addIfAbsent&gt;
-                            &lt;address&gt;subsystem=datasources,data-source=CoolstoreDS&lt;/address&gt;
-                            &lt;properties&gt;
-                                &lt;jndi-name&gt;java:jboss/datasources/CoolstoreDS&lt;/jndi-name&gt;
-                                &lt;enabled&gt;true&lt;/enabled&gt;
-                                &lt;connection-url&gt;jdbc:h2:mem:test;DB_CLOSE_DELAY=-1&lt;/connection-url&gt;
-                                &lt;driver-class&gt;org.h2.Driver&lt;/driver-class&gt;
-                                &lt;driver-name&gt;h2&lt;/driver-name&gt;
-                                &lt;user-name&gt;sa&lt;/user-name&gt;
-                                &lt;password&gt;sa&lt;/password&gt;
-                            &lt;/properties&gt;
-                      &lt;/resource&gt;
-
+&lt;resource&gt;
+    &lt;addIfAbsent&gt;true&lt;/addIfAbsent&gt;
+    &lt;address&gt;subsystem=datasources,data-source=CoolstoreDS&lt;/address&gt;
+    &lt;properties&gt;
+        &lt;jndi-name&gt;java:jboss/datasources/CoolstoreDS&lt;/jndi-name&gt;
+        &lt;enabled&gt;true&lt;/enabled&gt;
+        &lt;connection-url&gt;jdbc:h2:mem:test;DB_CLOSE_DELAY=-1&lt;/connection-url&gt;
+        &lt;driver-class&gt;org.h2.Driver&lt;/driver-class&gt;
+        &lt;driver-name&gt;h2&lt;/driver-name&gt;
+        &lt;user-name&gt;sa&lt;/user-name&gt;
+        &lt;password&gt;sa&lt;/password&gt;
+    &lt;/properties&gt;
+&lt;/resource&gt;
 </pre>
 
 Since our application is using a JMS Topic we are also need to add the configuration for that by adding the following at the ```<-- TODO: Add JMS Topic here -->``` comment
 
 <pre class="file" data-filename="pom.xml" data-target="insert" data-marker="<!-- TODO: Add JMS Topic definition here -->">
-                        &lt;resource&gt;
-                            &lt;address&gt;subsystem=messaging-activemq,server=default,jms-topic=orders&lt;/address&gt;
-                            &lt;properties&gt;
-                                &lt;entries&gt;!!["topic/orders"]&lt;/entries&gt;
-                            &lt;/properties&gt;
-                        &lt;/resource&gt;
-
-
+&lt;resource&gt;
+    &lt;address&gt;subsystem=messaging-activemq,server=default,jms-topic=orders&lt;/address&gt;
+    &lt;properties&gt;
+        &lt;entries&gt;!!["topic/orders"]&lt;/entries&gt;
+    &lt;/properties&gt;
+&lt;/resource&gt;
 </pre>
 
 We are now ready to build and test the project
@@ -105,17 +102,7 @@ You may see WARNINGs in the console output. We will fix these soon!
 
 ## Shutdown the application
 
-Before moving on, click in the **Terminal** window and type CTRL-C to stop the running WildFly server. You should see:
-
-```console
-JBoss EAP 7.1.0.GA (WildFly Core 3.0.10.Final-redhat-1) stopped in ___ms
-```
-
-
-
-
-
-
+Before moving on, click here to stop the process: `clear`{{execute interrupt}} (or click in the **Terminal** window and type CTRL-C).
 
 
 

@@ -4,22 +4,20 @@ Verticles — the Building Blocks of Eclipse Vert.x
 
 Vert.x gives you a lot of freedom in how you can shape your application and code. But it also provides bricks to start writing reactive applications. _Verticles_ are chunks of code that get deployed and run by Vert.x. An application, such as a microservice, would typically be comprised of many verticles. A verticle typically creates servers or clients, registers a set of Handlers', and encapsulates a part of the business logic of the system.
 
-In Java, a verticle is a class extending the Abstract Verticle class:
+In Java, a verticle is a class extending the Abstract Verticle class. For example:
 
 ```java
-    import io.vertx.core.AbstractVerticle;
-    
-    public class MyVerticle extends AbstractVerticle { 
-        @Override
-        public void start() throws Exception {
-            // Executed when the verticle is deployed
-        }
-
-        @Override
-        public void stop() throws Exception {
-            // Executed when the verticle is un-deployed
-        } 
+public class MyVerticle extends AbstractVerticle {
+    @Override
+    public void start() throws Exception {
+        // Executed when the verticle is deployed
     }
+
+    @Override
+    public void stop() throws Exception {
+        // Executed when the verticle is un-deployed
+    }
+}
 ```
 
 ## Creating a simple web server that can serve static content
@@ -176,7 +174,7 @@ Create and start the web server listing to the port retrieved from the configura
 vertx.createHttpServer().requestHandler(router::accept).listen(serverPort);
 </pre>
 
-Now let's restart the application.
+Now let's restart the application. Execute:
 
 ``mvn compile vertx:run``{{execute interrupt}}
 
@@ -218,10 +216,7 @@ After Vert.x is start execute a curl command in another terminal so like this.
 
 ```curl -X GET http://localhost:10080/hello; echo```{{execute T2}}
 
-The response body should be a JSON string `{"message":"Hello"}`. You can also use the `-v` flag for verbose output to see more details about the header, response status etc.
-
-```curl -v -X GET http://localhost:10080/hello; echo```{{execute T2}}
-
+The response body should be a JSON string `{"message":"Hello"}`.
 
 ## Congratulations
 

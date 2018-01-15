@@ -27,11 +27,11 @@ import com.redhat.coolstore.model.Product;
 @SpringBootTest()
 public class ProductRepositoryTest {
 
-    //TODO: Insert Catalog Component here
+//TODO: Insert Catalog Component here
 
-    //TODO: Insert test_readOne here
+//TODO: Insert test_readOne here
 
-    //TODO: Insert test_readAll here
+//TODO: Insert test_readAll here
 
 }
 
@@ -42,8 +42,8 @@ injected with Spring's `@Autowired` annotation which locates, instantiates, and 
 and manages their lifecycle (much like Java EE and it's CDI feature). Click to create this code:
 
 <pre class="file" data-filename="src/test/java/com/redhat/coolstore/service/ProductRepositoryTest.java" data-target="insert" data-marker="//TODO: Insert Catalog Component here">
-    @Autowired
-    ProductRepository repository;
+@Autowired
+ProductRepository repository;
 </pre>
 
 The `ProductRepository` should provide a method called `findById(String id)` that returns a product and collect that from the database. We test this by querying for a product with id "444434" which should have name "Pebble Smart Watch". The pre-loaded data comes from the `src/main/resources/schema.sql` file.
@@ -51,27 +51,27 @@ The `ProductRepository` should provide a method called `findById(String id)` tha
 Click to insert this code:
 
 <pre class="file" data-filename="src/test/java/com/redhat/coolstore/service/ProductRepositoryTest.java" data-target="insert" data-marker="//TODO: Insert test_readOne here">
-    @Test
-    public void test_readOne() {
-        Product product = repository.findById("444434");
-        assertThat(product).isNotNull();
-        assertThat(product.getName()).as("Verify product name").isEqualTo("Pebble Smart Watch");
-        assertThat(product.getQuantity()).as("Quantity should be ZEOR").isEqualTo(0);
-    }
+@Test
+public void test_readOne() {
+    Product product = repository.findById("444434");
+    assertThat(product).isNotNull();
+    assertThat(product.getName()).as("Verify product name").isEqualTo("Pebble Smart Watch");
+    assertThat(product.getQuantity()).as("Quantity should be ZEOR").isEqualTo(0);
+}
 </pre>
 
 The `ProductRepository` should also provide a methods called `readAll()` that returns a list of all products in the catalog. We test this by making sure that the list contains a "Red Fedora", "Forge Laptop Sticker" and "Oculus Rift".
 Again, click to insert the code:
 
 <pre class="file" data-filename="src/test/java/com/redhat/coolstore/service/ProductRepositoryTest.java" data-target="insert" data-marker="//TODO: Insert test_readAll here">
-    @Test
-    public void test_readAll() {
-        List&lt;Product&gt; productList = repository.readAll();
-        assertThat(productList).isNotNull();
-        assertThat(productList).isNotEmpty();
-        List&lt;String&gt; names = productList.stream().map(Product::getName).collect(Collectors.toList());
-        assertThat(names).contains("Red Fedora","Forge Laptop Sticker","Oculus Rift");
-    }
+@Test
+public void test_readAll() {
+    List&lt;Product&gt; productList = repository.readAll();
+    assertThat(productList).isNotNull();
+    assertThat(productList).isNotEmpty();
+    List&lt;String&gt; names = productList.stream().map(Product::getName).collect(Collectors.toList());
+    assertThat(names).contains("Red Fedora","Forge Laptop Sticker","Oculus Rift");
+}
 </pre>
 
 ## Implement the database repository
@@ -96,13 +96,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ProductRepository {
 
-    //TODO: Autowire the jdbcTemplate here
+//TODO: Autowire the jdbcTemplate here
 
-    //TODO: Add row mapper here
+//TODO: Add row mapper here
 
-    //TODO: Create a method for returning all products
+//TODO: Create a method for returning all products
 
-    //TODO: Create a method for returning one product
+//TODO: Create a method for returning one product
 
 }
 
@@ -113,34 +113,34 @@ public class ProductRepository {
 Spring Data provides a convenient way for us to access data without having to write a lot of boiler plate code. One way to do that is to use a `JdbcTemplate`. First we need to autowire that as a member to `ProductRepository`. Click to add it:
 
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/ProductRepository.java" data-target="insert" data-marker="//TODO: Autowire the jdbcTemplate here">
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+@Autowired
+private JdbcTemplate jdbcTemplate;
 </pre>
 
 The `JdbcTemplate` require that we provide a `RowMapper`so that it can map between rows in the query to Java Objects. We are going to define the `RowMapper` like this (click to add it):
 
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/ProductRepository.java" data-target="insert" data-marker=" //TODO: Add row mapper here">
-    private RowMapper&lt;Product&gt; rowMapper = (rs, rowNum) -> new Product(
-            rs.getString("itemId"),
-            rs.getString("name"),
-            rs.getString("description"),
-            rs.getDouble("price"));
+private RowMapper&lt;Product&gt; rowMapper = (rs, rowNum) -> new Product(
+        rs.getString("itemId"),
+        rs.getString("name"),
+        rs.getString("description"),
+        rs.getDouble("price"));
 </pre>
 
 Now we are ready to create the methods that are used in the test. Let's start with the `readAll()`. It should return a `List<Product>` and then we can write the query as `SELECT * FROM catalog` and use the rowMapper to map that into `Product` objects. Our method should look like this (click to add it):
 
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/ProductRepository.java" data-target="insert" data-marker="//TODO: Create a method for returning all products">
-    public List&lt;Product&gt; readAll() {
-        return jdbcTemplate.query("SELECT * FROM catalog", rowMapper);
-    }
+public List&lt;Product&gt; readAll() {
+    return jdbcTemplate.query("SELECT * FROM catalog", rowMapper);
+}
 </pre>
 
 The `ProductRepositoryTest` also used another method called `findById(String id)` that should return a Product. The implementation of that method using the `JdbcTemplate` and `RowMapper` looks like this (click to add it):
 
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/ProductRepository.java" data-target="insert" data-marker="//TODO: Create a method for returning one product">
-    public Product findById(String id) {
-        return jdbcTemplate.queryForObject("SELECT * FROM catalog WHERE itemId = " + id, rowMapper);
-    }
+public Product findById(String id) {
+    return jdbcTemplate.queryForObject("SELECT * FROM catalog WHERE itemId = " + id, rowMapper);
+}
 </pre>
 
 The `ProductRepository` should now have all the components, but we still need to tell spring how to connect to the database. For local development we will use the H2 in-memory database. When deploying this to OpenShift we are instead going to use the PostgreSQL database, which matches what we are using in production.
@@ -156,7 +156,6 @@ spring.datasource.driver-class-name=org.h2.Driver
 </pre>
 
 The Spring Data framework will automatically see if there is a schema.sql in the class path and run that when initializing.
-
 
 Now we are ready to run the test to verify that everything works. Because we created the `ProductRepositoryTest.java` all we have todo is to run: ``mvn verify``{{execute interrupt}}
 

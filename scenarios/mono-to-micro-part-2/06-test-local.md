@@ -36,7 +36,7 @@ To see the raw JSON output using `curl`, you can open an new terminal window by 
 icon on the terminal toolbar and then  choose **Open New Terminal**. You can also click on the following
 command to automatically open a new terminal and run the test:
 
-`curl http://localhost:8081/services/product/329299`{{execute T2}}
+`curl http://localhost:8081/services/product/329299 ; echo`{{execute T2}}
 
 You would see a JSON response like this:
 

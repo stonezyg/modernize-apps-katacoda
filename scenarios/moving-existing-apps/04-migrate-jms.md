@@ -15,6 +15,8 @@ MDB. RHAMT has flagged this and reported it using a number of issues.
 
 **1. Review the issues**
 
+[Open the Issues report](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/reports/migration_issues.html).
+
 In the list of issues for our migration, RHAMT has identified several issues with our use of weblogic MDB interfaces:
 
 * **Call of JNDI lookup** - Our apps use a weblogic-specific [JNDI](https://en.wikipedia.org/wiki/Java_Naming_and_Directory_Interface) lookup scheme.

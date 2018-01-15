@@ -23,31 +23,31 @@ Our newly create route needs a handler. This method should look like this `void 
 Adding the following at the `//TODO: Add handler for adding a Item to the cart` marker in class `CartServiceVerticle`
 
 <pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Add handler for adding a Item to the cart">
-    private void addToCart(RoutingContext rc) {
-        logger.info("Retrieved " + rc.request().method().name() + " request to " + rc.request().absoluteURI());
+private void addToCart(RoutingContext rc) {
+    logger.info("Retrieved " + rc.request().method().name() + " request to " + rc.request().absoluteURI());
 
-        String cartId = rc.pathParam("cartId");
-        String itemId = rc.pathParam("itemId");
-        int quantity = Integer.parseInt(rc.pathParam("quantity"));
+    String cartId = rc.pathParam("cartId");
+    String itemId = rc.pathParam("itemId");
+    int quantity = Integer.parseInt(rc.pathParam("quantity"));
 
-        ShoppingCart cart = getCart(cartId);
+    ShoppingCart cart = getCart(cartId);
 
-        boolean productAlreadyInCart = cart.getShoppingCartItemList().stream()
-            .anyMatch(i -> i.getProduct().getItemId().equals(itemId));
+    boolean productAlreadyInCart = cart.getShoppingCartItemList().stream()
+        .anyMatch(i -> i.getProduct().getItemId().equals(itemId));
 
-        if(productAlreadyInCart) {
-            cart.getShoppingCartItemList().forEach(item -&gt; {
-                if (item.getProduct().getItemId().equals(itemId)) {
-                    item.setQuantity(item.getQuantity() + quantity);
-                    sendCart(cart,rc); //TODO: update the shipping fee
-                }
-            });
-        } else {
-            ShoppingCartItem newItem = new ShoppingCartItemImpl();
-            newItem.setQuantity(quantity);
+    if(productAlreadyInCart) {
+        cart.getShoppingCartItemList().forEach(item -&gt; {
+            if (item.getProduct().getItemId().equals(itemId)) {
+                item.setQuantity(item.getQuantity() + quantity);
+                sendCart(cart,rc); //TODO: update the shipping fee
+            }
+        });
+    } else {
+        ShoppingCartItem newItem = new ShoppingCartItemImpl();
+        newItem.setQuantity(quantity);
 //TODO: Get product from Catalog service and add it to the ShoppingCartItem
-        }
     }
+}
 </pre>
 
 We are not completely done with the addToCart method yet. We have a TODO for Getting a product from the `CatalogService`. Since we do not want to block the thread while waiting for the `CatalogService` to respond this should be a async operation. 
@@ -74,24 +74,24 @@ We are now ready to create our `getProduct` method
 Adding the following at the `//TODO: Add method for getting products` marker in class `CartServiceVerticle`
 
 <pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Add method for getting products">
-    private void getProduct(String itemId, Handler&lt;AsyncResult&lt;Product&gt;&gt; resultHandler) {
-        WebClient client = WebClient.create(vertx);
-        Integer port = config().getInteger("catalog.service.port", 8080);
-        String hostname = config().getString("catalog.service.hostname", "localhost");
-        Integer timeout = config().getInteger("catalog.service.timeout", 0);
-        client.get(port, hostname,"/services/product/"+itemId)
-            .timeout(timeout)
-            .send(handler -&gt; {
-                if(handler.succeeded()) {
-                    Product product = Transformers.jsonToProduct(handler.result().body().toJsonObject());
-                    resultHandler.handle(Future.succeededFuture(product));
-                } else {
-                    resultHandler.handle(Future.failedFuture(handler.cause()));
-                }
+private void getProduct(String itemId, Handler&lt;AsyncResult&lt;Product&gt;&gt; resultHandler) {
+    WebClient client = WebClient.create(vertx);
+    Integer port = config().getInteger("catalog.service.port", 8080);
+    String hostname = config().getString("catalog.service.hostname", "localhost");
+    Integer timeout = config().getInteger("catalog.service.timeout", 0);
+    client.get(port, hostname,"/services/product/"+itemId)
+        .timeout(timeout)
+        .send(handler -&gt; {
+            if(handler.succeeded()) {
+                Product product = Transformers.jsonToProduct(handler.result().body().toJsonObject());
+                resultHandler.handle(Future.succeededFuture(product));
+            } else {
+                resultHandler.handle(Future.failedFuture(handler.cause()));
+            }
 
 
-            });
-    }
+        });
+}
 </pre>
 
 Now we can call this method from the `addToCart` method and pass a Lambda call back. 
@@ -99,15 +99,15 @@ Now we can call this method from the `addToCart` method and pass a Lambda call b
 Adding the following at the `//TODO: Get product from Catalog service and add it to the ShoppingCartItem`
 
 <pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Get product from Catalog service and add it to the ShoppingCartItem">
-                this.getProduct(itemId, reply -&gt; {
-                    if (reply.succeeded()) {
-                        newItem.setProduct(reply.result());
-                        cart.addShoppingCartItem(newItem);
-                        sendCart(cart,rc); //TODO: update the shipping fee, here as well
-                    } else {
-                        sendError(rc);
-                    }
-                });
+this.getProduct(itemId, reply -&gt; {
+    if (reply.succeeded()) {
+        newItem.setProduct(reply.result());
+        cart.addShoppingCartItem(newItem);
+        sendCart(cart,rc); //TODO: update the shipping fee, here as well
+    } else {
+        sendError(rc);
+    }
+});
 </pre>
 
 To summarize our `addToCart` handler will now first check if the product already exists in the shopping cart. If it does exist we update the quantity and then send the response. If it doesn't exist we call the catalog service to retrieve the data about the product, create a new ShoppingCartItem, set the quantity, add the retrieved product, add it the `ShoppingCartItem`, add the item to the shopping cart and then finally send the response to the client. 
@@ -147,11 +147,13 @@ First lets check if the catalog service is still running locally.
 
 If that prints `< HTTP/1.1 200` then our service is responding correctly otherwise we need to start the Catalog application in a separate terminal like this:
 
-```cd ~/projects/catalog; mvn clean spring-boot:run```{{execute T2}}
+```cd ~/projects/catalog; mvn clean spring-boot:run -DskipTests```{{execute T2}}
 
-To test to add a product we are going to use a new shopping cart id like this.
+Wait for it to complete. You should see `Started RestApplication in xxxxx seconds`.
 
-```curl -s -X POST http://localhost:8082/services/cart/88888/329299/1```{{execute T3}}
+To test to add a product we are going to use a new shopping cart id. Execute:
+
+```curl -s -X POST http://localhost:8082/services/cart/88888/329299/1 ; echo```{{execute T3}}
 
 This should print the follow:
 
@@ -184,24 +186,24 @@ Since we are now so skilled in writing endpoints lets go ahead and also create t
 Adding the following at the `//TODO: Add handler for removing an item from the cart`
 
 <pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="//TODO: Add handler for removing an item from the cart">
-    private void removeShoppingCartItem(RoutingContext rc) {
-        logger.info("Retrieved " + rc.request().method().name() + " request to " + rc.request().absoluteURI());
-        String cartId = rc.pathParam("cartId");
-        String itemId = rc.pathParam("itemId");
-        int quantity = Integer.parseInt(rc.pathParam("quantity"));
-        ShoppingCart cart = getCart(cartId);
+private void removeShoppingCartItem(RoutingContext rc) {
+    logger.info("Retrieved " + rc.request().method().name() + " request to " + rc.request().absoluteURI());
+    String cartId = rc.pathParam("cartId");
+    String itemId = rc.pathParam("itemId");
+    int quantity = Integer.parseInt(rc.pathParam("quantity"));
+    ShoppingCart cart = getCart(cartId);
 
-        //If all quantity with the same Id should be removed then remove it from the list completely. The is the normal use-case
-        cart.getShoppingCartItemList().removeIf(i -&gt; i.getProduct().getItemId().equals(itemId) && i.getQuantity()&lt;=quantity);
+    //If all quantity with the same Id should be removed then remove it from the list completely. The is the normal use-case
+    cart.getShoppingCartItemList().removeIf(i -&gt; i.getProduct().getItemId().equals(itemId) && i.getQuantity()&lt;=quantity);
 
-        //If not all quantities should be removed we need to update the list
-        cart.getShoppingCartItemList().forEach(i -&gt;  {
-                if(i.getProduct().getItemId().equals(itemId))
-                    i.setQuantity(i.getQuantity()-quantity);
-            }
-        );
-        sendCart(cart,rc);
-    }
+    //If not all quantities should be removed we need to update the list
+    cart.getShoppingCartItemList().forEach(i -&gt;  {
+            if(i.getProduct().getItemId().equals(itemId))
+                i.setQuantity(i.getQuantity()-quantity);
+        }
+    );
+    sendCart(cart,rc);
+}
 </pre>
 
 Now let's go ahead and create the route.
@@ -228,17 +230,19 @@ Now let's call our addToCart method.
 
 ```curl -s -X DELETE http://localhost:8082/services/cart/99999/329299/1 | grep -A7  "\"itemId\" : \"329299\"" | grep quantity```{{execute T3}}
 
-This should now return a shopping cart where one more instance of the product is added, because of our grep commands you would see something like this:
+If this results in an empty cart (quantity =0 ) this command will not return any output.
+
+If you have more than one items remaining in the cart, this will return a shopping cart where one more instance of the product is removed,
+because of our grep commands you would see something like this.
 
 `"quantity" : 3`
-
 
 
 ## Congratulations
 
 Wow! You have now successfully created a Reactive microservices that are calling another REST service asynchronously. 
 
-However, looking at the output you can see that the discount and shippingFee is 0.0, which also means that the orderValue (price after shipping and discount) and retailPrice (sum of all products prices) are equal. That is because we haven't implemented the Shipping and Promotional Services yet. That's what we are going to do in the next scenario.
+However, looking at the output you can see that the discount and shippingFee is `0.0`, which also means that the orderValue (price after shipping and discount) and retailPrice (sum of all products prices) are equal. That is because we haven't implemented the Shipping and Promotional Services yet. That's what we are going to do in the next scenario.
 
 
 

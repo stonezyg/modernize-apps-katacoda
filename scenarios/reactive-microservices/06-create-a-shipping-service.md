@@ -152,32 +152,32 @@ In the ``src/main/java/com/redhat/coolstore/CartServiceVerticle.java``{{open}} w
     }
 </pre>
 
-Now, lets update the `addProduct` request handler method.
+Now, lets update the `addProduct` request handler method. Click to add:
 
 <pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="                    sendCart(cart,rc); //TODO: update the shipping fee">
-                    this.getShippingFee(cart, message -> {
-                        if(message.succeeded()) {
-                            cart.setShippingTotal(message.result());
-                            sendCart(cart,rc);
-                        } else {
-                            sendError(rc);
-                        }
+this.getShippingFee(cart, message -&gt; {
+    if(message.succeeded()) {
+        cart.setShippingTotal(message.result());
+        sendCart(cart,rc);
+    } else {
+        sendError(rc);
+    }
 
-                    });
+});
 </pre>
 
-Since we have the special case of product already exists we need to update it twice
+Since we have the special case of product already exists we need to update it twice.  Click to add:
 
 <pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="                        sendCart(cart,rc); //TODO: update the shipping fee, here as well">
-                        this.getShippingFee(cart, message -> {
-                            if(message.succeeded()) {
-                                cart.setShippingTotal(message.result());
-                                sendCart(cart,rc);
-                            } else {
-                                sendError(rc);
-                            }
+this.getShippingFee(cart, message -&gt; {
+    if(message.succeeded()) {
+        cart.setShippingTotal(message.result());
+        sendCart(cart,rc);
+    } else {
+        sendError(rc);
+    }
 
-                        });
+});
 </pre>
 
 **3. Test our changes**
@@ -202,6 +202,5 @@ This should now return a shopping cart where one more instance of the product is
 Now let's try adding a new product.
 
 The CartService depends on the CatalogService and just like in the Spring Boot example we could have created mocks for calling the Catalog Service, however since our example is already complex, we will simply test it with the CatalogService running. 
-
 
 ## Summary

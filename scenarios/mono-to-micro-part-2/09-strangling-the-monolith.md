@@ -52,7 +52,7 @@ and observe that the new catalog is being used along with the monolith:
 
 ![Greeting](/redhat-middleware-workshops/assets/mono-to-micro-part-2/coolstore-web.png)
 
-The screen will look the same, but notice that the earlier product _Atari 2600 Joystick_ is now gone,
+The screen will look the same, but notice that the earlier product *Atari 2600 Joystick* is now gone,
 as it has been removed in our new catalog microservice.
 
 ## Congratulations!

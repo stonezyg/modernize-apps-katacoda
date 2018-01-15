@@ -112,7 +112,7 @@ public class MainVerticle extends AbstractVerticle {
 
 >**NOTE:** The MainVerticle deploys the `CartServiceVerticle` in a handler that will be called after the retriever has read the configuration. It then passes the new configuration as `DeploymentOptions` to the CartService. Later on we will use this to deploy other Verticles.
 
-**3. Create the configuration file**
+**2. Create the configuration file**
 At the moment we only need one value in the configuration file, but we will add more later.
 
 Copy this into the configuration file (or click the button):
@@ -134,7 +134,7 @@ com.redhat.coolstore.MainVerticle
 </pre>
 
 
-**4. Test the default configuration**
+**3. Test the default configuration**
 
 Restart the application by running the following in the terminal or in clicking the execute button.
 

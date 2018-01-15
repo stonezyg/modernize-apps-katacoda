@@ -26,7 +26,7 @@ WARNING [com.redhat.coolstore.utils.Transformers] (default task-83) Inventory fo
 Invoke the Product Catalog API using `curl` for the suspect product id to see what actually
 happens when the UI tries to get the catalog:
 
-`curl -v http://www-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/services/products/444437`{{execute}}
+`curl http://www-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/services/products/444437 ; echo`{{execute}}
 
 The response clearly shows that the inventory values for `location` and `link` and `quantity` are not being returned properly (they should not be `null`):
 
@@ -111,17 +111,17 @@ Add a breakpoint by executing:
 
 In order to pause code execution at the breakpoint, you have to invoke the REST API once more.
 
-Click this link to invoke the REST API from your browser:
+Execute:
 
-* [Coolstore REST API](http://www-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/services/products/444437)
+`curl http://www-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/services/products/444437`{{execute T2}} to invoke the REST API in a separate terminal:
 
- > Your browser will appear to pause at this point, because the breakpoint was hit.
+> This command will trigger the breakpoint, and as a result will timeout, which you can ignore.
 
 The code execution pauses at the `getProductByItemId()` method. You can verify it
-using the `list`{{execute}} command to see the source code in the terminal window where
+using the `list`{{execute T1}} command to see the source code in the terminal window where
 you started JDB. The arrow shows which line is to execute next:
 
-`list`{{execute}}
+`list`{{execute T1}}
 
 You'll see an output similar to this.
 

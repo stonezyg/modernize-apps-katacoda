@@ -17,8 +17,7 @@ a source code repository. In this workshop, the source code and configurations a
 in a GitHub repository we've been using at [https://github.com/RedHat-Middleware-Workshops/modernize-apps-labs].
 This repository has been copied locally to your environment and you've been using it ever since!
 
-You can see the changes you've personally made using `git --no-pager status`{{execute}} and
-`git --no-pager diff`{{execute}} to show the code changes you've made using the Git command (part of the
+You can see the changes you've personally made using `git --no-pager status`{{execute}} to show the code changes you've made using the Git command (part of the
 [Git source code management system](https://git-scm.com/)).
 
 ## Pipelines

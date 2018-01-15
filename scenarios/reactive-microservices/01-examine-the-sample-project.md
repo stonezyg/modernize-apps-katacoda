@@ -11,36 +11,26 @@ subdirectories according to Maven best practices.
 .
 ├── pom.xml
 └── src
-    ├── main
-    │   ├── fabric8
-    │   ├── java
-    │   │   └── com
-    │   │       └── redhat
-    │   │           └── coolstore
-    │   │               ├── model
-    │   │               │   ├── Product.java
-    │   │               │   ├── Promotion.java
-    │   │               │   ├── ShoppingCart.java
-    │   │               │   ├── ShoppingCartItem.java
-    │   │               │   └── impl
-    │   │               │       ├── FreeShippingPromotion.java
-    │   │               │       ├── ProductCombinationPromotion.java
-    │   │               │       ├── ProductImpl.java
-    │   │               │       ├── ShoppingCartImpl.java
-    │   │               │       ├── ShoppingCartItemImpl.java
-    │   │               │       └── SingleProductPromotion.java
-    │   │               └── utils
-    │   │                   ├── Generator.java
-    │   │                   └── Transformers.java
-    │   └── resources
-    │       └── webroot
-    │           └── index.html
-    └── test
-        └── java
-            └── com
-                └── redhat
-                    └── coolstore
-                        └── utils
+    └── main
+        ├── fabric8
+        ├── java
+        │   └── com
+        │       └── redhat
+        │           └── coolstore
+        │               ├── model
+        │               │   ├── Product.java
+        │               │   ├── ShoppingCart.java
+        │               │   ├── ShoppingCartItem.java
+        │               │   └── impl
+        │               │       ├── ProductImpl.java
+        │               │       ├── ShoppingCartImpl.java
+        │               │       └── ShoppingCartItemImpl.java
+        │               └── utils
+        │                   ├── Generator.java
+        │                   └── Transformers.java
+        └── resources
+            └── webroot
+                └── index.html
 ```
 
 >**NOTE:** To generate a similar project skeleton you can visit the [Vert.x Starter](http://start.vertx.io/) webpage.

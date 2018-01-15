@@ -1,9 +1,9 @@
 So far our application has been kind of straight forward, but our monolith code for the catalog is also returning the inventory status. In the monolith since both the inventory data and catalog data is in the same database we used a OneToOne mapping in JPA like this:
 
 ```
-    @OneToOne(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
-    @PrimaryKeyJoinColumn
-	private InventoryEntity inventory;
+@OneToOne(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+@PrimaryKeyJoinColumn
+private InventoryEntity inventory;
 ```
 When redesigning our application to Microservices using domain driven design we have identified that Inventory and ProductCatalog are two separate domains. However our current UI expects to retrieve data from both the Catalog Service and Inventory service in a singe request.
 
@@ -56,15 +56,15 @@ to add a `ClassRule` that will simulate all calls to inventory like this (click 
 
 <pre class="file" data-filename="src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java"
 data-target="insert" data-marker="//TODO: Add ClassRule for HoverFly Inventory simulation">
-    @ClassRule
-    public static HoverflyRule hoverflyRule = HoverflyRule.inSimulationMode(dsl(
-            service("inventory:8080")
+@ClassRule
+public static HoverflyRule hoverflyRule = HoverflyRule.inSimulationMode(dsl(
+        service("inventory:8080")
 //                    .andDelay(2500, TimeUnit.MILLISECONDS).forMethod("GET")
-                    .get(startsWith("/services/inventory"))
+                .get(startsWith("/services/inventory"))
 //                    .willReturn(serverError())
-                    .willReturn(success(json(new Inventory("9999",9999))))
+                .willReturn(success(json(new Inventory("9999",9999))))
 
-    )); 
+));
 </pre>
 
 This `ClassRule` means that if our tests are trying to call our inventory url Howeverfly will intercept this and respond with our hard coded response instead.
@@ -82,7 +82,6 @@ Add the followng small code snippet to it (click to add):
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/client/InventoryClient.java" data-target="replace">
 package com.redhat.coolstore.client;
 
-//TODO: add import for InventoryClient
 import com.redhat.coolstore.model.Inventory;
 import feign.hystrix.FallbackFactory;
 import org.springframework.http.MediaType;
@@ -98,7 +97,7 @@ public interface InventoryClient {
     @RequestMapping(method = RequestMethod.GET, value = "/services/inventory/{itemId}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     Inventory getInventoryStatus(@PathVariable("itemId") String itemId);
 
-    //TODO: Add Fallback factory here
+//TODO: Add Fallback factory here
 }
 </pre>
 
@@ -121,14 +120,14 @@ Open ``src/main/java/com/redhat/coolstore/service/CatalogService.java``{{open}}
 And autowire (e.g. inject) the client into it. 
 
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/CatalogService.java" data-target="insert" data-marker="//TODO: Autowire Inventory Client">
-    @Autowired
-    InventoryClient inventoryClient;
+@Autowired
+InventoryClient inventoryClient;
 </pre>
 
 Next, update the `read(String id)` method at the comment `//TODO: Update the quantity for the product by calling the Inventory service` add the following:
 
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/CatalogService.java" data-target="insert" data-marker="//TODO: Update the quantity for the product by calling the Inventory service">
-    product.setQuantity(inventoryClient.getInventoryStatus(product.getItemId()).getQuantity());
+product.setQuantity(inventoryClient.getInventoryStatus(product.getItemId()).getQuantity());
 </pre>
 
 Also, don't forget to add the import statement for the new class:
@@ -139,10 +138,10 @@ import com.redhat.coolstore.client.InventoryClient;
 
 Also in the `readAll()` method replace the comment `//TODO: Update the quantity for the products by calling the Inventory service` with the following:
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/CatalogService.java" data-target="insert" data-marker="//TODO: Update the quantity for the products by calling the Inventory service">
-    productList.parallelStream()
-                .forEach(p -&gt; {
-                    p.setQuantity(inventoryClient.getInventoryStatus(p.getItemId()).getQuantity());
-                });
+productList.parallelStream()
+            .forEach(p -&gt; {
+                p.setQuantity(inventoryClient.getInventoryStatus(p.getItemId()).getQuantity());
+            });
 </pre>
 
 >**NOTE:** The lambda expression to update the product list uses a `parallelStream`, which means that it will process the inventory calls asynchronously, which will be much faster than using synchronous calls. Optionally when we run the test you can test with both `parallelStream()` and `stream()` just to see the difference in how long the test takes to run.
