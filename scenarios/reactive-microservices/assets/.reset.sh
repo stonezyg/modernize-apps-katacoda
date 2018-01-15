@@ -65,6 +65,23 @@ oc new-app -e POSTGRESQL_USER=catalog \
 
 mvn clean package fabric8:deploy -Popenshift -DskipTests
 
+# strangle monolith for catalog service
+ROUTE_HOSTNAME=$(oc get route/www -n coolstore-dev -o jsonpath='{.spec.host}')
+cat <<EOF | oc create -n catalog -f -
+apiVersion: v1
+kind: Route
+metadata:
+  name: catalog-redirect
+spec:
+  host: "${ROUTE_HOSTNAME}"
+  path: /services/products
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: catalog
+EOF
+
 # go back to master to start at the right place for scenario
 mvn clean
 git clean -df
@@ -76,6 +93,7 @@ cd $HOME/projects
 git checkout solution -- monolith
 git checkout solution -- inventory
 git checkout solution -- catalog
+
 
 # start in right directory
 echo "---"
