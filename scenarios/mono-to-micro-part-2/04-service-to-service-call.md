@@ -77,7 +77,8 @@ The inventory client will use a Netflix project called Feign, which provides a n
 
 Create the Inventory client by clicking ``src/main/java/com/redhat/coolstore/client/InventoryClient.java``{{open}}
 
-Add the follwing small code to it.
+Add the followng small code snippet to it (click to add):
+
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/client/InventoryClient.java" data-target="replace">
 package com.redhat.coolstore.client;
 

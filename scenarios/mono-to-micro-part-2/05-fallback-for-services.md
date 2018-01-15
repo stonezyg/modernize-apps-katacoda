@@ -33,6 +33,14 @@ After creating the fallback factory all we have todo is to tell Feign to use tha
 ```
 >**NOTE:** You will manually have to copy the above code into the `InventoryClient.java`, replacing line 13.
 
+REMOVE ME: Or try this:
+
+<pre class="file" data-filename="src/main/java/com/redhat/coolstore/client/InventoryClient.java"
+data-target="insert" data-marker="@FeignClient(name=&quot;inventory&quot;)">
+@FeignClient(name="inventory",fallbackFactory = InventoryClient.InventoryClientFallbackFactory.class)
+</pre>
+
+
 **Test the Fallback**
 
 Now let's see if we can test the fallback. Optimally we should create a different test that fails the request and then verify the fallback value, however in because we are limited in time we are just going to change our test so that it returns a server error and then verify that the test fails. 
