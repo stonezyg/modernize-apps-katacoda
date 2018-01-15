@@ -125,6 +125,15 @@ public class ShippingServiceVerticle extends AbstractVerticle {
 }
 </pre>
 
+We also need to start the Verticle by deploying it form the MainVerticle
+
+<pre class="file" data-filename="./src/main/java/com/redhat/coolstore/MainVerticle.java" data-target="insert" data-marker="// TODO: Deploy PromoServiceVerticle">
+vertx.deployVerticle(
+                    ShippingServiceVerticle.class.getName(),
+                    new DeploymentOptions().setConfig(config.result())
+                );
+</pre>
+
 Done! That was easy. :-) We still have to update the shopping cart to use the Shipping service. Let's do that next.
 
 **2. Update the Shopping cart to call the Shipping Service**
