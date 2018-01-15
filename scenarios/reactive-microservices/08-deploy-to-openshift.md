@@ -43,7 +43,7 @@ spec:
       containers:
         - env:
             - name: JAVA_OPTIONS
-              value: "-Dvertx.profiles.active=openshift"
+              value: "-Dvertx.profiles.active=openshift -Dvertx.disableDnsResolver=true"
 
 </pre>
 
@@ -87,8 +87,7 @@ to access the sample UI.
 
 > You can also access the application through the link on the OpenShift Web Console Overview page.
 
-TOOD: Update the slide below
-![Overview link](/redhat-middleware-workshops/assets/mono-to-micro-part-2/routelink.png)
+![Overview link](/redhat-middleware-workshops/assets/reactive-microservices/routelink.png)
 
 
 ## Congratulations!

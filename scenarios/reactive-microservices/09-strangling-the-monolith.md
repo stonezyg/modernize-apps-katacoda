@@ -26,22 +26,22 @@ www       www-coolstore-dev.apps.127.0.0.1.nip.io             coolstore   <all> 
 
 My hostname is `www-coolstore-dev.apps.127.0.0.1.nip.io` but **yours will be different**.
 
-**2. Open the openshift console for [Catalog - Applications - Routes](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/catalog/browse/routes)**
+**2. Open the openshift console for [Cart - Applications - Routes](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/cart/browse/routes)**
 
 **3. Click on Create Route, and set**
 
-* **Name**: `catalog-redirect`
+* **Name**: `cart-redirect`
 * **Hostname**: _the hostname from above_
-* **Path**: `/services/products`
-* **Service**: `catalog`
+* **Path**: `/services/cart`
+* **Service**: `cart`
 
-![Greeting](/redhat-middleware-workshops/assets/mono-to-micro-part-2/route-vals.png)
+![Greeting](/redhat-middleware-workshops/assets/reactive-microservices/route-vals.png)
 
 Leave other values set to their defaults, and click **Save**
 
 **4. Test the route**
 
-Test the route by running `curl http://monolith-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/services/products`{{execute}}
+Test the route by running `curl http://monolith-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/services/cart/99999`{{execute}}
 
 You should get a complete set of products, along with their inventory.
 
