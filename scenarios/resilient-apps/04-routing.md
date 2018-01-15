@@ -111,7 +111,7 @@ Notice the `match` element:
 This says that for any incoming HTTP request that has a cookie set to the `jason` user to direct traffic to
 `reviews:v2`.
 
-Now, [access the application](http://istio-ingress-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/productpage) and click **Login** and login with:
+Now, [access the application](http://istio-ingress-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/productpage) and click **Sign In** (at the upper right) and sign in with:
 
 * Username: `jason`
 * Password: `jason`

@@ -70,14 +70,12 @@ You should now have your OpenShift Pods running and have an Envoy sidecar in eac
 alongside the microservice. The microservices are productpage, details, ratings, and
 reviews. Note that you'll have three versions of the reviews microservice:
 
-`oc get pods`{{execute}}
+`oc get pods --selector app=reviews`{{execute}}
 
 ```console
-...
 reviews-v1-1796424978-4ddjj          2/2       Running   0          28m
 reviews-v2-1209105036-xd5ch          2/2       Running   0          28m
 reviews-v3-3187719182-7mj8c          2/2       Running   0          28m
-...
 ```
 
 Notice that each of the microservices shows `2/2` containers ready for each service (one for the service and one for its

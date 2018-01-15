@@ -49,7 +49,7 @@ Open the Prometheus UI:
 * [Prometheus UI](http://prometheus-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
 
 In the “Expression” input box at the top of the web page, enter the text: `istio_request_count`.
-Then, click the Execute button.
+Then, click the **Execute** button.
 
 You should see a listing of each of the application's services along with a count of how many times it was accessed.
 

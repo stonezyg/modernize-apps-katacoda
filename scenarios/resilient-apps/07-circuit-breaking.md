@@ -147,6 +147,10 @@ ratings-v1-3080059732-5ts95          2/2       Running   0          3h
 ratings-v1-broken-1694306571-c6zlk   2/2       Running   0          7s
 ```
 
+Save the name of this pod to an environment variable:
+
+`BROKEN_POD_NAME=$(oc get pods -l app=ratings,broken=true -o jsonpath='{.items[?(@.status.phase=="Running")].metadata.name}')`{{execute T1}}
+
 Requests to the `ratings` service will be load-balanced across these two pods. The circuit breaker will
 detect the failures in the broken pod and eject it from the load balancing pool for a minimum of 15 minutes.
 In the real world this would give the failing pod a chance to recover or be killed and replaced. For mis-configured
@@ -159,15 +163,13 @@ To trigger this, simply access the application:
 * [Application Link](http://istio-ingress-istio-system.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/productpage)
 
 Reload the webpage 5-10 times (click the reload icon, or press `CMD-R`, or `CTRL-R`) and notice that you
-only see no stars ONE time, due to the
+only see a failure (no stars) ONE time, due to the
 circuit breaker's policy for `httpConsecutiveErrors=1`.  After the first error, the pod is ejected from
 the load balancing pool for 15 minutes and you should see red stars from now on.
 
 Verify that the broken pod only received one request that failed:
 
-`oc logs -c ratings [PODNAME]`{{execute T1}}
-
-> Replace `[PODNAME]` above with the name of the broken pod (e.g. `ratings-v1-broken-XXXX-YYYY`)
+`oc logs -c ratings $BROKEN_POD_NAME`{{execute T1}}
 
 You should see:
 
