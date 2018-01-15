@@ -26,6 +26,22 @@
             {
                 "title": "Create a REST endpoints for /services/cart",
                 "text": "05-create-post-item-endpoint.md"
+            },
+            {
+                "title": "Create a REST endpoints for /services/cart",
+                "text": "06-create-a-shipping-service.md"
+            },
+            {
+                "title": "Create a REST endpoints for /services/cart",
+                "text": "07-create-project.md"
+            },
+            {
+                "title": "Create a REST endpoints for /services/cart",
+                "text": "08-deploy-to-openshift.md"
+            },
+            {
+                "title": "Create a REST endpoints for /services/cart",
+                "text": "09-strangling-the-monolith.md"
             }
         ],
         "intro": {
