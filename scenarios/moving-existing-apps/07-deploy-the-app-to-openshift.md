@@ -107,10 +107,6 @@ Build the project:
 
 ``mvn clean package -Popenshift``{{execute T1}}
 
-Now log the CLI into OpenShift (this is the same as what you did with the GUI):
-
-``oc login [[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com -u developer -p developer --insecure-skip-tls-verify=true``{{execute T1}}
-
 And switch to the your newly created project:
 
 ``oc project coolstore-dev``{{execute T1}}
