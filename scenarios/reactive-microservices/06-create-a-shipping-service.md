@@ -119,7 +119,7 @@ public class ShippingServiceVerticle extends AbstractVerticle {
         MessageConsumer&lt;String&gt; consumer = eb.consumer("shipping");
         consumer.handler(message -&gt; {
             logger.info("Shipping Service recieved a message");
-            message.reply(new JsonObject().put("shippingFee", 37.0).encode()); //Hardcoded shipping Fee
+            message.reply(new JsonObject().put("shippingFee", 37.0)); //Hardcoded shipping Fee
         });
     }
 }
