@@ -187,7 +187,7 @@ Since we now have endpoints that returns the catalog we can also start the servi
 Start the application by running the following command
 ``mvn spring-boot:run``{{execute}}
 
-Wait for the application to start. Then we can verify the endpoint, but running the following command in a new terminal (Note the link below will execute in a second terminal)
+Wait for the application to start. Then we can verify the endpoint by running the following command in a new terminal (Note the link below will execute in a second terminal)
 
 ``curl http://localhost:8081/services/products ; echo``{{execute T2}}
 
