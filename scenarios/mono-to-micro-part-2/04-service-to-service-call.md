@@ -105,6 +105,8 @@ There is one more thing that we need to do which is to tell Feign where the inve
 
 Open ``src/main/resources/application-default.properties``{{open}}
 
+And add these properties by clicking **Copy to Editor**:
+
 <pre class="file" data-filename="src/main/resources/application-default.properties" data-target="insert" data-marker="#TODO: Configure netflix libraries">
 inventory.ribbon.listOfServers=inventory:8080
 feign.hystrix.enabled=true
