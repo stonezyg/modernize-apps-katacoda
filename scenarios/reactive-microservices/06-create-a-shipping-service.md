@@ -202,11 +202,11 @@ Now issue a curl command to add a product that exists
 
 Let's also make sure that it works with a totally new shopping cart, which would test the second part of our changes:
 
-```curl -s -X POST http://localhost:8082/services/cart/99999/329299/1 | grep -A7  "\"itemId\" : \"329299\"" | grep quantity```{{execute T3}}
+```curl -s -X POST http://localhost:8082/services/cart/88888/329299/1 | grep -A7  "\"itemId\" : \"329299\"" | grep quantity```{{execute T3}}
 
-This should now return a shopping cart where one more instance of the product is added, because of our grep commands you would see something like this:
+This should now return a new shopping cart where one only instance of the product is added, because of our grep commands you would see something like this:
 
-`"quantity" : 4`
+`"quantity" : 1`
 
 The CartService depends on the CatalogService and just like in the Spring Boot example we could have created mocks for calling the Catalog Service, however since our example is already complex, we will simply test it with the CatalogService running. 
 

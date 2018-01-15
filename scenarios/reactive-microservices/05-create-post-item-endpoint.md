@@ -122,6 +122,8 @@ Let's first test to update the quantity for a product that is already in the sho
 Start the cart service
 ``mvn compile vertx:run``{{execute T1 interrupt}}
 
+Then execute this to test retrieving a specific cart and the quantity of item `329299` in the cart:
+
 ```curl -s http://localhost:8082/services/cart/99999 | grep -A7  "\"itemId\" : \"329299\"" | grep quantity```{{execute T2}}
 
 This will return the quantity like below, but the actual number may be different.
@@ -160,12 +162,12 @@ This should print the follow:
 ```
 {
   "cartId" : "88888",
-  "orderValue" : 34.99,
+  "cartTotal" : 34.99,
   "retailPrice" : 34.99,
-  "discount" : 0.0,
-  "shippingFee" : 0.0,
-  "shippingDiscount" : 0.0,
-  "items" : [ {
+  "cartItemPromoSavings" : 0.0,
+  "shippingTotal" : 0.0,
+  "shippingPromoSavings" : 0.0,
+  "shoppingCartItemList" : [ {
     "product" : {
       "itemId" : "329299",
       "price" : 34.99,
@@ -176,7 +178,7 @@ This should print the follow:
     },
     "quantity" : 1
   } ]
-}%   
+}
 ```
 
 **5. Add endpoint for deleting items**
@@ -220,13 +222,15 @@ Let's first test to decreasing the quantity for a product that is already in the
 Start the cart service
 ``mvn compile vertx:run``{{execute T1 interrupt}}
 
+The run this to get the quantity of item `329299` in the cart:
+
 ```curl -s http://localhost:8082/services/cart/99999 | grep -A7  "\"itemId\" : \"329299\"" | grep quantity```{{execute T3}}
 
 This will return the quantity like below, but the actual number may be different.
 
 `"quantity" : 4`
 
-Now let's call our addToCart method.
+Now let's call our removeShoppingCartItem method.
 
 ```curl -s -X DELETE http://localhost:8082/services/cart/99999/329299/1 | grep -A7  "\"itemId\" : \"329299\"" | grep quantity```{{execute T3}}
 
