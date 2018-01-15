@@ -119,7 +119,7 @@ private JdbcTemplate jdbcTemplate;
 
 The `JdbcTemplate` require that we provide a `RowMapper`so that it can map between rows in the query to Java Objects. We are going to define the `RowMapper` like this (click to add it):
 
-<pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/ProductRepository.java" data-target="insert" data-marker=" //TODO: Add row mapper here">
+<pre class="file" data-filename="src/main/java/com/redhat/coolstore/service/ProductRepository.java" data-target="insert" data-marker="//TODO: Add row mapper here">
 private RowMapper&lt;Product&gt; rowMapper = (rs, rowNum) -> new Product(
         rs.getString("itemId"),
         rs.getString("name"),
