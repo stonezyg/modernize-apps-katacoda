@@ -155,7 +155,7 @@ private void getShippingFee(ShoppingCart cart, Handler&lt;AsyncResult&lt;Double&
 
 Now, lets update the `addProduct` request handler method. Click to add:
 
-<pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="                    sendCart(cart,rc); //TODO: update the shipping fee">
+<pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="sendCart(cart,rc); //TODO: update the shipping fee">
 this.getShippingFee(cart, message -&gt; {
     if(message.succeeded()) {
         cart.setShippingTotal(message.result());
@@ -169,7 +169,7 @@ this.getShippingFee(cart, message -&gt; {
 
 Since we have the special case of product already exists we need to update it twice.  Click to add:
 
-<pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="                        sendCart(cart,rc); //TODO: update the shipping fee, here as well">
+<pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="insert" data-marker="sendCart(cart,rc); //TODO: update the shipping fee, here as well">
 this.getShippingFee(cart, message -&gt; {
     if(message.succeeded()) {
         cart.setShippingTotal(message.result());
