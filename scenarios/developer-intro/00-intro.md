@@ -18,27 +18,17 @@ and running docker builds.
 
 Both Developers and Operators communicate with the OpenShift Platform via one of the following methods:
 
-### Command Line Interface
-
-The command line tool that we will be using as part of this training is called the *oc* tool. You used this briefly
-in the last scenario.
-
-This tool is written in the Go programming language and is a single executable that is provided for
+* **Command Line Interface** - The command line tool that we will be using as part of this training is called the *oc* tool. You used this briefly
+in the last scenario. This tool is written in the Go programming language and is a single executable that is provided for
 Windows, OS X, and the Linux Operating Systems.
-
-### Web Console
-
-OpenShift also provides a feature rich Web Console that provides a friendly graphical interface for
+* **Web Console** -  OpenShift also provides a feature rich Web Console that provides a friendly graphical interface for
 interacting with the platform. You can always access the Web Console using the link provided just above
 the Terminal window on the right:
-
-![OpenShift Console Tab](/redhat-middleware-workshops/assets/developer-intro/openshift-console-tab.png)
-
-### REST API
-
-Both the command line tool and the web console actually communicate to OpenShift via the same method,
+ * ![OpenShift Console Tab](/redhat-middleware-workshops/assets/developer-intro/openshift-console-tab.png)
+* **REST API** - Both the command line tool and the web console actually communicate to OpenShift via the same method,
 the REST API.  Having a robust API allows users to create their own scripts and automation depending on
-their specific requirements.  For detailed information about the REST API, check out the [official documentation](https://docs.openshift.org/latest/rest_api/index.html)
+their specific requirements.  For detailed information about the REST API, check out the [official documentation](https://docs.openshift.org/latest/rest_api/index.html).
+You will not use the REST API directly in this workshop.
 
 During this workshop, you will be using both the command line tool and the web console.  However, it
 should be noted that there are plugins for several integrated development environments as well.

@@ -15,34 +15,26 @@ MDB. RHAMT has flagged this and reported it using a number of issues.
 
 **1. Review the issues**
 
-[Open the report](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/) and then
-click on the **Issues** tab again:
-
-![Issues](/redhat-middleware-workshops/assets/moving-existing-apps/project-issues.png)
-
-RHAMT provides helpful links to understand the issue deeper and offer guidance for the migration.
-
-In this case, RHAMT has identified several issues with our use of weblogic MDB interfaces:
+In the list of issues for our migration, RHAMT has identified several issues with our use of weblogic MDB interfaces:
 
 * **Call of JNDI lookup** - Our apps use a weblogic-specific [JNDI](https://en.wikipedia.org/wiki/Java_Naming_and_Directory_Interface) lookup scheme.
 * **Proprietary InitialContext initialization** - Weblogic has a very different lookup mechanism for InitialContext objects
 * **WebLogic InitialContextFactory** - This is related to the above, essentially a Weblogic proprietary mechanism
 * **WebLogic T3 JNDI binding** - The way EJBs communicate in Weblogic is over T2, a proprietary implementation of Weblogic.
 
-All of the above interfaces have equivelants in JBoss, however they are greatly simplified and overkill for our application which uses
+All of the above interfaces have equivalents in JBoss, however they are greatly simplified and overkill for our application which uses
 JBoss EAP's internal message queue implementation provided by [Apache ActiveMQ Artemis](https://activemq.apache.org/artemis/).
 
-Click on each issue to learn more about the problem and possible solutions.
+**2. Understand the changes necessary**
 
-**2. Open the files**
+Open `src/main/java/com/redhat/coolstore/service/InventoryNotificationMDB.java`{{open}}. The main logic of this class is in the `onMessage` method.
+ ll of the other code in the class is related to the initialization and lifecycle management of the MDB itself in the Weblogic environment, which we need to remove.
 
-Click here to open the offending files `src/main/java/com/redhat/coolstore/service/InventoryNotificationMDB.java`{{open}} and
-``src/main/webapp/WEB-INF/weblogic-ejb-jar.xml``{{open}}.
-
-**3. Understand the changes necessary**
-
-The main logic of this class is in the `onMessage` method. All of the other code in the class is related to the
-initialization and management of the MDB itself in the Weblogic environment.
+JBoss EAP provides and even more efficient and declarative way
+to configure and manage the lifecycle of MDBs. In this case, we can use annotations to provide the necessary initialization
+and configuration logic and settings. We will use the
+`@MessageDriven` and `@ActivationConfigProperty` annotations, along with the `MessageListener` interfaces to provide the
+same functionality as from Weblogic.
 
 Much of Weblogic's interfaces for EJB components like MDBs reside in Weblogic descriptor XML files. Open
 ``src/main/webapp/WEB-INF/weblogic-ejb-jar.xml``{{open}} to see one of these descriptors. There are many different configuration
@@ -51,20 +43,12 @@ possibilities for EJBs and MDBs in this file, but luckily our application only u
 long to complete (over 30 seconds), then the transaction is rolled back and exceptions are thrown. This interface is
 Weblogic-specific so we'll need to find an equivalent in JBoss.
 
-Back in `src/main/java/com/redhat/coolstore/service/InventoryNotificationMDB.java`{{open}} you'll also find some
-ancillary code in the `init`, `close` and `getInitialContext` methods. These methods were once required of all Weblogic
-applications, and while it has been simplified over the years, JBoss provides and even more efficient and declarative way
-to configure and manage the lifecycle of MDBs. In this case, we can use annotations to provide the necessary initialization
-and configuration logic and settings, obviating the need for any special XML configuration files. We will use the
-`@MessageDriven` and `@ActivationConfigProperty` annotations, along with the `MessageListener` interfaces to provide the
-same functionality as from Weblogic.
-
 > You should be aware that this type of migration is more involved than the previous migrations, and in real world applications
 it will rarely be as simple as changing one line at a time for a migration. Consult the [RHAMT documentation](https://access.redhat.com/documentation/en/red-hat-application-migration-toolkit) for more detail on Red Hat's
 Application Migration strategies or contact your local Red Hat representative to learn more about how Red Hat can help you
 on your migration path.
 
-**4. Remove the Weblogic EJB Descriptor**
+**3. Remove the Weblogic EJB Descriptor**
 
 The first step is to remove the unneeded `weblogic-ejb-jar.xml` file. This file is not recognized or processed by JBoss
 EAP. Type or click the following command to remove it:
@@ -76,7 +60,7 @@ Run or click on this command to remove them:
 
 `rm -rf src/main/java/weblogic`{{execute T1}}
 
-**5. Remove unneeded class variables and methods**
+**4. Remove unneeded class variables and methods**
 
 Open `src/main/java/com/redhat/coolstore/service/InventoryNotificationMDB.java`{{open}}.
 

@@ -10,7 +10,7 @@ package com.redhat.coolstore.service;
 
 import com.redhat.coolstore.model.Inventory;
 import com.redhat.coolstore.model.Product;
-import com.redhat.coolstore.client.InventoryClient;
+//import com.redhat.coolstore.client.InventoryClient;
 import feign.hystrix.FallbackFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -191,6 +191,13 @@ Wait for the application to start. Then we can verify the endpoint, but running 
 
 ``curl http://localhost:8081/services/products``{{execute T2}}
 
+You should get a full JSON array consisting of all the products:
+
+```json
+[{"itemId":"329299","name":"Red Fedora","desc":"Official Red Hat Fedora","price":34.99,"quantity":0},{"itemId":"329199","name":"Forge Laptop Sticker",
+...
+```
+
 Also click on the **Local Web Browser** tab in the console frame of this browser window, which will open another tab or window of your browser pointing to port 8081 on your client.
 
 ![Local Web Browser Tab](/redhat-middleware-workshops/assets/mono-to-micro-part-2/web-browser-tab.png)
@@ -209,18 +216,10 @@ Now you've seen how to create REST application in Spring MVC and create a simple
 
 In the next scenario we will also call another service to enrich the endpoint response with inventory status.
 
-
-
-
-You should get a full JSON array consisting of all the products:
-
-```json
-[{"itemId":"329299","name":"Red Fedora","desc":"Official Red Hat Fedora","price":34.99,"quantity":0},{"itemId":"329199","name":"Forge Laptop Sticker","desc":"JBoss Community Forge Project Sticker","price":8.5,"quantity":0},{"itemId":"165613","name":"Solid Performance Polo","desc":"Moisture-wicking, antimicrobial 100% polyester design wicks for life of garment. No-curl, rib-knit collar; special collar band maintains crisp fold; three-button placket with dyed-to-match buttons; hemmed sleeves; even bottom with side vents; Import. Embroidery. Red Pepper.","price":17.8,"quantity":0},{"itemId":"165614","name":"Ogio Caliber Polo","desc":"Moisture-wicking 100% polyester....]}
-```
-
 ## Before moving on
 
-Be sure to stop the service by clicking on the terminal window and typing `CTRL-C`.
+Be sure to stop the service by clicking on the first Terminal window and typing `CTRL-C` (or
+click `clear`{{execute T1}} to do it for you).
 
 ## Congratulations!
 

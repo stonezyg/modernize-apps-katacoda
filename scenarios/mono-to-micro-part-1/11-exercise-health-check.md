@@ -13,7 +13,7 @@ The app will begin polling the inventory as before and report success:
 Now you will corrupt the service and cause its health check to start failing.
 To simulate the app crasing, let's kill the underlying service so it stops responding. Execute:
 
-`oc rsh dc/inventory pkill java`{{execute T1}}
+`oc --server https://master:8443 rsh dc/inventory pkill java`{{execute T1}}
 
 This will execute the Linux `pkill` command to stop the running Java process in the container.
 

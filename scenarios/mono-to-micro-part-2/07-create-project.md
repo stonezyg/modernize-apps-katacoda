@@ -1,10 +1,3 @@
-**Red Hat OpenShift Container Platform** is the preferred runtime for cloud native application development
-using **Red Hat OpenShift Application Runtimes**
-like **Spring Boot**. OpenShift Container Platform is based on **Kubernetes** which is the most used Orchestration
-for containers running in production. **OpenShift** is currently the only container platform based on Kubernetes
-that offers multi-tenancy. This means that developers can have their own personal isolated projects to test and
-verify applications before committing them to a shared code repository.
-
 We have already deployed our coolstore monolith and inventory to OpenShift. In this step we will deploy our new Catalog microservice for our CoolStore application,
 so let's create a separate project to house it and keep it separate from our monolith and our other microservices.
 

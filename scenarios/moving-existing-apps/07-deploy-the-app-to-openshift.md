@@ -1,4 +1,4 @@
-Now that we migrated the application you are probably eager to test it. To test it we locally we first need to install JBoss EAP.
+We now have a fully migrated application that we tested locally. Let's deploy it to OpenShift.
 
 **1. Add a OpenShift profile**
 
@@ -68,10 +68,6 @@ This will take you to the project overview. There's nothing there yet, but that'
 
 We'll use the CLI to deploy the components for our monolith. To deploy the monolith template using the CLI, execute the following commands:
 
-Login to OpenShift:
-
-``oc login [[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com -u developer -p developer --insecure-skip-tls-verify=true``{{execute T1}}
-
 Switch to the developer project you created earlier:
 
 `oc project coolstore-dev`{{execute T1}}
@@ -80,21 +76,22 @@ And finally deploy template:
 
 `oc new-app coolstore-monolith-binary-build`{{execute T1}}
 
-This will deploy both a PostgreSQL database and JBoss EAP,
-but it will not start a build for our application. You can see the components being deployed on the
-Project Overview, but notice the **No deployments for Coolstore**. You have not yet deployed
-the container image built in previous steps, but you'll do that next.
+This will deploy both a PostgreSQL database and JBoss EAP, but it will not start a build for our application.
+
+Then [open up the Monolith Overview page](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/coolstore-dev/)
+and verify the monolith template items are created:
 
 ![OpenShift Console](/redhat-middleware-workshops/assets/moving-existing-apps/no-deployments.png)
 
-Then open up the web console and verify the monolith template items are created:
+You can see the components being deployed on the
+Project Overview, but notice the **No deployments for Coolstore**. You have not yet deployed
+the container image built in previous steps, but you'll do that next.
 
-* [CoolStore Monolith Project](https://[[HOST_SUBDOMAIN]]-8443-[[KATACODA_HOST]].environments.katacoda.com/console/project/coolstore-dev/)
 
 **4. Deploy application using Binary build**
 
 In this development project we have selected to use a process called binary builds, which
-means that instead of pointing to a public Git Repository and have the S2I build process
+means that instead of pointing to a public Git Repository and have the S2I (Source-to-Image) build process
 download, build, and then create a container image for us we are going to build locally
 and just upload the artifact (e.g. the `.war` file). The binary deployment will speed up
 the build process significantly.
@@ -106,10 +103,6 @@ file). We will do this with the `oc` command line.
 Build the project:
 
 ``mvn clean package -Popenshift``{{execute T1}}
-
-And switch to the your newly created project:
-
-``oc project coolstore-dev``{{execute T1}}
 
 And finally, start the build process that will take the `.war` file and combine it with JBoss
 EAP and produce a Linux container image which will be automatically deployed into the project,
@@ -124,6 +117,9 @@ Check the OpenShift web console and you'll see the application being built:
 Wait for the build and deploy to complete:
 
 ``oc rollout status -w dc/coolstore``{{execute T1}}
+
+This command will be used often to wait for deployments to complete. Be sure it returns success when you use it!
+You should eventually see `replication controller "coolstore-1" successfully rolled out`.
 
 > If the above command reports `Error from server (ServerTimeout)` then simply re-run the command until it reports success!
 

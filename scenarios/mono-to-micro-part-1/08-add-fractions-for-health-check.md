@@ -9,20 +9,6 @@ file in your application. The functionality the fraction provides is then packag
 _Uberjar_.  An uberjar is a single Java .jar file that includes everything you need to execute your application.
 This includes both the runtime components you have selected, along with the application logic.
 
-** 1. Examine the uberjar**
-
-You can see the uberjar (in the `target/` directory) that you built in previous steps:
-
-```ls target/*.jar```{{execute T1}}
-
-You should see the uberjar named `inventory-1.0.0-SNAPSHOT-swarm.jar` in the listing. This jar file is executed
-using `java -jar` when using `mvn wildfly-swarm:run` or when the application is deployed to OpenShift.
-
-An uberjar is useful for many continuous integration and continuous deployment (CI/CD) pipeline styles,
-in which a single executable binary artifact is produced and moved through the testing, validation, and
-production environments in your organization.
-
-
 ## What is a Health Check?
 
 A key requirement in any managed application container environment is the ability to determine when the application is in a ready state. Only when an
@@ -38,26 +24,8 @@ Once an application is running, there are no guarantees that it will continue to
 functionality. Numerous factors including out of memory errors or a hanging process can cause the
 application to enter an invalid state. While a _readiness_ probe is only responsible for determining
 whether an application is in a state where it should begin to receive incoming traffic, a _liveness_ probe
-is used to determine whether an application is still in an acceptable state. If the liveness probe fails, the
-kubelet will destroy the pod.
-
-More in depth validation can be created to not only confirm the application can be accessed, but also
-validate dependencies, such as databases or caches, are available. In our case, the inventory service
-uses an external database, and is one of the dependencies that should be accessible prior to an
-application being made available for end users. Otherwise, users would receive errors when
-performing the most common functions of the application, such as adding and removing items from
-their grocery list since the backend persistence store is unavailable.
-
-Alternate methods can also be
-implemented to manage application availability and usability when the database is not available.
-Extended validation of the application and its dependencies can be implemented using several
-different strategies. First, is to expose health checking logic within the application, such as on an HTTP
-endpoint on the /health context which is common feature found in a number of web frameworks including
-WildFly Swarm.
-
-Alternatively, the logic for determining application health can be delivered as a script and executed as
-a command against the container (See the listing below). A non zero exit code from the command
-indicates the application is no longer healthy.
+is used to determine whether an application is still in an acceptable state. If the liveness probe fails,
+OpenShift will destroy the pod and replace it with a new one.
 
 In our case we will implement the health check logic in a REST endpoint and let WildFly Swarm publish
 that logic on the `/health` endpoint for use with OpenShift.

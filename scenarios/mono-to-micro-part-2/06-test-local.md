@@ -1,5 +1,7 @@
 As you have seen in previous steps, using the Spring Boot maven plugin (predefined in `pom.xml`{{open}}), you can conveniently run the application locally and test the endpoint.
 
+Execute the following command to run the new service locally:
+
 `mvn spring-boot:run`{{execute}}
 
 >**INFO:** As an uber-jar, it could also be run with `java -jar target/catalog-1.0-SNAPSHOT-swarm.jar` but you don't need to do this now
@@ -47,8 +49,7 @@ The REST API returned a JSON object representing the inventory count for this pr
 
 **4. Stop the application**
 
-Before moving on, click in the first terminal window where the app is running and then press CTRL-C to stop the running application!
-
+Before moving on, click in the first terminal window where the app is running and then press CTRL-C to stop the running application! Or click `clear`{{execute T1 interrupt}} to do it for you.
 
 ## Congratulations
 

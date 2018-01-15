@@ -41,13 +41,14 @@ Leave other values set to their defaults, and click **Save**
 
 **4. Test the route**
 
-Test the route by running `curl http://monolith-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/services/products`{{execute}}
+Test the route by running `curl http://www-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com/services/products`{{execute}}
 
 You should get a complete set of products, along with their inventory.
 
 **5. Test the UI**
 
-Open the monolith UI and observe that the new catalog is being used along with the monolith:
+[Open the monolith UI](http://www-coolstore-dev.[[HOST_SUBDOMAIN]]-80-[[KATACODA_HOST]].environments.katacoda.com)
+and observe that the new catalog is being used along with the monolith:
 
 ![Greeting](/redhat-middleware-workshops/assets/mono-to-micro-part-2/coolstore-web.png)
 

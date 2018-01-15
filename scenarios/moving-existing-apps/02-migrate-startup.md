@@ -10,8 +10,7 @@ code in the `postStart` and `preStop` methods which are executed after Weblogic 
 
 **1. Review the issue related to `ApplicationLifecycleListener`**
 
-[Open the report](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/) and then
-click on monolith and navigate to the **Issues** tab:
+[Open the Issues report](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/reports/migration_issues.html):
 
 ![Issues](/redhat-middleware-workshops/assets/moving-existing-apps/project-issues.png)
 
@@ -21,14 +20,14 @@ In JBoss Enterprise Application Platform, there is no equivalent to intercept th
 as suggested in the issue in the RHAMT report.
 
 We will use the `@Startup` annotation to tell the container to initialize the singleton session
-bean at application start. We will similarly use the @PostConstruct and `@PreDestroy` annotations to specify the
+bean at application start. We will similarly use the `@PostConstruct` and `@PreDestroy` annotations to specify the
 methods to invoke at the start and end of the application lifecyle achieving the same result but without
 using proprietary interfaces.
 
 **2. Remove weblogic-specific `import` statements and inheritance**
 
-In `src/main/java/com/redhat/coolstore/utils/StartupListener.java`{{open}},
-the first step is to remove all instances of `import weblogic.x.y.z` at the top of the file. This ensures that our code will
+Open the file: `src/main/java/com/redhat/coolstore/utils/StartupListener.java`{{open}},
+and remove all instances of `import weblogic.x.y.z` at the top of the file. This ensures that our code will
 not compile or run until we complete the migration. Remove the import statements for `weblogic.application.ApplicationLifecycleEvent` and
 `weblogic.application.ApplicationLifecycleListener`.
 

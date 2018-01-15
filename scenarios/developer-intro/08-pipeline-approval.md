@@ -22,6 +22,8 @@ On this page you can see the pipeline definition. Click _Actions -> Edit_ to edi
 
 In the pipeline definition editor, add a new stage to the pipeline, just before the `Deploy to PROD` step:
 
+> **NOTE**: You will need to copy and paste the below code into the right place as shown in the below image.
+
 ```groovy
   stage 'Approve Go Live'
   timeout(time:30, unit:'MINUTES') {

@@ -19,7 +19,7 @@ This will deploy the database to our new project. Wait for it to complete:
 `oc rollout status -w dc/catalog-database`{{execute}}
 
 **Update configuration**
-Create the file by clicking on open ``src/main/resources/application-openshift.properties``{{open}}
+Create the file by clicking: `src/main/resources/application-openshift.properties`{{open}}
 
 Copy the following content to the file:
 <pre class="file" data-filename="src/main/resources/application-openshift.properties" data-target="replace">
@@ -37,12 +37,6 @@ inventory.ribbon.listOfServers=inventory.inventory.svc.cluster.local:8080
 
 **Build and Deploy**
 
-Red Hat OpenShift Application Runtimes includes a powerful maven plugin that can take an
-existing Spring Boot application and generate the necessary Kubernetes configuration.
-You can also add additional config, like ``src/main/fabric8/catalog-deployment.yml``{{open}} which defines
-the deployment characteristics of the app (in this case we declare a few environment variables which map our credentials
-stored in the secrets file to the application), but OpenShift supports a wide range of [Deployment configuration options](https://docs.openshift.org/latest/architecture/core_concepts/deployments.html) for apps).
-
 Build and deploy the project using the following command, which will use the maven plugin to deploy:
 
 `mvn package fabric8:deploy -Popenshift -DskipTests`{{execute}}
@@ -55,7 +49,7 @@ To verify that everything is started, run the following command and wait for it 
 
 `oc rollout status -w dc/catalog`{{execute}}
 
->**NOTE:** If you recall in the WildFly Swarm lab we created a health check manually, for Spring Boot the fabric8 maven plugin will automatically detect that if we have `spring-boot-starter-actuator` on our classpath and then automatically create these health checks for us.
+>**NOTE:** If you recall in the WildFly Swarm lab Fabric8 detected the `health` _fraction_ and generated health check definitions for us, the same is true for Spring Boot if you have the `spring-boot-starter-actuator` dependency in our project.
 
 **3. Access the application running on OpenShift**
 

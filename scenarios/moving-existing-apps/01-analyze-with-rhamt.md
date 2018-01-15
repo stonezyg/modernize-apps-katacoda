@@ -94,15 +94,15 @@ You should see the landing page for the report:
 
 ![Landing Page](/redhat-middleware-workshops/assets/moving-existing-apps/landingpage.png)
 
-## Understanding the report
-
 The main landing page of the report lists the applications that were processed. Each row contains a high-level overview of the story points, number of incidents, and technologies encountered in that application.
 
-In this case, as we used the `monolith` directory, click in `monolith` to access the report for this application.
+Click on the `monolith` link to access details for the project:
 
 ![Project Overview](/redhat-middleware-workshops/assets/moving-existing-apps/project-overview.png)
 
-This will show the Dashboard overview, which gives an overview of the entire application migration effort. It summarizes:
+## Understanding the report
+
+The Dashboard gives an overview of the entire application migration effort. It summarizes:
 
 * The incidents and story points by category
 * The incidents and story points by level of effort of the suggested changes

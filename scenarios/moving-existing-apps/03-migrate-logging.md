@@ -6,18 +6,9 @@ internationalized content, and client-server logging.
 In this case we are using Weblogic's `NonCatalogLogger` which is a simplified logging framework that doesn't use
 localized message catalogs (hence the term _NonCatalog_).
 
-The WebLogic `NonCatalogLogger` is not supported on JBoss EAP, and should be migrated to a supported logging framework, such as the JDK Logger or JBoss Logging.
+The WebLogic `NonCatalogLogger` is not supported on JBoss EAP (or any other Java EE platform), and should be migrated to a supported logging framework, such as the JDK Logger or JBoss Logging.
 
-**1. Select the issue related to `WebLogic proprietary logger (NonCatalogLogger)`**
-
-[Open the report](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/) and then
-click on the **Issues** tab again:
-
-![Issues](/redhat-middleware-workshops/assets/moving-existing-apps/project-issues.png)
-
-RHAMT provides helpful links to understand the issue deeper and offer guidance for the migration.
-
-**2. Open the file**
+**1. Open the file**
 
 Click here to open the offending file `src/main/java/com/redhat/coolstore/service/OrderServiceMDB.java`{{open}}
 
@@ -26,7 +17,7 @@ Click here to open the offending file `src/main/java/com/redhat/coolstore/servic
 The first step is to remove all instances of `import weblogic.x.y.z` at the top of the file. This ensures that our code will
 not compile or run until we complete the migration. Remove the import statements for `import weblogic.i18n.logging.NonCatalogLogger;`.
 
-Next, change the type of the `log` class variable to be java.util.Logger and to initialize it with the name of the class:
+Next, change the type of the `log` class variable to be `Logger` and to initialize it with the name of the class:
 
 ```java
 private Logger log = Logger.getLogger(OrderServiceMDB.class.getName());

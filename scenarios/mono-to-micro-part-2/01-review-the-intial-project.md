@@ -98,7 +98,7 @@ We will also make use of Java Persistance API (JPA) so we need to add the follow
 
 We will go ahead and add a bunch of other dependencies while we have the pom.xml open. These will be explained later.
 
-<pre class="file" data-filename="pom.xml" data-target="insert" data-marker=" <!-- TODO: Add actuator, fegin and hystrix dependency here -->">
+<pre class="file" data-filename="pom.xml" data-target="insert" data-marker=" <!-- TODO: Add actuator, Feign and hystrix dependency here -->">
     &lt;dependency&gt;
       &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
       &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;
@@ -127,6 +127,8 @@ Run the application by executing the below command:
 >**NOTE:** The Katacoda terminal window is like your local terminal. Everything that you run here you should
 be able to execute on your local computer as long as you have a `Java SDK 1.8` and `Maven`. In later steps, we
 will also use the `oc` command line tool.
+
+Wait for it to complete startup and report `Started RestApplication in ***** seconds (JVM running for ******)`
 
 **3. Verify the application**
 

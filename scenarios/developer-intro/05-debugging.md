@@ -53,7 +53,7 @@ This will cause a re-deployment of the app to enable the remote debugging agent 
 
 Wait for the re-deployment to complete before continuing by executing:
 
-`oc rollout status -w dc/coolstore`{{execute}}
+`oc rollout status -w dc/coolstore && sleep 10`{{execute}}
 
 The re-deployment also invoked a new pod, so let's update our environment variable again:
 
@@ -222,12 +222,21 @@ an "incognito" or "private browsing" tab and visit the same URL.
 
 ![Bug fixed](/redhat-middleware-workshops/assets/developer-intro/debug-coolstore-bug-fixed.png)
 
-Well done, you've fixed the bug using your new debugging skills and saved the world! Congratulations for completing this scenario!
-
-## Before continuing
+Well done, you've fixed the bug using your new debugging skills and saved the world!
 
 Let's kill the `oc port-forward` processes we started earlier in the background. Execute:
 
 `kill %1`{{execute}}
 
-On to the next challenge!
+Because we used `oc rsync` to re-deploy the bugfix to the running pod, it will not survive if we restart the pod. Let's update the container image
+to contain our new fix (keeping the blue header for now). Execute:
+
+`oc start-build coolstore --from-file=deployments/ROOT.war`{{execute}}
+
+And again, wait for it to complete by executing:
+
+`oc rollout status -w dc/coolstore`{{execute T1}}
+
+## Congratulations!
+
+Congratulations on completing this step! On to the next challenge!

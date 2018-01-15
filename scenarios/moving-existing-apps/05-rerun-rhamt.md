@@ -5,7 +5,7 @@ In this step we will re-run the RHAMT report to verify our migration was success
 Click on the below command to clean the old build artifacts and re-execute the RHAMT CLI and analyze the new project:
 
 ```
-mvn clean
+mvn clean && \
 ~/rhamt-cli-4.0.0.Beta4/bin/rhamt-cli \
   --sourceMode \
   --input ~/projects/monolith \

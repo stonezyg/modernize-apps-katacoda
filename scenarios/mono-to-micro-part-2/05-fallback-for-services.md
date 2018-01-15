@@ -26,12 +26,12 @@ data-target="insert" data-marker="//TODO: Add Fallback factory here">
 
 </pre>
 
-After creating the fallback factory all we have todo is to tell Fegin to use that fallback in case of an issue, by adding the fallbackFactory property to the `@FeginClient` annotation like this:
+After creating the fallback factory all we have todo is to tell Feign to use that fallback in case of an issue, by adding the fallbackFactory property to the `@FeignClient` annotation like this:
 
 ```
 @FeignClient(name="inventory",fallbackFactory = InventoryClient.InventoryClientFallbackFactory.class)
 ```
->**NOTE:** You will manually have to copy the above code into the `InventoryClient.java`
+>**NOTE:** You will manually have to copy the above code into the `InventoryClient.java`, replacing line 13.
 
 **Test the Fallback**
 
@@ -88,7 +88,7 @@ Change back the class rule so that we don't fail the tests like this:
 Make sure the test works again by running ``mvn verify -Dtest=CatalogEndpointTest``{{execute}}
 
 **Slow running services**
-Having fallbacks is good but that also requires that we can correctly detect when a dependent services isn't responding correctly. Besides from not responding a service can also respond slowly causing our services to also respond slow. This can lead to cascading issues that is hard to debug and pinpoint issues with. We should therefor also have sane defaults for our services. You can add defaults by adding it to the configuration.
+Having fallbacks is good but that also requires that we can correctly detect when a dependent services isn't responding correctly. Besides from not responding a service can also respond slowly causing our services to also respond slow. This can lead to cascading issues that is hard to debug and pinpoint issues with. We should therefore also have sane defaults for our services. You can add defaults by adding it to the configuration.
 
 Open ``src/main/resources/application-default.properties``{{open}}
 

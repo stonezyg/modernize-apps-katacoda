@@ -101,6 +101,8 @@ Access the application by clicking [here](https://[[HOST_SUBDOMAIN]]-8080-[[KATA
 
 ![CoolStore Monolith](/redhat-middleware-workshops/assets/moving-existing-apps/coolstore-web.png)
 
+You may see WARNINGs in the console output. We will fix these soon!
+
 ## Shutdown the application
 
 Before moving on, click in the **Terminal** window and type CTRL-C to stop the running WildFly server. You should see:
