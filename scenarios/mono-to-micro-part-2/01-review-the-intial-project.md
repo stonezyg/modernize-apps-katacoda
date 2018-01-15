@@ -100,7 +100,7 @@ We will also make use of Java Persistance API (JPA) so we need to add the follow
 
 We will go ahead and add a bunch of other dependencies while we have the pom.xml open. These will be explained later.
 
-<pre class="file" data-filename="pom.xml" data-target="insert" data-marker=" <!-- TODO: Add actuator, feign and hystrix dependency here -->">
+<pre class="file" data-filename="pom.xml" data-target="insert" data-marker="<!-- TODO: Add actuator, feign and hystrix dependency here -->">
     &lt;dependency&gt;
       &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
       &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;
