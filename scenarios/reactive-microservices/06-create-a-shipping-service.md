@@ -99,7 +99,7 @@ The headers of the message are available with headers.
 **1. Add a Shipping Verticle**
 Since RHOAR currently do not support using distributed event bus we will create the Verticle locally. For now our shipping service will only return a fixed ShippingFee of 37.0. RHOAR is planned to support distributes event bus early 2018. Since the Event Bus API is the same very little code changes (if any) will be required to move this to a separate service in OpenShift in the future.
 
-<pre class="file" data-filename="./src/main/java/com/redhat/coolstore/CartServiceVerticle.java" data-target="replace">
+<pre class="file" data-filename="./src/main/java/com/redhat/coolstore/ShippingServiceVerticle.java" data-target="replace">
 package com.redhat.coolstore;
 
 import io.vertx.core.AbstractVerticle;
