@@ -119,10 +119,19 @@ public class ShippingServiceVerticle extends AbstractVerticle {
         MessageConsumer&lt;String&gt; consumer = eb.consumer("shipping");
         consumer.handler(message -&gt; {
             logger.info("Shipping Service recieved a message");
-            message.reply(new JsonObject().put("shippingFee", 37.0).encode()); //Hardcoded shipping Fee
+            message.reply(new JsonObject().put("shippingFee", 37.0)); //Hardcoded shipping Fee
         });
     }
 }
+</pre>
+
+We also need to start the Verticle by deploying it form the MainVerticle
+
+<pre class="file" data-filename="./src/main/java/com/redhat/coolstore/MainVerticle.java" data-target="insert" data-marker="// TODO: Deploy PromoServiceVerticle">
+vertx.deployVerticle(
+                    ShippingServiceVerticle.class.getName(),
+                    new DeploymentOptions().setConfig(config.result())
+                );
 </pre>
 
 Done! That was easy. :-) We still have to update the shopping cart to use the Shipping service. Let's do that next.
