@@ -28,7 +28,7 @@ if [ "$(oc whoami)" == "system:admin" ]; then
   docker pull nginx:latest
 
 else
-  echo "Skipping init since user is not system:admin anymore" | tee -a ${HOME}/.init.log
+  echo "Skipping init since user is not system:admin anymore." | tee -a ${HOME}/.init.log
 fi
 find /root/rhamt-cli-4.0.0.Beta4 -name \*\._\* -print | xargs rm -f
 git --git-dir=/root/projects/.git --work-tree=/root/projects pull
