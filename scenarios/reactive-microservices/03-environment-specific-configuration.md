@@ -127,7 +127,7 @@ Finally we need to tell the `vertx-maven-plugin` to use the MainVerticle instead
 
 First open the ```pom.xml```{{open}}
 
-Then Change the `<vertx.verticle>com.redhat.coolstore.MainVerticle</vertx.verticle>` to `<vertx.verticle>com.redhat.coolstore.CartServiceVerticle</vertx.verticle>`
+Then Change the `<vertx.verticle>com.redhat.coolstore.CartServiceVerticle</vertx.verticle>` to `<vertx.verticle>com.redhat.coolstore.MainVerticle</vertx.verticle>`
 
 <pre class="file" data-filename="./pom.xml" data-target="insert" data-marker="com.redhat.coolstore.CartServiceVerticle">
 com.redhat.coolstore.MainVerticle
