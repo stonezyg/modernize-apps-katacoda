@@ -27,10 +27,12 @@ cd $HOME/projects
 git reset --hard
 git clean -df
 git clean -Xf
+git pull
 
 # checkout solution and deploy to new project
 cd $HOME/projects/monolith
 git checkout solution
+git pull
 oc new-project coolstore-dev --display-name="Coolstore Monolith - Dev" || { echo "cant create project; ensure all projects gone with 'oc get projects' and try again"; exit 1; }
 oc new-app coolstore-monolith-binary-build
 mvn clean package -Popenshift

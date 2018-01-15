@@ -20,7 +20,10 @@ cd $HOME/projects
 git reset --hard
 git clean -df
 git clean -Xf
+git checkout solution
+git pull
 git checkout master
+git pull
 
 for i in cart catalog inventory monolith; do
     cd $HOME/projects/${i}
