@@ -26,12 +26,13 @@ data-target="insert" data-marker="//TODO: Add Fallback factory here">
 
 </pre>
 
-After creating the fallback factory all we have todo is to tell Feign to use that fallback in case of an issue, by adding the fallbackFactory property to the `@FeignClient` annotation like this:
+After creating the fallback factory all we have todo is to tell Feign to use that fallback in case of an issue, by adding the fallbackFactory property to the `@FeignClient` annotation. Click **Copy To Editor** to replace
+it for you:
 
-```
+<pre class="file" data-filename="src/main/java/com/redhat/coolstore/client/InventoryClient.java"
+data-target="insert" data-marker="@FeignClient(name=&quot;inventory&quot;)">
 @FeignClient(name="inventory",fallbackFactory = InventoryClient.InventoryClientFallbackFactory.class)
-```
->**NOTE:** You will manually have to copy the above code into the `InventoryClient.java`, replacing line 13.
+</pre>
 
 **Test the Fallback**
 

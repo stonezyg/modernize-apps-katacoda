@@ -27,6 +27,10 @@ if [ "$(oc whoami)" == "system:admin" ]; then
   docker pull registry.access.redhat.com/openshift3/jenkins-2-rhel7:latest
   docker pull nginx:latest
 
+elif [ "$(oc whoami)" == "admin" ]; then
+  echo "Logged in as admin. Switching to developer"
+  MASTER_EXTERNAL_URL=$(oc get route/docker-registry -n default | grep -v NAME | awk '{print $2}' | sed 's/docker\-registry\-default\.//' | sed 's/\-80\-/\-8443\-/')
+  oc login $MASTER_EXTERNAL_URL -u developer -p developer --insecure-skip-tls-verify=true
 else
   echo "Skipping init since user is not system:admin anymore." | tee -a ${HOME}/.init.log
 fi
