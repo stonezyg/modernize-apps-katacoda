@@ -59,7 +59,7 @@
     "files": [
         "./src/main/java/com/redhat/coolstore/CartServiceVerticle.java",
         "./src/main/java/com/redhat/coolstore/MainVerticle.java",
-        "./src/main/java/com/redhat/coolstore/ShippingServiceVerticle.java"
+        "./src/main/java/com/redhat/coolstore/ShippingServiceVerticle.java",
         "./src/main/resources/config-default.json",
         "./src/main/resources/config-openshift.json"
     ],
