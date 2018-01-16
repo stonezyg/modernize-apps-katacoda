@@ -83,7 +83,7 @@ Follow the instructions to complete the scenario.
 
 Occasionally you'll see an executable command with a little arrow on the right, such as:
 
-``echo 'Hello World!'``⏎
+``echo 'Hello World!'``### Run it!
 
 You can manually type this command into the terminal on the right, or you can
 click the command itself to automatically copy and paste and execute
@@ -213,7 +213,7 @@ For this scenario, we will use the CLI as you are the only one that will run RHA
 
 The RHAMT CLI is has been installed for you. To verify that the tool was properly installed, run:
 
-`${HOME}/rhamt-cli-4.0.0.Beta4/bin/rhamt-cli --version`⏎
+`${HOME}/rhamt-cli-4.0.0.Beta4/bin/rhamt-cli --version`### Run it!
 
 You should see:
 
@@ -231,7 +231,7 @@ subdirectories according to Maven best practices.
 
 > Click on the `tree` command below to automatically copy it into the terminal and execute it
 
-``tree -L 3``⏎
+``tree -L 3``### Run it!
 
 You should see:
 
@@ -271,7 +271,7 @@ to execute the RHAMT CLI and analyze the existing project:
   --overwrite \
   --source weblogic \
   --target eap:7
-```⏎
+```### Run it!
 
 > Note the use of the ``--source`` and ``--target`` options. This allows you to target specific migration paths supported by RHMAT. Other
 migration paths include **IBM® WebSphere® Application Server** and **JBoss EAP** 5/6/7.
@@ -282,9 +282,9 @@ migration paths include **IBM® WebSphere® Application Server** and **JBoss EAP
 
 The RHAMT CLI generated an HTML report. To view the report, first startup a simple web server in a separate terminal:
 
-```docker run --privileged -v ~/rhamt-report:/usr/share/nginx/html:ro,z -p 9000:80 -it nginx```⏎
+```docker run --privileged -v ~/rhamt-report:/usr/share/nginx/html:ro,z -p 9000:80 -it nginx```### Run it!
 
-> This command will not output anything
+> **NOTE**: This command will not output anything
 
 Then [click to view the report](https://$OPENSHIFT_MASTER/)
 
@@ -292,15 +292,15 @@ You should see the landing page for the report:
 
 ![Landing Page](../assets/moving-existing-apps/landingpage.png)
 
-## Understanding the report
-
 The main landing page of the report lists the applications that were processed. Each row contains a high-level overview of the story points, number of incidents, and technologies encountered in that application.
 
-In this case, as we used the `monolith` directory, click in `monolith` to access the report for this application.
+Click on the `monolith` link to access details for the project:
 
 ![Project Overview](../assets/moving-existing-apps/project-overview.png)
 
-This will show the Dashboard overview, which gives an overview of the entire application migration effort. It summarizes:
+## Understanding the report
+
+The Dashboard gives an overview of the entire application migration effort. It summarizes:
 
 * The incidents and story points by category
 * The incidents and story points by level of effort of the suggested changes
@@ -308,6 +308,7 @@ This will show the Dashboard overview, which gives an overview of the entire app
 
 > Story points are an abstract metric commonly used in Agile software development to estimate the relative level of effort needed to implement a feature or change.
 Red Hat Application Migration Toolkit uses story points to express the level of effort needed to migrate particular application constructs, and the application as a whole.
+The level of effort will vary greatly depending on the size and complexity of the application(s) to migrate.
 
 There are several other sub-pages accessible by the menu near the top. Cick on each one and observe the results for each of these pages:
 
@@ -346,8 +347,7 @@ code in the `postStart` and `preStop` methods which are executed after Weblogic 
 
 **1. Review the issue related to `ApplicationLifecycleListener`**
 
-[Open the report](https://$OPENSHIFT_MASTER/) and then
-click on monolith and navigate to the **Issues** tab:
+[Open the Issues report](https://$OPENSHIFT_MASTER/reports/migration_issues.html):
 
 ![Issues](../assets/moving-existing-apps/project-issues.png)
 
@@ -357,14 +357,14 @@ In JBoss Enterprise Application Platform, there is no equivalent to intercept th
 as suggested in the issue in the RHAMT report.
 
 We will use the `@Startup` annotation to tell the container to initialize the singleton session
-bean at application start. We will similarly use the @PostConstruct and `@PreDestroy` annotations to specify the
+bean at application start. We will similarly use the `@PostConstruct` and `@PreDestroy` annotations to specify the
 methods to invoke at the start and end of the application lifecyle achieving the same result but without
 using proprietary interfaces.
 
 **2. Remove weblogic-specific `import` statements and inheritance**
 
-In `src/main/java/com/redhat/coolstore/utils/StartupListener.java`,
-the first step is to remove all instances of `import weblogic.x.y.z` at the top of the file. This ensures that our code will
+Open the file: `src/main/java/com/redhat/coolstore/utils/StartupListener.java`,
+and remove all instances of `import weblogic.x.y.z` at the top of the file. This ensures that our code will
 not compile or run until we complete the migration. Remove the import statements for `weblogic.application.ApplicationLifecycleEvent` and
 `weblogic.application.ApplicationLifecycleListener`.
 
@@ -452,7 +452,7 @@ When we run our newly-migrated application later on, you'll be able to verify th
 
 Build and package the app using Maven to make sure you code still compiles:
 
-`mvn clean package`⏎
+`mvn clean package`### Run it!
 
 If builds successfully (you will see `BUILD SUCCESS`), then let's move on to the next issue! If it does not compile,
 verify you made all the changes correctly and try the build again.
@@ -469,27 +469,18 @@ internationalized content, and client-server logging.
 In this case we are using Weblogic's `NonCatalogLogger` which is a simplified logging framework that doesn't use
 localized message catalogs (hence the term _NonCatalog_).
 
-The WebLogic `NonCatalogLogger` is not supported on JBoss EAP, and should be migrated to a supported logging framework, such as the JDK Logger or JBoss Logging.
+The WebLogic `NonCatalogLogger` is not supported on JBoss EAP (or any other Java EE platform), and should be migrated to a supported logging framework, such as the JDK Logger or JBoss Logging.
 
-**1. Select the issue related to `WebLogic proprietary logger (NonCatalogLogger)`**
-
-[Open the report](https://$OPENSHIFT_MASTER/) and then
-click on the **Issues** tab again:
-
-![Issues](../assets/moving-existing-apps/project-issues.png)
-
-RHAMT provides helpful links to understand the issue deeper and offer guidance for the migration.
-
-**2. Open the file**
+**1. Open the file**
 
 Click here to open the offending file `src/main/java/com/redhat/coolstore/service/OrderServiceMDB.java`
 
-**3. Remove weblogic-specific `import` statements and inheritance**
+**2. Remove weblogic-specific `import` statements and inheritance**
 
 The first step is to remove all instances of `import weblogic.x.y.z` at the top of the file. This ensures that our code will
 not compile or run until we complete the migration. Remove the import statements for `import weblogic.i18n.logging.NonCatalogLogger;`.
 
-Next, change the type of the `log` class variable to be java.util.Logger and to initialize it with the name of the class:
+Next, change the type of the `log` class variable to be `Logger` and to initialize it with the name of the class:
 
 ```java
 private Logger log = Logger.getLogger(OrderServiceMDB.class.getName());
@@ -571,7 +562,7 @@ That one was pretty easy.
 
 Build and package the app using Maven to make sure you code still compiles:
 
-`mvn clean package`⏎
+`mvn clean package`### Run it!
 
 If builds successfully (you will see `BUILD SUCCESS`), then let's move on to the next issue! If it does not compile,
 verify you made all the changes correctly and try the build again.
@@ -597,34 +588,28 @@ MDB. RHAMT has flagged this and reported it using a number of issues.
 
 **1. Review the issues**
 
-[Open the report](https://$OPENSHIFT_MASTER/) and then
-click on the **Issues** tab again:
+[Open the Issues report](https://$OPENSHIFT_MASTER/reports/migration_issues.html).
 
-![Issues](../assets/moving-existing-apps/project-issues.png)
-
-RHAMT provides helpful links to understand the issue deeper and offer guidance for the migration.
-
-In this case, RHAMT has identified several issues with our use of weblogic MDB interfaces:
+In the list of issues for our migration, RHAMT has identified several issues with our use of weblogic MDB interfaces:
 
 * **Call of JNDI lookup** - Our apps use a weblogic-specific [JNDI](https://en.wikipedia.org/wiki/Java_Naming_and_Directory_Interface) lookup scheme.
 * **Proprietary InitialContext initialization** - Weblogic has a very different lookup mechanism for InitialContext objects
 * **WebLogic InitialContextFactory** - This is related to the above, essentially a Weblogic proprietary mechanism
 * **WebLogic T3 JNDI binding** - The way EJBs communicate in Weblogic is over T2, a proprietary implementation of Weblogic.
 
-All of the above interfaces have equivelants in JBoss, however they are greatly simplified and overkill for our application which uses
+All of the above interfaces have equivalents in JBoss, however they are greatly simplified and overkill for our application which uses
 JBoss EAP's internal message queue implementation provided by [Apache ActiveMQ Artemis](https://activemq.apache.org/artemis/).
 
-Click on each issue to learn more about the problem and possible solutions.
+**2. Understand the changes necessary**
 
-**2. Open the files**
+Open `src/main/java/com/redhat/coolstore/service/InventoryNotificationMDB.java`. The main logic of this class is in the `onMessage` method.
+ ll of the other code in the class is related to the initialization and lifecycle management of the MDB itself in the Weblogic environment, which we need to remove.
 
-Click here to open the offending files `src/main/java/com/redhat/coolstore/service/InventoryNotificationMDB.java` and
-``src/main/webapp/WEB-INF/weblogic-ejb-jar.xml``.
-
-**3. Understand the changes necessary**
-
-The main logic of this class is in the `onMessage` method. All of the other code in the class is related to the
-initialization and management of the MDB itself in the Weblogic environment.
+JBoss EAP provides and even more efficient and declarative way
+to configure and manage the lifecycle of MDBs. In this case, we can use annotations to provide the necessary initialization
+and configuration logic and settings. We will use the
+`@MessageDriven` and `@ActivationConfigProperty` annotations, along with the `MessageListener` interfaces to provide the
+same functionality as from Weblogic.
 
 Much of Weblogic's interfaces for EJB components like MDBs reside in Weblogic descriptor XML files. Open
 ``src/main/webapp/WEB-INF/weblogic-ejb-jar.xml`` to see one of these descriptors. There are many different configuration
@@ -633,32 +618,24 @@ possibilities for EJBs and MDBs in this file, but luckily our application only u
 long to complete (over 30 seconds), then the transaction is rolled back and exceptions are thrown. This interface is
 Weblogic-specific so we'll need to find an equivalent in JBoss.
 
-Back in `src/main/java/com/redhat/coolstore/service/InventoryNotificationMDB.java` you'll also find some
-ancillary code in the `init`, `close` and `getInitialContext` methods. These methods were once required of all Weblogic
-applications, and while it has been simplified over the years, JBoss provides and even more efficient and declarative way
-to configure and manage the lifecycle of MDBs. In this case, we can use annotations to provide the necessary initialization
-and configuration logic and settings, obviating the need for any special XML configuration files. We will use the
-`@MessageDriven` and `@ActivationConfigProperty` annotations, along with the `MessageListener` interfaces to provide the
-same functionality as from Weblogic.
-
 > You should be aware that this type of migration is more involved than the previous migrations, and in real world applications
 it will rarely be as simple as changing one line at a time for a migration. Consult the [RHAMT documentation](https://access.redhat.com/documentation/en/red-hat-application-migration-toolkit) for more detail on Red Hat's
 Application Migration strategies or contact your local Red Hat representative to learn more about how Red Hat can help you
 on your migration path.
 
-**4. Remove the Weblogic EJB Descriptor**
+**3. Remove the Weblogic EJB Descriptor**
 
 The first step is to remove the unneeded `weblogic-ejb-jar.xml` file. This file is not recognized or processed by JBoss
 EAP. Type or click the following command to remove it:
 
-`rm -f src/main/webapp/WEB-INF/weblogic-ejb-jar.xml`⏎
+`rm -f src/main/webapp/WEB-INF/weblogic-ejb-jar.xml`### Run it!
 
 While we're at it, let's remove the stub weblogic implementation classes added as part of the scenario.
 Run or click on this command to remove them:
 
-`rm -rf src/main/java/weblogic`⏎
+`rm -rf src/main/java/weblogic`### Run it!
 
-**5. Remove unneeded class variables and methods**
+**4. Remove unneeded class variables and methods**
 
 Open `src/main/java/com/redhat/coolstore/service/InventoryNotificationMDB.java`.
 
@@ -763,7 +740,7 @@ We'll run the report again to verify our changes in the next step.
 
 Build and package the app using Maven to make sure you code still compiles:
 
-`mvn clean package`⏎
+`mvn clean package`### Run it!
 
 If builds successfully (you will see `BUILD SUCCESS`), then let's move on to the next issue! If it does not compile,
 verify you made all the changes correctly and try the build again.
@@ -779,7 +756,7 @@ In this step we will re-run the RHAMT report to verify our migration was success
 Click on the below command to clean the old build artifacts and re-execute the RHAMT CLI and analyze the new project:
 
 ```
-mvn clean
+mvn clean && \
 ~/rhamt-cli-4.0.0.Beta4/bin/rhamt-cli \
   --sourceMode \
   --input ~/projects/monolith \
@@ -787,7 +764,7 @@ mvn clean
   --overwrite \
   --source weblogic \
   --target eap:7
-```⏎
+```### Run it!
 
 **Wait for it to complete before continuing!**. You should see `Report created: /root/rhamt-report/index.html`.
 
@@ -797,11 +774,11 @@ The RHAMT CLI generates an updated HTML report.
 
 To view the updated report, first stop the web server:
 
-`clear`⏎
+`clear`### Run it!
 
 Then start it again:
 
-`docker run --privileged -v ~/rhamt-report:/usr/share/nginx/html:ro,z -p 9000:80 -it nginx`⏎
+`docker run --privileged -v ~/rhamt-report:/usr/share/nginx/html:ro,z -p 9000:80 -it nginx`### Run it!
 
 If this does not work you may need to manually click into the **Terminal 2** and type `CTRL-C` to stop the web server, then restart using
 the above command.
@@ -826,7 +803,7 @@ plus Red Hat OpenShift bring to the table.
 
 ## Before moving on
 
-Stop the report web server by clicking in **Terminal 2** and type CTRL-C to stop the server (or click this command: `clear`⏎)
+Stop the report web server by clicking in **Terminal 2** and type CTRL-C to stop the server (or click this command: `clear`### Run it!)
 
 ## Migrate and run the project
 
@@ -834,11 +811,11 @@ Now that we migrated the application you are probably eager to test it. To test 
 
 Run the following command in the terminal window.
 
-``unzip -d $HOME $HOME/jboss-eap-7.1.0.zip``⏎
+``unzip -d $HOME $HOME/jboss-eap-7.1.0.zip``### Run it!
 
 We should also set the `JBOSS_HOME` environment variable like this:
 
-``export JBOSS_HOME=$HOME/jboss-eap-7.1``⏎
+``export JBOSS_HOME=$HOME/jboss-eap-7.1``### Run it!
 
 Done! That is how easy it is to install JBoss EAP. 
 
@@ -850,62 +827,59 @@ JBoss EAP comes with a nice maven-plugin tool that can stop, start, deploy, and 
 At the `TODO: Add wildfly plugin here` we are going to add a the following configuration
 
 ```java
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>1.2.1.Final</version>
-                <!-- TODO: Add configuration here -->
-            </plugin>
+<plugin>
+    <groupId>org.wildfly.plugins</groupId>
+    <artifactId>wildfly-maven-plugin</artifactId>
+    <version>1.2.1.Final</version>
+    <!-- TODO: Add configuration here -->
+</plugin>
 ```
 
 Next we are going to add some configuration. First we need to point to our JBoss EAP installation using the `jboss-home` configuration. After that we will also have to tell JBoss EAP to use the profile configured for full Java EE, since it defaults to use the Java EE Web Profile. This is done by adding a `server-config` and set it to value `standalone-full.xml`
 
 ```java
-                <configuration>
-                    <jboss-home>${env.JBOSS_HOME}</jboss-home>
-                    <server-config>standalone-full.xml</server-config>
-                    <resources>
-                    <!-- TODO: Add Datasource definition here -->
-                    <!-- TODO: Add JMS Topic definition here -->
-                    </resources>
-                    <server-args>
-                        <server-arg>-Djboss.https.port=8888</server-arg>
-                        <server-arg>-Djboss.bind.address=0.0.0.0</server-arg>
-                    </server-args>
-                    <javaOpts>-Djava.net.preferIPv4Stack=true</javaOpts>
-                </configuration>
+<configuration>
+    <jboss-home>${env.JBOSS_HOME}</jboss-home>
+    <server-config>standalone-full.xml</server-config>
+    <resources>
+<!-- TODO: Add Datasource definition here -->
+<!-- TODO: Add JMS Topic definition here -->
+    </resources>
+    <server-args>
+        <server-arg>-Djboss.https.port=8888</server-arg>
+        <server-arg>-Djboss.bind.address=0.0.0.0</server-arg>
+    </server-args>
+    <javaOpts>-Djava.net.preferIPv4Stack=true</javaOpts>
+</configuration>
 ```
 
 Since our application is using a Database we also configuration that by adding the following at the ```<-- TODO: Add Datasource definition here -->``` comment
 
 ```java
-                        <resource>
-                            <addIfAbsent>true</addIfAbsent>
-                            <address>subsystem=datasources,data-source=CoolstoreDS</address>
-                            <properties>
-                                <jndi-name>java:jboss/datasources/CoolstoreDS</jndi-name>
-                                <enabled>true</enabled>
-                                <connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url>
-                                <driver-class>org.h2.Driver</driver-class>
-                                <driver-name>h2</driver-name>
-                                <user-name>sa</user-name>
-                                <password>sa</password>
-                            </properties>
-                      </resource>
-
+<resource>
+    <addIfAbsent>true</addIfAbsent>
+    <address>subsystem=datasources,data-source=CoolstoreDS</address>
+    <properties>
+        <jndi-name>java:jboss/datasources/CoolstoreDS</jndi-name>
+        <enabled>true</enabled>
+        <connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url>
+        <driver-class>org.h2.Driver</driver-class>
+        <driver-name>h2</driver-name>
+        <user-name>sa</user-name>
+        <password>sa</password>
+    </properties>
+</resource>
 ```
 
 Since our application is using a JMS Topic we are also need to add the configuration for that by adding the following at the ```<-- TODO: Add JMS Topic here -->``` comment
 
 ```java
-                        <resource>
-                            <address>subsystem=messaging-activemq,server=default,jms-topic=orders</address>
-                            <properties>
-                                <entries>!!["topic/orders"]</entries>
-                            </properties>
-                        </resource>
-
-
+<resource>
+    <address>subsystem=messaging-activemq,server=default,jms-topic=orders</address>
+    <properties>
+        <entries>!!["topic/orders"]</entries>
+    </properties>
+</resource>
 ```
 
 We are now ready to build and test the project
@@ -914,7 +888,7 @@ We are now ready to build and test the project
 
 Our application is at this stage pretty standards based, but it needs two things. One is the  we need to add the JMS Topic since our application depends on it. 
 
-``mvn wildfly:start wildfly:add-resource wildfly:shutdown``⏎
+``mvn wildfly:start wildfly:add-resource wildfly:shutdown``### Run it!
 
 Wait for a `BUILD SUCCESS` message. If it fails, check that you made all the correct changes and try again!
 
@@ -924,7 +898,7 @@ Wait for a `BUILD SUCCESS` message. If it fails, check that you made all the cor
 
 We are now ready to deploy the application
 
-``mvn wildfly:run``⏎
+``mvn wildfly:run``### Run it!
 
 Wait for the server to startup. You should see `Deployed "ROOT.war" (runtime-name: "ROOT.war")`
 ## Test the application
@@ -933,19 +907,11 @@ Access the application by clicking [here](https://$OPENSHIFT_MASTER/) and shop a
 
 ![CoolStore Monolith](../assets/moving-existing-apps/coolstore-web.png)
 
+You may see WARNINGs in the console output. We will fix these soon!
+
 ## Shutdown the application
 
-Before moving on, click in the **Terminal** window and type CTRL-C to stop the running WildFly server. You should see:
-
-```console
-JBoss EAP 7.1.0.GA (WildFly Core 3.0.10.Final-redhat-1) stopped in ___ms
-```
-
-
-
-
-
-
+Before moving on, click here to stop the process: `clear`### Run it! (or click in the **Terminal** window and type CTRL-C).
 
 
 
@@ -953,7 +919,7 @@ JBoss EAP 7.1.0.GA (WildFly Core 3.0.10.Final-redhat-1) stopped in ___ms
 
 ## Deploy the monolith to OpenShift
 
-Now that we migrated the application you are probably eager to test it. To test it we locally we first need to install JBoss EAP.
+We now have a fully migrated application that we tested locally. Let's deploy it to OpenShift.
 
 **1. Add a OpenShift profile**
 
@@ -962,31 +928,31 @@ Open the `pom.xml` file.
 At the `<!-- TODO: Add OpenShift profile here -->` we are going to add a the following configuration to the pom.xml
 
 ```java
-          <profile>
-              <id>openshift</id>
-              <build>
-                  <plugins>
-                      <plugin>
-                          <artifactId>maven-war-plugin</artifactId>
-                          <version>2.6</version>
-                          <configuration>
-                              <webResources>
-                                  <resource>
-                                      <directory>${basedir}/src/main/webapp/WEB-INF</directory>
-                                      <filtering>true</filtering>		
-                                      <targetPath>WEB-INF</targetPath>
-                                  </resource>
-                              </webResources>
-                              <outputDirectory>deployments</outputDirectory>
-                              <warName>ROOT</warName>		
-                          </configuration>
-                      </plugin>
-                  </plugins>
-              </build>
-          </profile>
+<profile>
+  <id>openshift</id>
+  <build>
+      <plugins>
+          <plugin>
+              <artifactId>maven-war-plugin</artifactId>
+              <version>2.6</version>
+              <configuration>
+                  <webResources>
+                      <resource>
+                          <directory>${basedir}/src/main/webapp/WEB-INF</directory>
+                          <filtering>true</filtering>
+                          <targetPath>WEB-INF</targetPath>
+                      </resource>
+                  </webResources>
+                  <outputDirectory>deployments</outputDirectory>
+                  <warName>ROOT</warName>
+              </configuration>
+          </plugin>
+      </plugins>
+  </build>
+</profile>
 ```
 
-**2. Create the OpenShift projcet**
+**2. Create the OpenShift project**
 
 First, click on the **OpenShift Console** tab next to the Terminal tab:
 
@@ -1023,33 +989,30 @@ This will take you to the project overview. There's nothing there yet, but that'
 
 We'll use the CLI to deploy the components for our monolith. To deploy the monolith template using the CLI, execute the following commands:
 
-Login to OpenShift:
-
-``oc login $OPENSHIFT_MASTER -u developer -p developer --insecure-skip-tls-verify=true``⏎
-
 Switch to the developer project you created earlier:
 
-`oc project coolstore-dev`⏎
+`oc project coolstore-dev`### Run it!
 
 And finally deploy template:
 
-`oc new-app coolstore-monolith-binary-build`⏎
+`oc new-app coolstore-monolith-binary-build`### Run it!
 
-This will deploy both a PostgreSQL database and JBoss EAP,
-but it will not start a build for our application. You can see the components being deployed on the
-Project Overview, but notice the **No deployments for Coolstore**. You have not yet deployed
-the container image built in previous steps, but you'll do that next.
+This will deploy both a PostgreSQL database and JBoss EAP, but it will not start a build for our application.
+
+Then [open up the Monolith Overview page](https://$OPENSHIFT_MASTER/console/project/coolstore-dev/)
+and verify the monolith template items are created:
 
 ![OpenShift Console](../assets/moving-existing-apps/no-deployments.png)
 
-Then open up the web console and verify the monolith template items are created:
+You can see the components being deployed on the
+Project Overview, but notice the **No deployments for Coolstore**. You have not yet deployed
+the container image built in previous steps, but you'll do that next.
 
-* [CoolStore Monolith Project](https://$OPENSHIFT_MASTER/console/project/coolstore-dev/)
 
 **4. Deploy application using Binary build**
 
 In this development project we have selected to use a process called binary builds, which
-means that instead of pointing to a public Git Repository and have the S2I build process
+means that instead of pointing to a public Git Repository and have the S2I (Source-to-Image) build process
 download, build, and then create a container image for us we are going to build locally
 and just upload the artifact (e.g. the `.war` file). The binary deployment will speed up
 the build process significantly.
@@ -1060,21 +1023,15 @@ file). We will do this with the `oc` command line.
 
 Build the project:
 
-``mvn clean package -Popenshift``⏎
+``mvn clean package -Popenshift``### Run it!
 
-Now log the CLI into OpenShift (this is the same as what you did with the GUI):
-
-``oc login $OPENSHIFT_MASTER -u developer -p developer --insecure-skip-tls-verify=true``⏎
-
-And switch to the your newly created project:
-
-``oc project coolstore-dev``⏎
+Wait for the build to finish and the `BUILD SUCCESS` message!
 
 And finally, start the build process that will take the `.war` file and combine it with JBoss
 EAP and produce a Linux container image which will be automatically deployed into the project,
 thanks to the *DeploymentConfig* object created from the template:
 
-``oc start-build coolstore --from-file=deployments/ROOT.war``⏎
+``oc start-build coolstore --from-file=deployments/ROOT.war``### Run it!
 
 Check the OpenShift web console and you'll see the application being built:
 
@@ -1082,7 +1039,10 @@ Check the OpenShift web console and you'll see the application being built:
 
 Wait for the build and deploy to complete:
 
-``oc rollout status -w dc/coolstore``⏎
+``oc rollout status -w dc/coolstore``### Run it!
+
+This command will be used often to wait for deployments to complete. Be sure it returns success when you use it!
+You should eventually see `replication controller "coolstore-1" successfully rolled out`.
 
 > If the above command reports `Error from server (ServerTimeout)` then simply re-run the command until it reports success!
 
@@ -1092,8 +1052,8 @@ database and the monolith:
 
 ![OpenShift Console](../assets/moving-existing-apps/build-done.png)
 
-Test the application by clicking on the route link, which will open the same monolith Coolstore
-in your browser, this time running on OpenShift:
+Test the application by clicking on the [Route link](http://www-coolstore-dev.$OPENSHIFT_MASTER),
+which will open the same monolith Coolstore in your browser, this time running on OpenShift:
 
 ![OpenShift Console](../assets/moving-existing-apps/route-link.png)
 
@@ -1152,36 +1112,19 @@ enables them to take advantage of both containerized applications and orchestrat
 know the details.  Developers are free to focus on their code instead of spending time writing Dockerfiles
 and running docker builds.
 
-OpenShift is a full platform that incorporates several upstream projects while also providing additional
-features and functionality to make those upstream projects easier to consume.  The core of the platform is
-containers and orchestration.  For the container side of the house, the platform uses images based upon
-the docker image format.  For the orchestration side, we have a put a lot of work into the upstream
-Kubernetes project.  Beyond these two upstream projects, we have created a set of additional Kubernetes
-objects such as routes and deployment configs that we will learn how to use during this course.
-
 Both Developers and Operators communicate with the OpenShift Platform via one of the following methods:
 
-### Command Line Interface
-
-The command line tool that we will be using as part of this training is called the *oc* tool. You used this briefly
-in the last scenario.
-
-This tool is written in the Go programming language and is a single executable that is provided for
+* **Command Line Interface** - The command line tool that we will be using as part of this training is called the *oc* tool. You used this briefly
+in the last scenario. This tool is written in the Go programming language and is a single executable that is provided for
 Windows, OS X, and the Linux Operating Systems.
-
-### Web Console
-
-OpenShift also provides a feature rich Web Console that provides a friendly graphical interface for
+* **Web Console** -  OpenShift also provides a feature rich Web Console that provides a friendly graphical interface for
 interacting with the platform. You can always access the Web Console using the link provided just above
 the Terminal window on the right:
-
-![OpenShift Console Tab](../assets/developer-intro/openshift-console-tab.png)
-
-### REST API
-
-Both the command line tool and the web console actually communicate to OpenShift via the same method,
+ * ![OpenShift Console Tab](../assets/developer-intro/openshift-console-tab.png)
+* **REST API** - Both the command line tool and the web console actually communicate to OpenShift via the same method,
 the REST API.  Having a robust API allows users to create their own scripts and automation depending on
-their specific requirements.  For detailed information about the REST API, check out the [official documentation](https://docs.openshift.org/latest/rest_api/index.html)
+their specific requirements.  For detailed information about the REST API, check out the [official documentation](https://docs.openshift.org/latest/rest_api/index.html).
+You will not use the REST API directly in this workshop.
 
 During this workshop, you will be using both the command line tool and the web console.  However, it
 should be noted that there are plugins for several integrated development environments as well.
@@ -1321,24 +1264,27 @@ or IP).
 * Route: **www** route registers the service on the built-in external load-balancer
 and assigns a public DNS name to it so that it can be reached from outside OpenShift cluster.
 
-You can review the above resources in the OpenShift Web Console or using the `oc describe` command:
+You can review the above resources in the OpenShift Web Console or using the `oc get` or `oc describe` commands
+(`oc describe` gives more detailed info):
 
-> **bc** is the short-form of **buildconfig** and can be interchangeably used
-> instead of it with the OpenShift CLI. The same goes for **is** instead
-> of **imagestream**, **dc** instead of **deploymentconfig** and **svc** instead of **service**.
+> You can use short synonyms for long words, like `bc` instead of `buildconfig`,
+and `is` for `imagestream`, `dc` for `deploymentconfig`, `svc` for service,
+etc.
 
 > **NOTE**: Don't worry about reading and understanding the output of `oc describe`. Just make sure
 the command doesn't report errors!
 
-`oc describe bc coolstore`⏎
+Run these commands to inspect the elements:
 
-`oc describe is coolstore`⏎
+`oc get bc coolstore`### Run it!
 
-`oc describe dc coolstore`⏎
+`oc get is coolstore`### Run it!
 
-`oc describe svc coolstore`⏎
+`oc get dc coolstore`### Run it!
 
-`oc describe route www`⏎
+`oc get svc coolstore`### Run it!
+
+`oc describe route www`### Run it!
 
 Verify that you can access the monolith by clicking on the
 [exposed OpenShift route](http://www-coolstore-dev.$OPENSHIFT_MASTER)
@@ -1347,7 +1293,7 @@ to open up the sample application in a separate browser tab.
 You should also be able to see both the CoolStore monolith and its database
 running in separate pods:
 
-`oc get pods -l application=coolstore`⏎
+`oc get pods -l application=coolstore`### Run it!
 
 The output should look like this:
 
@@ -1361,11 +1307,11 @@ coolstore-postgresql-1-jpcb8   1/1       Running   0          9m
 
 You can log into the running Postgres container using the following:
 
-`oc --server https://master:8443 rsh dc/coolstore-postgresql`⏎
+`oc --server https://master:8443 rsh dc/coolstore-postgresql`### Run it!
 
 Once logged in, use the following command to execute an SQL statement to show some content from the database:
 
-`psql -U $POSTGRESQL_USER $POSTGRESQL_DATABASE -c 'select name from PRODUCT_CATALOG;'`⏎
+`psql -U $POSTGRESQL_USER $POSTGRESQL_DATABASE -c 'select name from PRODUCT_CATALOG;'`### Run it!
 
 You should see the following:
 
@@ -1383,7 +1329,7 @@ You should see the following:
  Lytro Camera
 (9 rows)```
 
-Don't forget to exit the pod's shell with `exit`⏎
+Don't forget to exit the pod's shell with `exit`### Run it!
 
 With our running project on OpenShift, in the next step we'll explore how you as a developer can work with the running app
 to make changes and debug the application!
@@ -1416,7 +1362,7 @@ As you recall from the last step, we can use `oc rsh` to execute commands inside
 For our Coolstore Monolith running with JBoss EAP, the application is installed in the `/opt/eap` directory in the running
 container. Execute the `ls` command inside the container to see this:
 
-`oc --server https://master:8443 rsh dc/coolstore ls -l /opt/eap`⏎
+`oc --server https://master:8443 rsh dc/coolstore ls -l /opt/eap`### Run it!
 
 You should see a listing of files in this directory **in the running container**.
 
@@ -1428,7 +1374,7 @@ Let's copy the EAP configuration in use so that we can inspect it. To copy files
 on OpenShift, we'll use the `oc rsync` command. This command expects the name of the pod to copy from,
 which can be seen with this command:
 
-`oc get pods --selector deploymentconfig=coolstore`⏎
+`oc get pods --selector deploymentconfig=coolstore`### Run it!
 
 The output should show you the name of the pod:
 
@@ -1442,15 +1388,15 @@ The name of my running coolstore monolith pod is `coolstore-2-bpkkc` but **yours
 Save the name of the pod into an environment variable called `COOLSTORE_DEV_POD_NAME` so that we can use it for future
 commands:
 
-`export COOLSTORE_DEV_POD_NAME=$(oc get pods --selector deploymentconfig=coolstore -o jsonpath='{.items[?(@.status.phase=="Running")].metadata.name}')`⏎
+`export COOLSTORE_DEV_POD_NAME=$(oc get pods --selector deploymentconfig=coolstore -o jsonpath='{.items[?(@.status.phase=="Running")].metadata.name}')`### Run it!
 
 Verify the variable holds the name of your pod with:
 
-`echo $COOLSTORE_DEV_POD_NAME`⏎
+`echo $COOLSTORE_DEV_POD_NAME`### Run it!
 
 Next, run the `oc rsync` command in your terminal window, using the new variable to refer to the name of the pod running our coolstore:
 
-`oc --server https://master:8443 rsync $COOLSTORE_DEV_POD_NAME:/opt/eap/standalone/configuration/standalone-openshift.xml .`⏎
+`oc --server https://master:8443 rsync $COOLSTORE_DEV_POD_NAME:/opt/eap/standalone/configuration/standalone-openshift.xml .`### Run it!
 
 The output will show that the file was downloaded:
 
@@ -1478,14 +1424,12 @@ Manually copying is cool, but what about automatic live copying on change? That'
 
 Let's clean up the temp files we used. Execute:
 
-`rm -f standalone-openshift.xml hello.txt`⏎
+`rm -f standalone-openshift.xml hello.txt`### Run it!
 
 ## Live Synchronization of Project Files
 
 In addition to being able to manually upload or download files when you choose to, the ``oc rsync``
 command can also be set up to perform live synchronization of files between your local computer and the container.
-
-That is, the file system of your local computer will be monitored for any changes made to files.
 When there is a change to a file, the changed file will be automatically copied up to the container.
 
 This same process can also be run in the opposite direction if required, with changes made in the
@@ -1513,7 +1457,7 @@ to open the application in a browser tab so you can watch changes.
 
 Turn on **Live sync** by executing this command:
 
-`oc --server https://master:8443 rsync deployments/ $COOLSTORE_DEV_POD_NAME:/deployments --watch --no-perms &`⏎
+`oc --server https://master:8443 rsync deployments/ $COOLSTORE_DEV_POD_NAME:/deployments --watch --no-perms &`### Run it!
 
 > The `&` character at the end places the command into the background. We will kill it at the end of this step.
 
@@ -1542,7 +1486,7 @@ Add the following CSS to turn the header bar background to Red Hat red (click **
 
 Let's re-build the application using this command:
 
-`mvn package -Popenshift`⏎
+`mvn package -Popenshift`### Run it!
 
 This will update the ROOT.war file and cause the application to change.
 
@@ -1550,7 +1494,9 @@ Re-visit the app by reloading the Coolstore webpage (or clicking again on the [C
 
 You should now see the red header:
 
-> **NOTE** Some browsers (most, actually) will cache the web content including CSS files. You may need to [clear the browser
+> **NOTE** Some browsers (most, actually) will cache the web content including CSS files. If you don't see the read
+header or get errors, first try to reload the page a few times. If it still doesn't show the changed
+header you may need to [clear the browser
 cache](https://www.lifewire.com/how-to-clear-cache-2617980) to see the changes! You can also open a separate browser or
 an "incognito" or "private browsing" tab and visit the same URL.
 
@@ -1566,7 +1512,7 @@ background: blue
 
 Again, re-build the app:
 
-`mvn package -Popenshift`⏎
+`mvn package -Popenshift`### Run it!
 
 This will update the ROOT.war file again and cause the application to change.
 
@@ -1582,7 +1528,7 @@ We'll leave the blue header for the moment, but will change it back to the origi
 
 Kill the `oc rsync` processes we started earlier in the background. Execute:
 
-`kill %1`⏎
+`kill %1`### Run it!
 
 On to the next challenge!
 
@@ -1601,7 +1547,7 @@ Atari 2600 Joystick product shows nothing at all for inventory:
 
 Since the product list is provided by the monolith, take a look into the logs to see if there are any warnings:
 
-`oc --server https://master:8443 logs dc/coolstore | grep -i warning`⏎
+`oc --server https://master:8443 logs dc/coolstore | grep -i warning`### Run it!
 
 Oh! Something seems to be wrong with the inventory for the product id **444437**
 
@@ -1616,7 +1562,7 @@ WARNING [com.redhat.coolstore.utils.Transformers] (default task-83) Inventory fo
 Invoke the Product Catalog API using `curl` for the suspect product id to see what actually
 happens when the UI tries to get the catalog:
 
-`curl -v http://www-coolstore-dev.$OPENSHIFT_MASTER/services/products/444437`⏎
+`curl http://www-coolstore-dev.$OPENSHIFT_MASTER/services/products/444437 ; echo`### Run it!
 
 The response clearly shows that the inventory values for `location` and `link` and `quantity` are not being returned properly (they should not be `null`):
 
@@ -1637,21 +1583,21 @@ The EAP image on OpenShift has built-in support for remote debugging and it can 
 by setting the `JAVA_OPTS_APPEND` environment variables on the deployment config for the pod
 that you want to remotely debug. This will pass additional variables to the JVM when it starts up.
 
-`oc set env dc/coolstore JAVA_OPTS_APPEND="-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n"`⏎
+`oc set env dc/coolstore JAVA_OPTS_APPEND="-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n"`### Run it!
 
 This will cause a re-deployment of the app to enable the remote debugging agent on TCP port 8787.
 
 Wait for the re-deployment to complete before continuing by executing:
 
-`oc rollout status -w dc/coolstore`⏎
+`oc rollout status -w dc/coolstore && sleep 10`### Run it!
 
 The re-deployment also invoked a new pod, so let's update our environment variable again:
 
-`export COOLSTORE_DEV_POD_NAME=$(oc get pods --selector deploymentconfig=coolstore -o jsonpath='{.items[?(@.status.phase=="Running")].metadata.name}')`⏎
+`export COOLSTORE_DEV_POD_NAME=$(oc get pods --selector deploymentconfig=coolstore -o jsonpath='{.items[?(@.status.phase=="Running")].metadata.name}')`### Run it!
 
 Verify the variable holds the name of your new pod with:
 
-`echo $COOLSTORE_DEV_POD_NAME`⏎
+`echo $COOLSTORE_DEV_POD_NAME`### Run it!
 
 ## Expose debug port locally
 
@@ -1661,7 +1607,7 @@ will just open it for ourselves with `oc port-forward`.
 
 Execute:
 
-`oc --server https://master:8443 port-forward $COOLSTORE_DEV_POD_NAME 8787 &`⏎
+`oc --server https://master:8443 port-forward $COOLSTORE_DEV_POD_NAME 8787 &`### Run it!
 
 This will forward traffic to/from the container's port 8787 to your `localhost` port 8787.
 
@@ -1684,7 +1630,7 @@ Studio, Eclipse or IntelliJ you can use them for remote debugging.
 
 Start JDB by pointing at the folder containing the Java source code for the application under debug:
 
-`jdb -attach localhost:8787 -sourcepath :src/main/java/`⏎
+`jdb -attach localhost:8787 -sourcepath :src/main/java/`### Run it!
 
 ## Add a breakpoint
 
@@ -1695,23 +1641,23 @@ REST API `/services/products` Review the `src/main/java/com/redhat/coolstore/ser
 
 Add a breakpoint by executing:
 
-`stop in com.redhat.coolstore.service.ProductService.getProductByItemId`⏎
+`stop in com.redhat.coolstore.service.ProductService.getProductByItemId`### Run it!
 
 ## Trigger the bug again
 
 In order to pause code execution at the breakpoint, you have to invoke the REST API once more.
 
-Click this link to invoke the REST API from your browser:
+Execute:
 
-* [Coolstore REST API](http://www-coolstore-dev.$OPENSHIFT_MASTER/services/products/444437)
+`curl http://www-coolstore-dev.$OPENSHIFT_MASTER/services/products/444437`### Run it! to invoke the REST API in a separate terminal:
 
- > Your browser will appear to pause at this point, because the breakpoint was hit.
+> This command will trigger the breakpoint, and as a result will timeout, which you can ignore.
 
 The code execution pauses at the `getProductByItemId()` method. You can verify it
-using the `list`⏎ command to see the source code in the terminal window where
+using the `list`### Run it! command to see the source code in the terminal window where
 you started JDB. The arrow shows which line is to execute next:
 
-`list`⏎
+`list`### Run it!
 
 You'll see an output similar to this.
 
@@ -1732,12 +1678,12 @@ default task-3[1] list
 Execute one line of code using `next` command so the the CatalogItemEntity object is
 retrieved from the database.
 
-`next`⏎
+`next`### Run it!
 
 Use `locals` command to see the local variables and verify the retrieved
 object from the database.
 
-`locals`⏎
+`locals`### Run it!
 
 You'll see an output similar to this.
 
@@ -1751,7 +1697,7 @@ entity = instance of com.redhat.coolstore.model.CatalogItemEntity(id=20281)
 
 Look at the value of the `entity` variable using the `print` command:
 
-`print entity`⏎
+`print entity`### Run it!
 
 ```
  entity = "ProductImpl [itemId=444437, name=Atari 2600 Joystick, desc=Based on the original design of the joystick controller for the famed Atari 2600 console, the Joystick from Retro-Bit features a similar stick and single-button layout. , price=240.0]"
@@ -1759,7 +1705,7 @@ Look at the value of the `entity` variable using the `print` command:
 
 Looks good so far. What about the `inventory` object that's part of this object? Execute:
 
-`print entity.getInventory()`⏎
+`print entity.getInventory()`### Run it!
 
 ```
  entity.getInventory() = null
@@ -1777,7 +1723,7 @@ should be returned instead of `null`
 
 Exit the debugger using the `quit` command:
 
-`quit`⏎
+`quit`### Run it!
 
 ## Fix the code
 
@@ -1797,11 +1743,11 @@ of the `toProduct` method (or simply click **Copy to Editor** to do it for you):
 
 With our code fix in place, let's re-build the application to test it out. To rebuild, execute:
 
-`mvn clean package -Popenshift`⏎
+`mvn clean package -Popenshift`### Run it!
 
 Let's use our new `oc rsync` skills to re-deploy the app to the running container. Execute:
 
-`oc --server https://master:8443 rsync deployments/ $COOLSTORE_DEV_POD_NAME:/deployments --no-perms`⏎
+`oc --server https://master:8443 rsync deployments/ $COOLSTORE_DEV_POD_NAME:/deployments --no-perms`### Run it!
 
 After a few seconds, reload the [Coolstore Application](http://www-coolstore-dev.$OPENSHIFT_MASTER) in your browser
 and notice now the application behaves properly and displays `Inventory Unavailable` whereas before it was totally and confusingly blank:
@@ -1812,15 +1758,24 @@ an "incognito" or "private browsing" tab and visit the same URL.
 
 ![Bug fixed](../assets/developer-intro/debug-coolstore-bug-fixed.png)
 
-Well done, you've fixed the bug using your new debugging skills and saved the world! Congratulations for completing this scenario!
-
-## Before continuing
+Well done, you've fixed the bug using your new debugging skills and saved the world!
 
 Let's kill the `oc port-forward` processes we started earlier in the background. Execute:
 
-`kill %1`⏎
+`kill %1`### Run it!
 
-On to the next challenge!
+Because we used `oc rsync` to re-deploy the bugfix to the running pod, it will not survive if we restart the pod. Let's update the container image
+to contain our new fix (keeping the blue header for now). Execute:
+
+`oc start-build coolstore --from-file=deployments/ROOT.war`### Run it!
+
+And again, wait for it to complete by executing:
+
+`oc rollout status -w dc/coolstore`### Run it!
+
+## Congratulations!
+
+Congratulations on completing this step! On to the next challenge!
 
 ## Deploying the Production Environment
 
@@ -1854,7 +1809,7 @@ in a separate OpenShift project.
 
 Execute the following `oc` command to create a new project:
 
-`oc new-project coolstore-prod --display-name='Coolstore Monolith - Production'`⏎
+`oc new-project coolstore-prod --display-name='Coolstore Monolith - Production'`### Run it!
 
 This will create a new OpenShift project called `coolstore-prod` from which our production application will run.
 
@@ -1862,7 +1817,7 @@ This will create a new OpenShift project called `coolstore-prod` from which our 
 
 In this case we'll use the production template to create the objects. Execute:
 
-`oc new-app --template=coolstore-monolith-pipeline-build`⏎
+`oc new-app --template=coolstore-monolith-pipeline-build`### Run it!
 
 This will use an OpenShift Template called `coolstore-monolith-pipeline-build` to construct the production application.
 As you probably guessed it will also include a Jenkins Pipeline to control the production application (more on this later!)
@@ -1902,8 +1857,7 @@ a source code repository. In this workshop, the source code and configurations a
 in a GitHub repository we've been using at [https://github.com/RedHat-Middleware-Workshops/modernize-apps-labs].
 This repository has been copied locally to your environment and you've been using it ever since!
 
-You can see the changes you've personally made using `git --no-pager status`⏎ and
-`git --no-pager diff`⏎ to show the code changes you've made using the Git command (part of the
+You can see the changes you've personally made using `git --no-pager status`### Run it! to show the code changes you've made using the Git command (part of the
 [Git source code management system](https://git-scm.com/)).
 
 ## Pipelines
@@ -1929,7 +1883,7 @@ like test or production.
 Our pipeline is somewhat simplified for the purposes of this Workshop. Inspect the contents of the
 pipeline using the following command:
 
-`oc describe bc/monolith-pipeline`⏎
+`oc describe bc/monolith-pipeline`### Run it!
 
 You can see the Jenkinsfile definition of the pipeline in the output:
 
@@ -2026,6 +1980,8 @@ On this page you can see the pipeline definition. Click _Actions -> Edit_ to edi
 
 In the pipeline definition editor, add a new stage to the pipeline, just before the `Deploy to PROD` step:
 
+> **NOTE**: You will need to copy and paste the below code into the right place as shown in the below image.
+
 ```groovy
   stage 'Approve Go Live'
   timeout(time:30, unit:'MINUTES') {
@@ -2047,19 +2003,19 @@ the color of the header in the coolstore back to the original (black) color.
 As a developer you can easily un-do edits you made earlier to the CSS file using the source control
 management system (Git). To revert your changes, execute:
 
-`git checkout src/main/webapp/app/css/coolstore.css`⏎
+`git checkout src/main/webapp/app/css/coolstore.css`### Run it!
 
 Next, re-build the app once more:
 
-`mvn clean package -Popenshift`⏎
+`mvn clean package -Popenshift`### Run it!
 
 And re-deploy it to the dev environment using a binary build just as we did before:
 
-`oc start-build -n coolstore-dev coolstore --from-file=deployments/ROOT.war`⏎
+`oc start-build -n coolstore-dev coolstore --from-file=deployments/ROOT.war`### Run it!
 
 Now wait for it to complete the deployment:
 
-`oc -n coolstore-dev rollout status -w dc/coolstore`⏎
+`oc -n coolstore-dev rollout status -w dc/coolstore`### Run it!
 
 And verify that the original black header is visible in the dev application:
 
@@ -2089,7 +2045,7 @@ the same credentials as OpenShift:
 * Username: `developer`
 * Password: `developer`
 
-Accept the permissions, and then you'll find yourself at the approval prompt:
+Accept the browser certificate warning and the Jenkins/OpenShift permissions, and then you'll find yourself at the approval prompt:
 
 ![Prod](../assets/developer-intro/pipe-jenkins-prompt.png)
 
@@ -2102,7 +2058,7 @@ Once you click **Proceed**, you will see the log file from Jenkins showing the f
 
 Wait for the production deployment to complete:
 
-`oc rollout -n coolstore-prod status dc/coolstore-prod`⏎
+`oc rollout -n coolstore-prod status dc/coolstore-prod`### Run it!
 
 Once it completes, verify that the production application has the new change (original black header):
 
@@ -2202,7 +2158,7 @@ subdirectories according to Maven best practices.
 
 > Click on the `tree` command below to automatically copy it into the terminal and execute it
 
-``tree``⏎
+``tree``### Run it!
 
 This is a minimal Java EE project with support for JAX-RS for building
 RESTful services and JPA for connecting
@@ -2221,13 +2177,13 @@ should get a **BUILD SUCCESS** message in the logs, otherwise the build has fail
 > Make sure to run the **package** Maven goal and not **install**. The latter would
 > download a lot more dependencies and do things you don't need yet!
 
-`mvn clean package`⏎
+`mvn clean package`### Run it!
 
 You should see a **BUILD SUCCESS** in the logs.
 
 Once built, the resulting *jar* is located in the **target** directory:
 
-`ls target/*.jar`⏎
+`ls target/*.jar`### Run it!
 
 The listed jar archive, **inventory-1.0.0-SNAPSHOT-swarm.jar** , is an uber-jar with
 all the dependencies required packaged in the *jar* to enable running the
@@ -2362,7 +2318,7 @@ steps will be replaced with a PostgreSQL database with credentials coming from a
 
 Build and package the Inventory service using Maven to make sure you code compiles:
 
-`mvn clean package`⏎
+`mvn clean package`### Run it!
 
 If builds successfully, continue to the next step to create a new service.
 
@@ -2437,7 +2393,7 @@ later on when implementing a RESTful endpoint.
 
 Re-Build and package the Inventory service using Maven to make sure your code compiles:
 
-`mvn clean package`⏎
+`mvn clean package`### Run it!
 
 You should see a **BUILD SUCCESS** in the build logs. If builds successfully, continue to the next step to
 create a new RESTful endpoint that uses this service.
@@ -2505,7 +2461,7 @@ the database when the RESTful APIs are invoked.
 
 Build and package the Inventory service again using Maven:
 
-`mvn clean package`⏎
+`mvn clean package`### Run it!
 
 You should see a **BUILD SUCCESS** in the build logs.
 
@@ -2514,7 +2470,7 @@ You should see a **BUILD SUCCESS** in the build logs.
 
 Using the WildFly Swarm maven plugin (predefined in `pom.xml`), you can conveniently run the application locally and test the endpoint.
 
-`mvn wildfly-swarm:run`⏎
+`mvn wildfly-swarm:run`### Run it!
 
 > As an uber-jar, it could also be run with `java -jar target/inventory-1.0-SNAPSHOT-swarm.jar` but you don't need to do this now
 
@@ -2548,7 +2504,7 @@ To see the raw JSON output using `curl`, you can open an new terminal window by 
 icon on the terminal toolbar and then  choose **Open New Terminal**. You can also click on the following
 command to automatically open a new terminal and run the test:
 
-`curl http://localhost:8080/services/inventory/329299`⏎
+`curl http://localhost:8080/services/inventory/329299 ; echo`### Run it!
 
 You would see a JSON response like this:
 
@@ -2562,7 +2518,7 @@ The REST API returned a JSON object representing the inventory count for this pr
 
 Before moving on, click in the first terminal window where WildFly Swarm is running
 and then press `CTRL-C` to stop the running application! (or click this command to issue
-a `CTRL-C` for you: `clear`⏎)
+a `CTRL-C` for you: `clear`### Run it!)
 
 You should see something like:
 
@@ -2595,7 +2551,7 @@ create later on.
 
 Create a new project for the _inventory_ service:
 
-`oc new-project inventory --display-name="CoolStore Inventory Microservice Application"`⏎
+`oc new-project inventory --display-name="CoolStore Inventory Microservice Application"`### Run it!
 
 **3. Open the OpenShift Web Console**
 
@@ -2625,14 +2581,14 @@ First, deploy a new instance of PostgreSQL by executing:
              -e POSTGRESQL_PASSWORD=mysecretpassword \
              -e POSTGRESQL_DATABASE=inventory \
              openshift/postgresql:latest \
-             --name=inventory-database`⏎
+             --name=inventory-database`### Run it!
 
 > **NOTE:** If you change the username and password you also need to update `src/main/fabric8/credential-secret.yml` which contains
 the credentials used when deploying to OpenShift.
 
 This will deploy the database to our new project. Wait for it to complete:
 
-`oc rollout status -w dc/inventory-database`⏎
+`oc rollout status -w dc/inventory-database`### Run it!
 
 **2. Build and Deploy**
 
@@ -2644,18 +2600,18 @@ stored in the secrets file to the application), but OpenShift supports a wide ra
 
 Build and deploy the project using the following command, which will use the maven plugin to deploy:
 
-`mvn clean fabric8:deploy -Popenshift`⏎
+`mvn clean fabric8:deploy -Popenshift`### Run it!
 
 The build and deploy may take a minute or two. Wait for it to complete. You should see a **BUILD SUCCESS** at the
 end of the build output.
 
-> **NOTE**: If you see messages like "Current reconnect backoff is 2000 milliseconds (T1)" you can safely
+> **NOTE**: If you see messages like `Current reconnect backoff is 2000 milliseconds (T1)` you can safely
 ignore them, it is a known issue and is harmless.
 
 After the maven build finishes it will take less than a minute for the application to become available.
 To verify that everything is started, run the following command and wait for it complete successfully:
 
-`oc rollout status -w dc/inventory`⏎
+`oc rollout status -w dc/inventory`### Run it!
 
 >**NOTE:** Even if the rollout command reports success the application may not be ready yet and the reason for
 that is that we currently don't have any liveness check configured, but we will add that in the next steps.
@@ -2706,20 +2662,6 @@ file in your application. The functionality the fraction provides is then packag
 _Uberjar_.  An uberjar is a single Java .jar file that includes everything you need to execute your application.
 This includes both the runtime components you have selected, along with the application logic.
 
-** 1. Examine the uberjar**
-
-You can see the uberjar (in the `target/` directory) that you built in previous steps:
-
-```ls target/*.jar```⏎
-
-You should see the uberjar named `inventory-1.0.0-SNAPSHOT-swarm.jar` in the listing. This jar file is executed
-using `java -jar` when using `mvn wildfly-swarm:run` or when the application is deployed to OpenShift.
-
-An uberjar is useful for many continuous integration and continuous deployment (CI/CD) pipeline styles,
-in which a single executable binary artifact is produced and moved through the testing, validation, and
-production environments in your organization.
-
-
 ## What is a Health Check?
 
 A key requirement in any managed application container environment is the ability to determine when the application is in a ready state. Only when an
@@ -2735,41 +2677,25 @@ Once an application is running, there are no guarantees that it will continue to
 functionality. Numerous factors including out of memory errors or a hanging process can cause the
 application to enter an invalid state. While a _readiness_ probe is only responsible for determining
 whether an application is in a state where it should begin to receive incoming traffic, a _liveness_ probe
-is used to determine whether an application is still in an acceptable state. If the liveness probe fails, the
-kubelet will destroy the pod.
-
-More in depth validation can be created to not only confirm the application can be accessed, but also
-validate dependencies, such as databases or caches, are available. In our case, the inventory service
-uses an external database, and is one of the dependencies that should be accessible prior to an
-application being made available for end users. Otherwise, users would receive errors when
-performing the most common functions of the application, such as adding and removing items from
-their grocery list since the backend persistence store is unavailable.
-
-Alternate methods can also be
-implemented to manage application availability and usability when the database is not available.
-Extended validation of the application and its dependencies can be implemented using several
-different strategies. First, is to expose health checking logic within the application, such as on an HTTP
-endpoint on the /health context which is common feature found in a number of web frameworks including
-WildFly Swarm.
-
-Alternatively, the logic for determining application health can be delivered as a script and executed as
-a command against the container (See the listing below). A non zero exit code from the command
-indicates the application is no longer healthy.
+is used to determine whether an application is still in an acceptable state. If the liveness probe fails,
+OpenShift will destroy the pod and replace it with a new one.
 
 In our case we will implement the health check logic in a REST endpoint and let WildFly Swarm publish
 that logic on the `/health` endpoint for use with OpenShift.
 
 ** 2. Add `monitor` fraction**
 
+First, open the `pom.xml` file.
+
 WildFly Swarm includes the `monitor` fraction which automatically adds health check infrastructure to your
 application when it is included as a fraction in the project. Click **Copy To Editor** to insert the new dependencies
 into the `pom.xml` file:
 
 ```java
-        <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>monitor</artifactId>
-        </dependency>
+<dependency>
+    <groupId>org.wildfly.swarm</groupId>
+    <artifactId>monitor</artifactId>
+</dependency>
 ```
 
 
@@ -2843,7 +2769,7 @@ With our new health check in place, we'll need to build and deploy the updated a
 
 With our health check in place, lets rebuild and redeploy using the same command as before:
 
-`mvn fabric8:undeploy clean fabric8:deploy -Popenshift`⏎
+`mvn fabric8:undeploy clean fabric8:deploy -Popenshift`### Run it!
 
 You should see a **BUILD SUCCESS** at the end of the build output.
 
@@ -2857,14 +2783,14 @@ During build and deploy, you'll notice WildFly Swarm adding in health checks for
 To verify that everything is started, run the following command and wait for it report
 `replication controller "inventory-xxxx" successfully rolled out`
 
-`oc rollout status -w dc/inventory`⏎
+`oc rollout status -w dc/inventory`### Run it!
 
 Once the project is deployed, you should be able to access the health check logic
 at the `/health` endpoint using a simple _curl_ command. This is the same API that OpenShift will repeatedly poll to determine application health.
 
 Click here to try it (you may need to try a few times until the project is fully deployed):
 
-``curl http://inventory-inventory.$OPENSHIFT_MASTER/health``⏎
+``curl http://inventory-inventory.$OPENSHIFT_MASTER/health``### Run it!
 
 You should see a JSON response like:
 
@@ -2877,7 +2803,7 @@ You should see a JSON response like:
 
 You can see the definition of the health check from the perspective of OpenShift:
 
-`oc describe dc/inventory | egrep 'Readiness|Liveness'`⏎
+`oc describe dc/inventory | egrep 'Readiness|Liveness'`### Run it!
 
 You should see:
 
@@ -2892,11 +2818,11 @@ The various timeout values for the probes can be configured in many ways. Let's 
 we don't have to wait 3 minutes for it to be activated. Use the **oc** command to tune the
 probe to wait 20 seconds before starting to poll the probe:
 
-`oc set probe dc/inventory --liveness --initial-delay-seconds=30`⏎
+`oc set probe dc/inventory --liveness --initial-delay-seconds=30`### Run it!
 
 And verify it's been changed (look at the `delay=` value for the Liveness probe):
 
-`oc describe dc/inventory | egrep 'Readiness|Liveness'`⏎
+`oc describe dc/inventory | egrep 'Readiness|Liveness'`### Run it!
 
 ```console
     Liveness:	http-get http://:8080/health delay=30s timeout=1s period=10s #success=1 #failure=3
@@ -2925,7 +2851,7 @@ The app will begin polling the inventory as before and report success:
 Now you will corrupt the service and cause its health check to start failing.
 To simulate the app crasing, let's kill the underlying service so it stops responding. Execute:
 
-`oc rsh dc/inventory pkill java`⏎
+`oc --server https://master:8443 rsh dc/inventory pkill java`### Run it!
 
 This will execute the Linux `pkill` command to stop the running Java process in the container.
 
@@ -3010,7 +2936,7 @@ Other possible solutions would be to use a microservices gateway or combine serv
 For your convenience, this scenario has been created with a base project using the Java programming language and the Apache Maven build tool.
 
 Initially, the project is almost empty and doesn't do anything. Start by reviewing the content by executing a
-``tree``⏎ in your terminal.
+``tree``### Run it! in your terminal.
 
 The output should look something like this
 
@@ -3030,6 +2956,8 @@ The output should look something like this
     |   |           \-- coolstore
     |   |               +-- client
     |   |               +-- model
+    |   |               |   +-- Inventory.java
+    |   |               |   \-- Product.java
     |   |               +-- RestApplication.java
     |   |               \-- service
     |   \-- resources
@@ -3046,7 +2974,7 @@ The output should look something like this
 ```
 
 
-As you can see, there are some files that we have prepared for you in the project. Under `src/main/resources/index.html`
+As you can see, there are some files that we have prepared for you in the project. Under `src/main/resources/static/index.html`
 we have for example prepared a simple html-based UI file for you. Except for the `fabric8/` folder and `index.html`, this
 matches very well what you would get if you generated an empty project from the [Spring Initializr](https://start.spring.io) web
 page. For the moment you can ignore the content of the `fabric8/` folder (we will discuss this later).
@@ -3063,17 +2991,17 @@ Notice that we are not using the default BOM (Bill of material) that Spring Boot
 a BOM provided by Red Hat as part of the [Snowdrop](http://snowdrop.me/) project.
 
 ```xml
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>me.snowdrop</groupId>
-        <artifactId>spring-boot-bom</artifactId>
-        <version>${spring-boot.bom.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
+<dependencyManagement>
+<dependencies>
+  <dependency>
+    <groupId>me.snowdrop</groupId>
+    <artifactId>spring-boot-bom</artifactId>
+    <version>${spring-boot.bom.version}</version>
+    <type>pom</type>
+    <scope>import</scope>
+  </dependency>
+</dependencies>
+</dependencyManagement>
 ```
 
 We use this bill of material to make sure that we are using the version of for example Apache Tomcat that Red Hat supports. 
@@ -3131,11 +3059,13 @@ locally, by using the `spring-boot` maven plugin.
 
 Run the application by executing the below command:
 
-``mvn spring-boot:run``⏎
+``mvn spring-boot:run``### Run it!
 
 >**NOTE:** The Katacoda terminal window is like your local terminal. Everything that you run here you should
 be able to execute on your local computer as long as you have a `Java SDK 1.8` and `Maven`. In later steps, we
 will also use the `oc` command line tool.
+
+Wait for it to complete startup and report `Started RestApplication in ***** seconds (JVM running for ******)`
 
 **3. Verify the application**
 
@@ -3153,7 +3083,7 @@ You should now see an HTML page that looks like this:
 
 **4. Stop the application**
 
-Before moving on, click in the terminal window and then press **CTRL-C** to stop the running application!
+Before moving on, click here: `clear`### Run it! to stop the running application.
 
 ## Congratulations
 
@@ -3196,11 +3126,11 @@ import com.redhat.coolstore.model.Product;
 @SpringBootTest()
 public class ProductRepositoryTest {
 
-    //TODO: Insert Catalog Component here
+//TODO: Insert Catalog Component here
 
-    //TODO: Insert test_readOne here
+//TODO: Insert test_readOne here
 
-    //TODO: Insert test_readAll here
+//TODO: Insert test_readAll here
 
 }
 
@@ -3208,35 +3138,39 @@ public class ProductRepositoryTest {
 
 Next, inject a handle to the future repository class which will provide access to the underlying data repository. It is
 injected with Spring's `@Autowired` annotation which locates, instantiates, and injects runtime instances of classes automatically,
-and manages their lifecycle (much like Java EE and it's CDI feature):
+and manages their lifecycle (much like Java EE and it's CDI feature). Click to create this code:
 
 ```java
-    @Autowired
-    ProductRepository repository;
+@Autowired
+ProductRepository repository;
 ```
 
-The `ProductRepository` should provide a method called `findById(String id)` that returns a product and collect that from the database. We test this by querying for a product with id "444434" which should have name "Pebble Smart Watch". The pre-loaded data comes from ``src/main/resources/schema.sql`. 
+The `ProductRepository` should provide a method called `findById(String id)` that returns a product and collect that from the database. We test this by querying for a product with id "444434" which should have name "Pebble Smart Watch". The pre-loaded data comes from the `src/main/resources/schema.sql` file.
+
+Click to insert this code:
+
 ```java
-    @Test
-    public void test_readOne() {
-        Product product = repository.findById("444434");
-        assertThat(product).isNotNull();
-        assertThat(product.getName()).as("Verify product name").isEqualTo("Pebble Smart Watch");
-        assertThat(product.getQuantity()).as("Quantity should be ZEOR").isEqualTo(0);
-    }
+@Test
+public void test_readOne() {
+    Product product = repository.findById("444434");
+    assertThat(product).isNotNull();
+    assertThat(product.getName()).as("Verify product name").isEqualTo("Pebble Smart Watch");
+    assertThat(product.getQuantity()).as("Quantity should be ZEOR").isEqualTo(0);
+}
 ```
 
 The `ProductRepository` should also provide a methods called `readAll()` that returns a list of all products in the catalog. We test this by making sure that the list contains a "Red Fedora", "Forge Laptop Sticker" and "Oculus Rift".
+Again, click to insert the code:
 
 ```java
-    @Test
-    public void test_readAll() {
-        List<Product> productList = repository.readAll();
-        assertThat(productList).isNotNull();
-        assertThat(productList).isNotEmpty();
-        List<String> names = productList.stream().map(Product::getName).collect(Collectors.toList());
-        assertThat(names).contains("Red Fedora","Forge Laptop Sticker","Oculus Rift");
-    }
+@Test
+public void test_readAll() {
+    List<Product> productList = repository.readAll();
+    assertThat(productList).isNotNull();
+    assertThat(productList).isNotEmpty();
+    List<String> names = productList.stream().map(Product::getName).collect(Collectors.toList());
+    assertThat(names).contains("Red Fedora","Forge Laptop Sticker","Oculus Rift");
+}
 ```
 
 ## Implement the database repository
@@ -3245,7 +3179,8 @@ We are now ready to implement the database repository.
 
 Create the ``src/main/java/com/redhat/coolstore/service/ProductRepository.java`` by clicking the open link.
 
-Here is the base for the calls, click on the copy button to past it into the editor.
+Here is the base for the calls, click on the copy button to paste it into the editor:
+
 ```java
 package com.redhat.coolstore.service;
 
@@ -3260,55 +3195,57 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ProductRepository {
 
-    //TODO: Autowire the jdbcTemplate here
+//TODO: Autowire the jdbcTemplate here
 
-    //TODO: Add row mapper here
+//TODO: Add row mapper here
 
-    //TODO: Create a method for returning all products
+//TODO: Create a method for returning all products
 
-    //TODO: Create a method for returning one product
+//TODO: Create a method for returning one product
 
 }
 
 ```
 
-> NOTE: That the class is annotated with the @Repository annotation. This is a feature of Spring that makes it possible to avoid a lot of boiler plate code and only write the implementation details for this data repository. It also makes it very easy to switch to another data storage, like a NoSQL database.
+> NOTE: That the class is annotated with `@Repository`. This is a feature of Spring that makes it possible to avoid a lot of boiler plate code and only write the implementation details for this data repository. It also makes it very easy to switch to another data storage, like a NoSQL database.
 
-Spring Data provides a convenient way for us to access data without having to write a lot of boiler plate code. One way to do that is to use a `JdbcTemplate`. First we need to autowire that as a member to `ProductRepository`:
+Spring Data provides a convenient way for us to access data without having to write a lot of boiler plate code. One way to do that is to use a `JdbcTemplate`. First we need to autowire that as a member to `ProductRepository`. Click to add it:
 
 ```java
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+@Autowired
+private JdbcTemplate jdbcTemplate;
 ```
 
-The `JdbcTemplate` require that we provide a `RowMapper`so that it can map between rows in the query to Java Objects. We are going to define the `RowMapper` like this:
+The `JdbcTemplate` require that we provide a `RowMapper`so that it can map between rows in the query to Java Objects. We are going to define the `RowMapper` like this (click to add it):
 
 ```java
-    private RowMapper<Product> rowMapper = (rs, rowNum) -> new Product(
-            rs.getString("itemId"),
-            rs.getString("name"),
-            rs.getString("description"),
-            rs.getDouble("price"));
+private RowMapper<Product> rowMapper = (rs, rowNum) -> new Product(
+        rs.getString("itemId"),
+        rs.getString("name"),
+        rs.getString("description"),
+        rs.getDouble("price"));
 ```
 
-Now we are ready to create the methods that are used in the test. Let's start with the `readAll()`. It should return a `List<Product>` and then we can write the query as `SELECT * FROM catalog` and use the rowMapper to map that into `Product` objects. Our method should look like this:
+Now we are ready to create the methods that are used in the test. Let's start with the `readAll()`. It should return a `List<Product>` and then we can write the query as `SELECT * FROM catalog` and use the rowMapper to map that into `Product` objects. Our method should look like this (click to add it):
 
 ```java
-    public List<Product> readAll() {
-        return jdbcTemplate.query("SELECT * FROM catalog", rowMapper);
-    }
+public List<Product> readAll() {
+    return jdbcTemplate.query("SELECT * FROM catalog", rowMapper);
+}
 ```
 
-The `ProductRepositoryTest` also used another method called `findById(String id)` that should return a Product. The implementation of that method using the `JdbcTemplate` and `RowMapper` looks like this:
+The `ProductRepositoryTest` also used another method called `findById(String id)` that should return a Product. The implementation of that method using the `JdbcTemplate` and `RowMapper` looks like this (click to add it):
+
 ```java
-    public Product findById(String id) {
-        return jdbcTemplate.queryForObject("SELECT * FROM catalog WHERE itemId = " + id, rowMapper);
-    }
+public Product findById(String id) {
+    return jdbcTemplate.queryForObject("SELECT * FROM catalog WHERE itemId = '" + id + "'", rowMapper);
+}
 ```
 
 The `ProductRepository` should now have all the components, but we still need to tell spring how to connect to the database. For local development we will use the H2 in-memory database. When deploying this to OpenShift we are instead going to use the PostgreSQL database, which matches what we are using in production.
 
 The Spring Framework has a lot of sane defaults that can always seem magical sometimes, but basically all we have todo to setup the database driver is to provide some configuration values. Open ``src/main/resources/application-default.properties`` and add the following properties where the comment says "#TODO: Add database properties"
+Click to add it:
 
 ```java 
 spring.datasource.url=jdbc:h2:mem:catalog;DB_CLOSE_ON_EXIT=FALSE
@@ -3319,8 +3256,7 @@ spring.datasource.driver-class-name=org.h2.Driver
 
 The Spring Data framework will automatically see if there is a schema.sql in the class path and run that when initializing.
 
-
-Now we are ready to run the test to verify that everything works. Because we created the `ProductRepositoryTest.java` all we have todo is to run: ``mvn verify``⏎
+Now we are ready to run the test to verify that everything works. Because we created the `ProductRepositoryTest.java` all we have todo is to run: ``mvn verify``### Run it!
 
 The test should be successful and you should see **BUILD SUCCESS**, which means that we can read that our repository class works as as expected.
 
@@ -3347,7 +3283,7 @@ package com.redhat.coolstore.service;
 
 import com.redhat.coolstore.model.Inventory;
 import com.redhat.coolstore.model.Product;
-import com.redhat.coolstore.client.InventoryClient;
+//import com.redhat.coolstore.client.InventoryClient;
 import feign.hystrix.FallbackFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -3392,7 +3328,7 @@ As you can see there is a number of **TODO** in the code, and later we will use 
 Now we are ready to create the endpoints that will expose REST service. Let's again first start by creating a test case for our endpoint. We need to endpoints, one that exposes for GET calls to `/services/products` that will return all product in the catalog as JSON array, and the second one exposes GET calls to `/services/product/{prodId}` which will return a single Product as a JSON Object. Let's again start by creating a test case. 
 
 
-Create the test case by opening ``src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java``
+Create the test case by opening: ``src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java``
 
 Add the following code to the test case and make sure to review it so that you understand how it works.
 
@@ -3433,7 +3369,7 @@ public class CatalogEndpointTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    //TODO: Add ClassRule for HoverFly Inventory simulation
+//TODO: Add ClassRule for HoverFly Inventory simulation
 
     @Test
     public void test_retriving_one_proudct() {
@@ -3443,7 +3379,7 @@ public class CatalogEndpointTest {
         assertThat(response.getBody())
                 .returns("329199",Product::getItemId)
                 .returns("Forge Laptop Sticker",Product::getName)
-                //TODO: Add check for Quantity
+//TODO: Add check for Quantity
                 .returns(8.50,Product::getPrice);
     }
 
@@ -3466,7 +3402,7 @@ public class CatalogEndpointTest {
         assertThat(fedora)
                 .returns("329299",Product::getItemId)
                 .returns("Red Fedora", Product::getName)
-                //TODO: Add check for Quantity
+//TODO: Add check for Quantity
                 .returns(34.99,Product::getPrice);
     }
 
@@ -3475,7 +3411,7 @@ public class CatalogEndpointTest {
 
 Now we are ready to implement the `CatalogEndpoint`.
 
-Start by creating the file by opening ``src/main/java/com/redhat/coolstore/service/CatalogEndpoint.java``
+Start by creating the file by opening: ``src/main/java/com/redhat/coolstore/service/CatalogEndpoint.java``
 
 The add the following content: 
 
@@ -3517,16 +3453,23 @@ The Spring MVC Framework default uses Jackson to serialize or map Java objects t
 
 Now you can run the `CatalogEndpointTest` and verify that it works.
 
-``mvn verify -Dtest=CatalogEndpointTest``⏎
+``mvn verify -Dtest=CatalogEndpointTest``### Run it!
 
 Since we now have endpoints that returns the catalog we can also start the service and load the default page again, which should now return the products.
 
 Start the application by running the following command
-``mvn spring-boot:run``⏎
+``mvn spring-boot:run``### Run it!
 
-Wait for the application to start. Then we can verify the endpoint, but running the following command in a new terminal (Note the link below will execute in a second terminal)
+Wait for the application to start. Then we can verify the endpoint by running the following command in a new terminal (Note the link below will execute in a second terminal)
 
-``curl http://localhost:8081/services/products``⏎
+``curl http://localhost:8081/services/products ; echo``### Run it!
+
+You should get a full JSON array consisting of all the products:
+
+```json
+[{"itemId":"329299","name":"Red Fedora","desc":"Official Red Hat Fedora","price":34.99,"quantity":0},{"itemId":"329199","name":"Forge Laptop Sticker",
+...
+```
 
 Also click on the **Local Web Browser** tab in the console frame of this browser window, which will open another tab or window of your browser pointing to port 8081 on your client.
 
@@ -3546,18 +3489,10 @@ Now you've seen how to create REST application in Spring MVC and create a simple
 
 In the next scenario we will also call another service to enrich the endpoint response with inventory status.
 
-
-
-
-You should get a full JSON array consisting of all the products:
-
-```json
-[{"itemId":"329299","name":"Red Fedora","desc":"Official Red Hat Fedora","price":34.99,"quantity":0},{"itemId":"329199","name":"Forge Laptop Sticker","desc":"JBoss Community Forge Project Sticker","price":8.5,"quantity":0},{"itemId":"165613","name":"Solid Performance Polo","desc":"Moisture-wicking, antimicrobial 100% polyester design wicks for life of garment. No-curl, rib-knit collar; special collar band maintains crisp fold; three-button placket with dyed-to-match buttons; hemmed sleeves; even bottom with side vents; Import. Embroidery. Red Pepper.","price":17.8,"quantity":0},{"itemId":"165614","name":"Ogio Caliber Polo","desc":"Moisture-wicking 100% polyester....]}
-```
-
 ## Before moving on
 
-Be sure to stop the service by clicking on the terminal window and typing `CTRL-C`.
+Be sure to stop the service by clicking on the first Terminal window and typing `CTRL-C` (or
+click `clear`### Run it! to do it for you).
 
 ## Congratulations!
 
@@ -3570,9 +3505,9 @@ Next, we'll add a call to the existing Inventory service to enrich the above dat
 So far our application has been kind of straight forward, but our monolith code for the catalog is also returning the inventory status. In the monolith since both the inventory data and catalog data is in the same database we used a OneToOne mapping in JPA like this:
 
 ```
-    @OneToOne(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
-    @PrimaryKeyJoinColumn
-	private InventoryEntity inventory;
+@OneToOne(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+@PrimaryKeyJoinColumn
+private InventoryEntity inventory;
 ```
 When redesigning our application to Microservices using domain driven design we have identified that Inventory and ProductCatalog are two separate domains. However our current UI expects to retrieve data from both the Catalog Service and Inventory service in a singe request.
 
@@ -3582,37 +3517,58 @@ Our problem is that the user interface requires data from two services when call
 
 1. **Client Side integration** - We could extend our UI to first call `/services/products` and then for each product item call `/services/inventory/{prodId}` to get the inventory status and then combine the result in the web browser. This would be the least intrusive method, but it also means that if we have 100 of products the client will make 101 request to the server. If we have a slow internet connection this may cause issues. 
 2. **Microservices Gateway** - Creating a gateway in-front of the `Catalog Service` that first calls the Catalog Service and then based on the response calls the inventory is another option. This way we can avoid lots of calls from the client to the server. Apache Camel provides nice capabilities to do this and if you are interested to learn more about this, please checkout the Coolstore Microservices example [here](http://github.com/jbossdemocentral/coolstore-microservice)
-3. **Service-to-Service** - Depending on use-case and preferences another solution would be to do service-to-service calls instead. In our case means that the Catalog Service would call the Inventory service using REST to retrive the inventory status and include that in the response. 
+3. **Service-to-Service** - Depending on use-case and preferences another solution would be to do service-to-service calls instead. In our case means that the Catalog Service would call the Inventory service using REST to retrieve the inventory status and include that in the response.
 
 There are no right or wrong answers here, but since this is a workshop on application modernization using RHOAR runtimes we will not choose option 1 or 2 here. Instead we are going to use option 3 and extend our Catalog to call the Inventory service. 
 
-**Extendig the test**
+## Extending the test
+
 In the [Test-Driven Development](https://en.wikipedia.org/wiki/Test-driven_development) style, let's first extend our test to test the Inventory functionality (which doesn't exist). 
 
 Open ``src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java`` again.
 
-Now at the markers `//TODO: Add check for Quantity` add the following line. **NOTE:** There are two markers to copy the line to both places or press the button twice. 
+Now at the markers `//TODO: Add check for Quantity` add the following line:
+
+```java
+.returns(9999,Product::getQuantity)
+```
+
+And add it to the second test as well:
+
 ```java
 .returns(9999,Product::getQuantity)
 ```
 
 Now if we run the test it **should fail**!
 
-``mvn verify``⏎
+``mvn verify``### Run it!
 
-Again the test fails because we are trying to call the Inventory service which is not running. We will soon implement the code to call the inventory service, but first we need a away to test this service without having to really on the inventory services to be up an running. For that we are going to use an API Simulator called [HoverFly](http://hoverfly.io) and particular it's capability to simulate remote APIs. HoverFly is very convinient to use with Unit test and all we have to do is to add a `ClassRule` that will simulate all calls to inventory like this:
+It failed:
+
+```console
+Tests run: 4, Failures: 2, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+```
+
+Again the test fails because we are trying to call the Inventory service which is not running. We will soon implement the code to call the inventory service, but first
+we need a away to test this service without having to really on the inventory services to be up an running. For that we are going to use an API Simulator
+called [HoverFly](http://hoverfly.io) and particular it's capability to simulate remote APIs. HoverFly is very convenient to use with Unit test and all we have to do is
+to add a `ClassRule` that will simulate all calls to inventory like this (click to add):
 
 <pre class="file" data-filename="src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java"
 data-target="insert" data-marker="//TODO: Add ClassRule for HoverFly Inventory simulation">
-    @ClassRule
-    public static HoverflyRule hoverflyRule = HoverflyRule.inSimulationMode(dsl(
-            service("inventory:8080")
+@ClassRule
+public static HoverflyRule hoverflyRule = HoverflyRule.inSimulationMode(dsl(
+        service("inventory:8080")
 //                    .andDelay(2500, TimeUnit.MILLISECONDS).forMethod("GET")
-                    .get(startsWith("/services/inventory"))
+                .get(startsWith("/services/inventory"))
 //                    .willReturn(serverError())
-                    .willReturn(success(json(new Inventory("9999",9999))))
+                .willReturn(success(json(new Inventory("9999",9999))))
 
-    )); 
+));
 ```
 
 This `ClassRule` means that if our tests are trying to call our inventory url Howeverfly will intercept this and respond with our hard coded response instead.
@@ -3621,15 +3577,15 @@ This `ClassRule` means that if our tests are trying to call our inventory url Ho
 
 Since we now have a nice way to test our service-to-service interaction we can now create the client that calls the Inventory. Netflix has provided some nice extensions to the Spring Framework that are mostly captured in the Spring Cloud project, however Spring Cloud is mainly focused on Pivotal Cloud Foundry and because of that Red Hat and others have contributed Spring Cloud Kubernetes to the Spring Cloud project, which enables the same functionallity for Kubernetes based platforms like OpenShift. 
 
-The inventory client will use a Netflix project called Fegin, which provides a nice way to avoid having to write boiler plate code. Fegin also integrate with Hystrix which gives us capability to Circute Break calls that doesn't work. We will discuss this more later, but let's start with the implementation of the Inventry Client. Using Fegin all we have todo is to create a interface that details which parameters and return type we expect, annotate it with @RequestMapping and provide some details and then annotate the interface with @Fegin and provide it with a name.  
+The inventory client will use a Netflix project called Feign, which provides a nice way to avoid having to write boiler plate code. Feign also integrate with Hystrix which gives us capability to Circute Break calls that doesn't work. We will discuss this more later, but let's start with the implementation of the Inventry Client. Using Feign all we have todo is to create a interface that details which parameters and return type we expect, annotate it with @RequestMapping and provide some details and then annotate the interface with @Feign and provide it with a name.
 
 Create the Inventory client by clicking ``src/main/java/com/redhat/coolstore/client/InventoryClient.java``
 
-Add the follwing small code to it.
+Add the followng small code snippet to it (click to add):
+
 ```java
 package com.redhat.coolstore.client;
 
-//TODO: add import for InventoryClient
 import com.redhat.coolstore.model.Inventory;
 import feign.hystrix.FallbackFactory;
 import org.springframework.http.MediaType;
@@ -3645,20 +3601,22 @@ public interface InventoryClient {
     @RequestMapping(method = RequestMethod.GET, value = "/services/inventory/{itemId}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     Inventory getInventoryStatus(@PathVariable("itemId") String itemId);
 
-    //TODO: Add Fallback factory here
+//TODO: Add Fallback factory here
 }
 ```
 
-There is one more thing that we need to do which is to tell Fegin where the inventory service is running. Before that notice that we are setting the `@FeginClient(name="inventory")`.
+There is one more thing that we need to do which is to tell Feign where the inventory service is running. Before that notice that we are setting the `@FeignClient(name="inventory")`.
 
 Open ``src/main/resources/application-default.properties``
+
+And add these properties by clicking **Copy to Editor**:
 
 ```java
 inventory.ribbon.listOfServers=inventory:8080
 feign.hystrix.enabled=true
 ```
  
-By setting inventory.ribbon.listOfServers we are hard coding the actual URL of the service to "inventory:8080". If we had multiple servers we could also add those using a comma. However using Kubernetes there is no need to have multiple endpoints listed here since Kubernetes has a concept of `Services` that will internally route between mulitple instances of the same service. Later on we will update this value to reflect our URL when deploying to OpenShift.
+By setting inventory.ribbon.listOfServers we are hard coding the actual URL of the service to `inventory:8080`. If we had multiple servers we could also add those using a comma. However using Kubernetes there is no need to have multiple endpoints listed here since Kubernetes has a concept of _Services_ that will internally route between multiple instances of the same service. Later on we will update this value to reflect our URL when deploying to OpenShift.
 
 
 Now that we have a client we can make use of it in our `CatalogService`
@@ -3668,27 +3626,35 @@ Open ``src/main/java/com/redhat/coolstore/service/CatalogService.java``
 And autowire (e.g. inject) the client into it. 
 
 ```java
-    @Autowired
-    InventoryClient inventoryClient;
+@Autowired
+InventoryClient inventoryClient;
 ```
-The update the `read(String id)` method at the comment `//TODO: Update the quantity for the product by calling the Inventory service` add the following:
+
+Next, update the `read(String id)` method at the comment `//TODO: Update the quantity for the product by calling the Inventory service` add the following:
+
 ```java
-    product.setQuantity(inventoryClient.getInventoryStatus(product.getItemId()).getQuantity());
+product.setQuantity(inventoryClient.getInventoryStatus(product.getItemId()).getQuantity());
+```
+
+Also, don't forget to add the import statement for the new class:
+
+```java
+import com.redhat.coolstore.client.InventoryClient;
 ```
 
 Also in the `readAll()` method replace the comment `//TODO: Update the quantity for the products by calling the Inventory service` with the following:
 ```java
-    productList.parallelStream()
-                .forEach(p -> {
-                    p.setQuantity(inventoryClient.getInventoryStatus(p.getItemId()).getQuantity());
-                });
+productList.parallelStream()
+            .forEach(p -> {
+                p.setQuantity(inventoryClient.getInventoryStatus(p.getItemId()).getQuantity());
+            });
 ```
 
->**NOTE:** The lambda expression to update the product list uses a `parallelStream`, which means that till will process the inventory calls asynchronously, which will be much fast than using synchronous calls. Optionally when we run the test you can test with both `parallelStream()` and `stream()` just to see the difference in how long the test takes to run.
+>**NOTE:** The lambda expression to update the product list uses a `parallelStream`, which means that it will process the inventory calls asynchronously, which will be much faster than using synchronous calls. Optionally when we run the test you can test with both `parallelStream()` and `stream()` just to see the difference in how long the test takes to run.
 
 We are now ready to test the service
 
-``mvn verify``⏎
+``mvn verify``### Run it!
 
 So even if we don't have any inventory service running we can still run our test. However to actually run the service using `mvn spring-boot:run` we need to have an inventory service or the calls to `/services/products/` will fail. We will fix this in the next step
 
@@ -3712,62 +3678,63 @@ And paste:
 
 <pre class="file" data-filename="src/main/java/com/redhat/coolstore/client/InventoryClient.java"
 data-target="insert" data-marker="//TODO: Add Fallback factory here">
-    @Component
-    static class InventoryClientFallbackFactory implements FallbackFactory<InventoryClient> {
-        @Override
-        public InventoryClient create(Throwable cause) {
-            return new InventoryClient() {
-                @Override
-                public Inventory getInventoryStatus(@PathVariable("itemId") String itemId) {
-                    return new Inventory(itemId,-1);
-                }
-            };
-        }
+@Component
+static class InventoryClientFallbackFactory implements FallbackFactory<InventoryClient> {
+    @Override
+    public InventoryClient create(Throwable cause) {
+        return new InventoryClient() {
+            @Override
+            public Inventory getInventoryStatus(@PathVariable("itemId") String itemId) {
+                return new Inventory(itemId,-1);
+            }
+        };
     }
+}
 
 ```
 
-After creating the fallback factory all we have todo is to tell Fegin to use that fallback in case of an issue, by adding the fallbackFactory property to the `@FeginClient` annotation like this:
+After creating the fallback factory all we have todo is to tell Feign to use that fallback in case of an issue, by adding the fallbackFactory property to the `@FeignClient` annotation. Click **Copy To Editor** to replace
+it for you:
 
-```
+<pre class="file" data-filename="src/main/java/com/redhat/coolstore/client/InventoryClient.java"
+data-target="insert" data-marker="@FeignClient(name=&quot;inventory&quot;)">
 @FeignClient(name="inventory",fallbackFactory = InventoryClient.InventoryClientFallbackFactory.class)
 ```
->**NOTE:** You will manually have to copy the above code into the `InventoryClient.java`
 
 **Test the Fallback**
 
 Now let's see if we can test the fallback. Optimally we should create a different test that fails the request and then verify the fallback value, however in because we are limited in time we are just going to change our test so that it returns a server error and then verify that the test fails. 
 
 Open ``src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java`` and change the following lines:
-```
-    @ClassRule
-    public static HoverflyRule hoverflyRule = HoverflyRule.inSimulationMode(dsl(
-            service("inventory:8080")
-//                    .andDelay(2500, TimeUnit.MILLISECONDS).forMethod("GET")
-                    .get(startsWith("/services/inventory"))
-//                    .willReturn(serverError())
-                    .willReturn(success(json(new Inventory("9999",9999))))
 
-    ));
+```
+@ClassRule
+public static HoverflyRule hoverflyRule = HoverflyRule.inSimulationMode(dsl(
+        service("inventory:8080")
+//                    .andDelay(2500, TimeUnit.MILLISECONDS).forMethod("GET")
+                .get(startsWith("/services/inventory"))
+//                    .willReturn(serverError())
+                .willReturn(success(json(new Inventory("9999",9999))))
+
+));
 ```
 
 TO
 
 ```
-    @ClassRule
-    public static HoverflyRule hoverflyRule = HoverflyRule.inSimulationMode(dsl(
-            service("inventory:8080")
+@ClassRule
+public static HoverflyRule hoverflyRule = HoverflyRule.inSimulationMode(dsl(
+        service("inventory:8080")
 //                    .andDelay(2500, TimeUnit.MILLISECONDS).forMethod("GET")
-                    .get(startsWith("/services/inventory"))
-                    .willReturn(serverError())
+                .get(startsWith("/services/inventory"))
+                .willReturn(serverError())
 //                    .willReturn(success(json(new Inventory("9999",9999))))
 
-    ));
+));
 ```
 Notice that the Hoverfly Rule will now return serverError for all request to inventory.
 
-
-Now if you run ``mvn verify -Dtest=CatalogEndpointTest``⏎ the test will fail with the following error message:
+Now if you run ``mvn verify -Dtest=CatalogEndpointTest``### Run it! the test will fail with the following error message:
 
 `Failed tests:   test_retriving_one_proudct(com.redhat.coolstore.service.CatalogEndpointTest): expected:<[9999]> but was:<[-1]>`
 
@@ -3775,21 +3742,21 @@ So since even if our inventory service fails we are still returning inventory qu
 
 Change back the class rule so that we don't fail the tests like this:
 ```
-    @ClassRule
-    public static HoverflyRule hoverflyRule = HoverflyRule.inSimulationMode(dsl(
-            service("inventory:8080")
+@ClassRule
+public static HoverflyRule hoverflyRule = HoverflyRule.inSimulationMode(dsl(
+        service("inventory:8080")
 //                    .andDelay(2500, TimeUnit.MILLISECONDS).forMethod("GET")
-                    .get(startsWith("/services/inventory"))
+                .get(startsWith("/services/inventory"))
 //                    .willReturn(serverError())
-                    .willReturn(success(json(new Inventory("9999",9999))))
+                .willReturn(success(json(new Inventory("9999",9999))))
 
-    ));
+));
 ```
 
-Make sure the test works again by running ``mvn verify -Dtest=CatalogEndpointTest``⏎
+Make sure the test works again by running ``mvn verify -Dtest=CatalogEndpointTest``### Run it!
 
 **Slow running services**
-Having fallbacks is good but that also requires that we can correctly detect when a dependent services isn't responding correctly. Besides from not responding a service can also respond slowly causing our services to also respond slow. This can lead to cascading issues that is hard to debug and pinpoint issues with. We should therefor also have sane defaults for our services. You can add defaults by adding it to the configuration.
+Having fallbacks is good but that also requires that we can correctly detect when a dependent services isn't responding correctly. Besides from not responding a service can also respond slowly causing our services to also respond slow. This can lead to cascading issues that is hard to debug and pinpoint issues with. We should therefore also have sane defaults for our services. You can add defaults by adding it to the configuration.
 
 Open ``src/main/resources/application-default.properties``
 
@@ -3799,13 +3766,13 @@ hystrix.command.inventory.execution.isolation.thread.timeoutInMilliseconds=500
 
 Open ``src/test/java/com/redhat/coolstore/service/CatalogEndpointTest.java`` and un-comment the `.andDelay(2500, TimeUnit.MILLISECONDS).forMethod("GET")`
 
-Now if you run ``mvn verify -Dtest=CatalogEndpointTest``⏎ the test will fail with the following error message:
+Now if you run ``mvn verify -Dtest=CatalogEndpointTest``### Run it! the test will fail with the following error message:
 
 `Failed tests:   test_retriving_one_proudct(com.redhat.coolstore.service.CatalogEndpointTest): expected:<[9999]> but was:<[-1]>`
 
-This shows that the timeout works nicely. However, since we want our test to be successful you should comment out `.andDelay(2500, TimeUnit.MILLISECONDS).forMethod("GET")` again and then verify that the test works.
+This shows that the timeout works nicely. However, since we want our test to be successful **you should now comment out** `.andDelay(2500, TimeUnit.MILLISECONDS).forMethod("GET")` again and then verify that the test works by executing:
 
-``mvn verify -Dtest=CatalogEndpointTest``⏎
+``mvn verify -Dtest=CatalogEndpointTest``### Run it!
 
 ## Congratulations
 You have now successfully executed the fifth step in this scenario.
@@ -3820,7 +3787,9 @@ In the next step we now test our service locally before we deploy it to OpenShif
 
 As you have seen in previous steps, using the Spring Boot maven plugin (predefined in `pom.xml`), you can conveniently run the application locally and test the endpoint.
 
-`mvn spring-boot:run`⏎
+Execute the following command to run the new service locally:
+
+`mvn spring-boot:run`### Run it!
 
 >**INFO:** As an uber-jar, it could also be run with `java -jar target/catalog-1.0-SNAPSHOT-swarm.jar` but you don't need to do this now
 
@@ -3854,7 +3823,7 @@ To see the raw JSON output using `curl`, you can open an new terminal window by 
 icon on the terminal toolbar and then  choose **Open New Terminal**. You can also click on the following
 command to automatically open a new terminal and run the test:
 
-`curl http://localhost:8081/services/product/329299`⏎
+`curl http://localhost:8081/services/product/329299 ; echo`### Run it!
 
 You would see a JSON response like this:
 
@@ -3867,8 +3836,7 @@ The REST API returned a JSON object representing the inventory count for this pr
 
 **4. Stop the application**
 
-Before moving on, click in the first terminal window where the app is running and then press CTRL-C to stop the running application!
-
+Before moving on, click in the first terminal window where the app is running and then press CTRL-C to stop the running application! Or click `clear`### Run it! to do it for you.
 
 ## Congratulations
 
@@ -3881,13 +3849,6 @@ adding additional features to take care of various aspects of cloud native micro
 
 ## Create the OpenShift project
 
-**Red Hat OpenShift Container Platform** is the preferred runtime for cloud native application development
-using **Red Hat OpenShift Application Runtimes**
-like **Spring Boot**. OpenShift Container Platform is based on **Kubernetes** which is the most used Orchestration
-for containers running in production. **OpenShift** is currently the only container platform based on Kubernetes
-that offers multi-tenancy. This means that developers can have their own personal isolated projects to test and
-verify applications before committing them to a shared code repository.
-
 We have already deployed our coolstore monolith and inventory to OpenShift. In this step we will deploy our new Catalog microservice for our CoolStore application,
 so let's create a separate project to house it and keep it separate from our monolith and our other microservices.
 
@@ -3895,22 +3856,9 @@ so let's create a separate project to house it and keep it separate from our mon
 
 Create a new project for the *catalog* service:
 
-```oc new-project catalog --display-name="CoolStore Catalog Microservice Application"```⏎
+```oc new-project catalog --display-name="CoolStore Catalog Microservice Application"```### Run it!
 
-**3. Open the OpenShift Web Console**
-
-You should be familiar with the OpenShift Web Console by now!
-Click on the "OpenShift Console" tab:
-
-![OpenShift Console Tab](../assets/mono-to-micro-part-2/openshift-console-tab.png)
-
-And navigate to the new _catalog_ project overview page (or use [this quick link](https://$OPENSHIFT_MASTER/console/project/catalog/)
-
-![Web Console Overview](../assets/mono-to-micro-part-2/overview.png)
-
-There's nothing there now, but that's about to change.
-
-
+Next, we'll deploy your new microservice to OpenShift.
 
 ## Deploy to OpenShift
 
@@ -3925,17 +3873,17 @@ First, deploy a new instance of PostgreSQL by executing:
              -e POSTGRESQL_PASSWORD=mysecretpassword \
              -e POSTGRESQL_DATABASE=catalog \
              openshift/postgresql:latest \
-             --name=catalog-database`⏎
+             --name=catalog-database`### Run it!
 
 > **NOTE:** If you change the username and password you also need to update `src/main/fabric8/credential-secret.yml` which contains
 the credentials used when deploying to OpenShift.
 
 This will deploy the database to our new project. Wait for it to complete:
 
-`oc rollout status -w dc/catalog-database`⏎
+`oc rollout status -w dc/catalog-database`### Run it!
 
 **Update configuration**
-Create the file by clicking on open ``src/main/resources/application-openshift.properties``
+Create the file by clicking: `src/main/resources/application-openshift.properties`
 
 Copy the following content to the file:
 ```java
@@ -3953,15 +3901,9 @@ inventory.ribbon.listOfServers=inventory.inventory.svc.cluster.local:8080
 
 **Build and Deploy**
 
-Red Hat OpenShift Application Runtimes includes a powerful maven plugin that can take an
-existing Spring Boot application and generate the necessary Kubernetes configuration.
-You can also add additional config, like ``src/main/fabric8/catalog-deployment.yml`` which defines
-the deployment characteristics of the app (in this case we declare a few environment variables which map our credentials
-stored in the secrets file to the application), but OpenShift supports a wide range of [Deployment configuration options](https://docs.openshift.org/latest/architecture/core_concepts/deployments.html) for apps).
-
 Build and deploy the project using the following command, which will use the maven plugin to deploy:
 
-`mvn package fabric8:deploy -Popenshift -DskipTests`⏎
+`mvn package fabric8:deploy -Popenshift -DskipTests`### Run it!
 
 The build and deploy may take a minute or two. Wait for it to complete. You should see a **BUILD SUCCESS** at the
 end of the build output.
@@ -3969,9 +3911,9 @@ end of the build output.
 After the maven build finishes it will take less than a minute for the application to become available.
 To verify that everything is started, run the following command and wait for it complete successfully:
 
-`oc rollout status -w dc/catalog`⏎
+`oc rollout status -w dc/catalog`### Run it!
 
->**NOTE:** If you recall in the WildFly Swarm lab we created a health check manually, for Spring Boot the fabric8 maven plugin will automatically detect that if we have `spring-boot-starter-actuator` on our classpath and then automatically create these health checks for us.
+>**NOTE:** If you recall in the WildFly Swarm lab Fabric8 detected the `health` _fraction_ and generated health check definitions for us, the same is true for Spring Boot if you have the `spring-boot-starter-actuator` dependency in our project.
 
 **3. Access the application running on OpenShift**
 
@@ -4014,7 +3956,7 @@ Flow the steps below to create a path based route.
 
 **1. Obtain hostname of monolith UI from our Dev environment**
 
-`oc get route/www -n coolstore-dev`⏎
+`oc get route/www -n coolstore-dev`### Run it!
 
 The output of this command shows us the hostname:
 
@@ -4040,15 +3982,19 @@ Leave other values set to their defaults, and click **Save**
 
 **4. Test the route**
 
-Test the route by running `curl http://monolith-coolstore-dev.$OPENSHIFT_MASTER/services/products`⏎
+Test the route by running `curl http://www-coolstore-dev.$OPENSHIFT_MASTER/services/products`### Run it!
 
 You should get a complete set of products, along with their inventory.
 
 **5. Test the UI**
 
-Open the monolith UI and observe that the new catalog is being used along with the monolith:
+[Open the monolith UI](http://www-coolstore-dev.$OPENSHIFT_MASTER)
+and observe that the new catalog is being used along with the monolith:
 
 ![Greeting](../assets/mono-to-micro-part-2/coolstore-web.png)
+
+The screen will look the same, but notice that the earlier product *Atari 2600 Joystick* is now gone,
+as it has been removed in our new catalog microservice.
 
 ## Congratulations!
 
@@ -4076,11 +4022,11 @@ for each product.
 ## Intro
 In this scenario, you will learn more about Reactive Microservices using [Eclipse Vert.x](https://vertx.io), one of the runtimes included in [Red Hat OpenShift Application Runtimes](https://developers.redhat.com/products/rhoar).
 
-This scenario will actually create three different services that interact using an EventBus and also does a REST call to the CatalogService we built in the previous example.
+In this scenario you will create three different services that interact using an _EventBus_ which also does a REST call to the CatalogService we built in the previous steps.
 
 ![Architecture](../assets/reactive-microservices/reactive-ms-architecture.png)
 
->**NOTE:** To simplify the deployment you will deploy all the services in a single Vert.x Server. However the code is 99% the same if we where to deploy these in separate services.
+>**NOTE:** To simplify the deployment you will deploy all the services in a single Vert.x Server. However the code is 99% the same if we were to deploy these in separate services.
 
 ## What is Reactive?
 Reactive is an overloaded term these days. The Oxford dictionary defines reactive as “showing a response to a stimulus.” So, reactive software reacts and adapts its behavior based on the stimuli it receives. However, the responsiveness and adaptability promoted by this definition are challenges when programming because the flow of computation isn’t controlled by the programmer but by the stimuli. In this chapter, we are going to see how Vert.x helps you be reactive by combining:
@@ -4088,31 +4034,27 @@ Reactive is an overloaded term these days. The Oxford dictionary defines reactiv
 * **Reactive system** - An architecture style used to build responsive and robust distributed systems based on asynchronous message-passing
 
 ## Why Reactive Microservices?
-From the previous scenarios, you've seen that building a single microservices is not very hard, but the traditional procedural programming style requires developers to control the flow of calls. Reactive microservices can be implemented more like "black-boxes" where each service is only responsible for reacting to different events.
+In previous scenarios you've seen that building a single microservices is not very hard, but the traditional procedural programming style requires developers to control the flow of calls. Reactive microservices can be implemented more like "black boxes" where each service is only responsible for reacting to different events.
 
-The asynchronous behavior or reactive systems will also save resources. In synchronous programming, all request processing including a call to another service is blocking. A non-reactive system typically uses threading to achieve concurrency. In a chain of service calls where service A is calling service B that is calling service C, this means that a thread in service A will block while both B and C are processing. Service B will also block a thread while waiting for service C to return. In a complex Microservices Architecture, and single external request might use hundreds of threads. In a reactive system, network calls are typically asynchronous, meaning that requests sent to other services won't block the main thread, resulting in less resource utilization and better performance.
+The asynchronous behavior or reactive systems will also save resources. In synchronous programming, all request processing including a call to another service is _blocking_. A _non-reactive_ system typically uses threading to achieve concurrency. In a chain of service calls where service A is calling service B that is calling service C, this means that a thread in service A will block while both B and C are processing. Service B will also block a thread while waiting for service C to return. In a complex Microservices Architecture, any single external request might use hundreds of threads. In a reactive system, network calls are typically asynchronous, meaning that requests sent to other services won't block the main thread, resulting in less resource utilization and better performance.
 
 ## What is Eclipse Vert.x?
 
 ![Local Web Browser Tab](../assets/reactive-microservices/vertx-logo.png)
 
 Eclipse Vert.x is a reactive toolkit for the Java Virtual Machine that is polyglot (e.g., supports multiple programming languages).
-In this session, we will focus on Java, but it would be possible to build the same application in JavaScript, Groovy, Ruby, Ceylon, Scala, and Kotlin.
+In this session, we will focus on Java, but it is possible to build the same application in JavaScript, Groovy, Ruby, Ceylon, Scala, or Kotlin.
 
 Eclipse Vert.x is event-driven and non-blocking, which means that applications in Vert.x can handle a lot of concurrent requests using a small number of kernel threads. 
-Vert.x lets your app scale with minimal hardware. 
 
-Vert.x is incredibly flexible - whether it's network utilities, sophisticated modern web applications, HTTP/REST microservices, high volume event processing or a full-blown back-end message-bus application, Vert.x is a great fit.
-
-Vert.x is used by many [different companies](http://vertx.io/whos_using/) from real-time gaming to banking and everything in between.
-
-Vert.x is not a restrictive framework or container and we don't tell you a correct way to write an application. Instead, we give you a lot of useful bricks and let you create your app the way you want to.
-
-Vert.x is fun - Enjoy being a developer again. Unlike restrictive traditional application containers, Vert.x gives you incredible power and agility to create compelling, scalable, 21st-century applications the way you want to, with a minimum of fuss, in the language you want.
-
+* Vert.x lets your app scale with minimal hardware.
+* Vert.x is incredibly flexible - whether it's network utilities, sophisticated modern web applications, HTTP/REST microservices, high volume event processing or a full-blown back-end message-bus application, Vert.x is a great fit.
+* Vert.x is used by many [different companies](http://vertx.io/whos_using/) from real-time gaming to banking and everything in between.
+* Vert.x is not a restrictive framework or container and we don't tell you a correct way to write an application. Instead, we give you a lot of useful bricks and let you create your app the way you want to.
+* Vert.x is fun - Enjoy being a developer again. Unlike restrictive traditional application containers, Vert.x gives you incredible power and agility to create compelling, scalable, 21st-century applications the way you want to, with a minimum of fuss, in the language you want.
 * Vert.x is lightweight - Vert.x core is around 650kB in size.
 * Vert.x is fast. Here are some independent [numbers](https://www.techempower.com/benchmarks/#section=data-r8&hw=i7&test=plaintext).
-* Vert.x is not an application server. There's no monolithic Vert.x instance into which you deploy applications. You just run your apps wherever you want to.
+* Vert.x is **not an application server**. There's no monolithic Vert.x instance into which you deploy applications. You just run your apps wherever you want to.
 * Vert.x is modular - when you need more bits just add the bits you need and nothing more.
 * Vert.x is simple but not simplistic. Vert.x allows you to create powerful apps, simply.
 * Vert.x is an ideal choice for creating light-weight, high-performance, microservices.
@@ -4129,47 +4071,37 @@ subdirectories according to Maven best practices.
 
 > Click on the `tree` command below to automatically copy it into the terminal and execute it
 
-``tree``⏎
+``tree``### Run it!
 
 ```sh
 .
 +-- pom.xml
 \-- src
-    +-- main
-    |   +-- fabric8
-    |   +-- java
-    |   |   \-- com
-    |   |       \-- redhat
-    |   |           \-- coolstore
-    |   |               +-- model
-    |   |               |   +-- Product.java
-    |   |               |   +-- Promotion.java
-    |   |               |   +-- ShoppingCart.java
-    |   |               |   +-- ShoppingCartItem.java
-    |   |               |   \-- impl
-    |   |               |       +-- FreeShippingPromotion.java
-    |   |               |       +-- ProductCombinationPromotion.java
-    |   |               |       +-- ProductImpl.java
-    |   |               |       +-- ShoppingCartImpl.java
-    |   |               |       +-- ShoppingCartItemImpl.java
-    |   |               |       \-- SingleProductPromotion.java
-    |   |               \-- utils
-    |   |                   +-- Generator.java
-    |   |                   \-- Transformers.java
-    |   \-- resources
-    |       \-- webroot
-    |           \-- index.html
-    \-- test
-        \-- java
-            \-- com
-                \-- redhat
-                    \-- coolstore
-                        \-- utils
+    \-- main
+        +-- fabric8
+        +-- java
+        |   \-- com
+        |       \-- redhat
+        |           \-- coolstore
+        |               +-- model
+        |               |   +-- Product.java
+        |               |   +-- ShoppingCart.java
+        |               |   +-- ShoppingCartItem.java
+        |               |   \-- impl
+        |               |       +-- ProductImpl.java
+        |               |       +-- ShoppingCartImpl.java
+        |               |       \-- ShoppingCartItemImpl.java
+        |               \-- utils
+        |                   +-- Generator.java
+        |                   \-- Transformers.java
+        \-- resources
+            \-- webroot
+                \-- index.html
 ```
 
->**NOTE:** To generate similar project skeleton you can visit the [Vert.x Starter](http://start.vertx.io/) webpage.
+>**NOTE:** To generate a similar project skeleton you can visit the [Vert.x Starter](http://start.vertx.io/) webpage.
 
-If you have used Maven and Java before this should look familiar. This is how a typical Vert.x Java project would looks like. To save time we have provided the domain model, util classes for transforming and generating item, a index.html, and openshift configuration. 
+If you have used Maven and Java before this should look familiar. This is how a typical Vert.x Java project would looks like. To save time we have provided the domain model, util classes for transforming and generating item, an index.html, and OpenShift configuration.
 
 The domain model consists of a ShoppingCart which has many ShoppingCartItems which has a one-to-one dependency to Product. The domain also consists of Different Promotions that uses the ShoppingCart state to see if it matches the criteria of the promotion.
 
@@ -4180,26 +4112,25 @@ The domain model consists of a ShoppingCart which has many ShoppingCartItems whi
 ## Create a web server and a simple rest service
 
 ## What is a verticle?
+
 Verticles — the Building Blocks of Eclipse Vert.x
 
-Vert.x gives you a lot of freedom in how you can shape your application and code. But it also provides bricks to start writing reactive applications. Verticles are chunks of code that get deployed and run by Vert.x. An application, such as a microservice, would typically be comprised of many verticles. A verticle typically creates servers or clients, registers a set of Handlers', and encapsulates a part of the business logic of the system.
+Vert.x gives you a lot of freedom in how you can shape your application and code. But it also provides bricks to start writing reactive applications. _Verticles_ are chunks of code that get deployed and run by Vert.x. An application, such as a microservice, would typically be comprised of many verticles. A verticle typically creates servers or clients, registers a set of Handlers', and encapsulates a part of the business logic of the system.
 
-In Java, a verticle is a class extending the Abstract Verticle class:
+In Java, a verticle is a class extending the Abstract Verticle class. For example:
 
 ```java
-    import io.vertx.core.AbstractVerticle;
-    
-    public class MyVerticle extends AbstractVerticle { 
-        @Override
-        public void start() throws Exception {
-            // Executed when the verticle is deployed
-        }
-
-        @Override
-        public void stop() throws Exception {
-            // Executed when the verticle is un-deployed
-        } 
+public class MyVerticle extends AbstractVerticle {
+    @Override
+    public void start() throws Exception {
+        // Executed when the verticle is deployed
     }
+
+    @Override
+    public void stop() throws Exception {
+        // Executed when the verticle is un-deployed
+    }
+}
 ```
 
 ## Creating a simple web server that can serve static content
@@ -4281,6 +4212,8 @@ public class CartServiceVerticle extends AbstractVerticle {
 
 //TODO: Add method for getting products
 
+//TODO: Add method for getting the shipping fee
+
     private void sendCart(ShoppingCart cart, RoutingContext rc) {
         sendCart(cart,rc,200);
     }
@@ -4319,8 +4252,9 @@ public class CartServiceVerticle extends AbstractVerticle {
 
 >**WARNING:** Don't remove the TODO markers. These will be used later to add new functionality. There are also some private method that we we will use later when we create our endpoints for the shopping cart.
 
-Currently our verticle doesn't really do anything except logging some info. Let's however try it out.
-``mvn compile vertx:run``⏎
+Currently our verticle doesn't really do anything except logging some info. Let's try it out. Execute:
+
+``mvn compile vertx:run``### Run it!
 
 You should see output that looks like this:
 
@@ -4335,7 +4269,7 @@ You should see output that looks like this:
 ```
 
 **3. Add a router that can serve static content**
-Now let's add a Web server that can server static content, This does only require three lines of code
+Now let's add a Web server that can server static content, which only requires three lines of code
 
 Create the router object:
 ```java
@@ -4353,9 +4287,9 @@ Create and start the web server listing to the port retrieved from the configura
 vertx.createHttpServer().requestHandler(router::accept).listen(serverPort);
 ```
 
-Now let's restart the application.
+Now let's restart the application. Execute:
 
-``mvn compile vertx:run``⏎
+``mvn compile vertx:run``### Run it!
 
 **3. Test the static router**
 
@@ -4379,9 +4313,9 @@ router.get("/hello").handler(rc-> rc.response()
             .end(new JsonObject().put("message","Hello").encode()));
 ```
 
-Notice that we add this handler above the static router. This is because the order we add routes does matter and if added "/hello" after "/*" the hello router would never be used, since the static router is set to take care of all request. However, since we add the hello router before the static router it will take priority over the static router.
+Notice that we add this handler above the static router. This is because the order we add routes does matter and if you added "/hello" after "/*" the hello router would never be used, since the static router is set to take care of all requests. However, since we add the hello router before the static router it will take priority over the static router.
 
-If you never used Lambda expressions in Java before this might look a bit complex, but it's actually very simple. As we discussed in the intro Vert.x is a Reactive toolkit and the web server is asynchronous and will react to incoming request. In order to register a handler we provide the implementation directly. `rc` is the input parameter of type `RoutingContext` and `->` indicated that the following is a method implementation. We could have wrapped it in `{..}`, but since it's only one line it's not required.
+If you've never used Lambda expressions in Java before this might look a bit complex, but it's actually very simple. As we discussed in the intro Vert.x is a Reactive toolkit and the web server is asynchronous and will react to incoming request. In order to register a handler we provide the implementation directly. `rc` is the input parameter of type `RoutingContext` and `->` indicated that the following is a method implementation. We could have wrapped it in `{..}`, but since it's only one line it's not required.
 
 It's actually not necessary to set the status, since it will default to HTTP OK (e.g. 200), but for REST services it's recommended to be explicit since different action may return different status codes. We also set the content type to "application/json" so that the request knows what type of content we are returning. Finally we create a simple `JsonObject` and add a `message` with value `Hello`. The `encode()` method returns a `JsonObject` encoded as a string. E.g `{"message","Hello"}`
 
@@ -4389,24 +4323,21 @@ It's actually not necessary to set the status, since it will default to HTTP OK 
 
 Restart the application by running the following in the terminal or in clicking the execute button.
 
-``mvn compile vertx:run``⏎
+``mvn compile vertx:run``### Run it!
 
 After Vert.x is start execute a curl command in another terminal so like this. 
 
-```curl -X GET http://localhost:10080/hello; echo```⏎
+```curl -X GET http://localhost:10080/hello; echo```### Run it!
 
-The response body should be a JSON string `{"message":"Hello"}`. You can also use the `-v` flag for verbose output to see more details about the header, response status etc.
-
-```curl -v -X GET http://localhost:10080/hello; echo```⏎
-
+The response body should be a JSON string `{"message":"Hello"}`.
 
 ## Congratulations
 
-You have now successfully created a simple reactive rest service using Eclipse Vert.x
+You have now successfully created a simple reactive rest service using Eclipse Vert.x.
 
-It only took three lines of code can create an HTTP Server that is capable of serving static content using the Vert.x Toolkit and one more line to add a rest endpoint.
+It only took three lines of code to create an HTTP server that is capable of serving static content using the Vert.x Toolkit and a few lines to add a rest endpoint.
 
-In next step of this scenario, we will take a bit a about configuration in Vert.x.
+In next step of this scenario, we will discuss a bit a about configuration in Vert.x.
 
 ## Setup environment specific configuration
 
@@ -4420,15 +4351,13 @@ Vert.x has a very powerful configuration library called [Vert.x Config](http://v
 
 The Config library is structured around:
 
-* a **Config Retriever** instantiated and used by the Vert.x application. It configures a set of configuration store
+* A **Config Retriever** instantiated and used by the Vert.x application. It configures a set of configuration items in the Configuration Store.
 
-* **Configuration store** defines a location from where the configuration data is read and and a syntax (json by default)
+* **Configuration store** defines a location from where the configuration data is read and and a syntax (the configuration is retrieved as a JSON Object by default)
 
-The configuration is retrieved as a JSON Object.
+By default you can access the configuration in verticle by calling `config().get...`, however it does not support environment-specific configuration like for example Spring Boot. If you recall from the previous lab we used different configuration files for local vs OpenShift. If we like the same behavior in Vert.x we need to implement this ourselves.
 
-Default you can access the configuration in verticle by calling config().get..., it does however not support environment specific configuration like for ex SpringBoot. If you recall from the previous lab we used different configuration files for local vs OpenShift. If we like the same behavior in Vert.x we need to implement our selfs.
-
-One thing that can seem a bit strange is that the **Config Retriever** reads the configuration async. So if we want to change the default behaviour we need to take that into consideration. 
+One thing that can seem a bit strange is that the **Config Retriever** reads the configuration asynchronously. So if we want to change the default behaviour we need to take that into consideration.
 
 Consider the following example.
 
@@ -4467,17 +4396,17 @@ public void start() {
 }
 ```
 
-At a first glance this may look like a good way to implement an environment specific configuration. Basically it will use a default config call `config-default.json` and if we start he application with parameter -Dvertx.profiles.active=[name] it will overload the default config with values from `config-[name].json`.
+At a first glance this may look like a good way to implement an environment specific configuration. Basically it will use a default config call `config-default.json` and if we start he application with parameter `-Dvertx.profiles.active=[name]` it will overload the default config with values from `config-[name].json`.
 
 **THIS WILL NOT WORK!**
 
-The reason that it doesn't work is that when we calling setupConfiguration() the `ConfigStore` etc will execute sync, but the actual retrieval of the configuration values is asynchronous and while the program is waiting for async operations like opening a file and read it the `start()` method will continue to run and when it gets to `Integer serverPort = config().getInteger("http.port", 8889);` the value has not been populated yet. E.g. the config "http.port" will fail and the default value of 8889 will always be used. 
+The reason that it doesn't work is that when we calling `setupConfiguration()` the `ConfigStore` will execute synchronously, but the actual retrieval of the configuration values is asynchronous and while the program is waiting for async operation like opening a file and read it the `start()` method will continue to run and when it gets to `Integer serverPort = config().getInteger("http.port", 8889);` the value has not been populated yet. E.g. the config `http.port` will fail and the default value of `8889` will always be used.
 
 **1. Load configuration and other Verticles**
 
-One solution to this problem is to load our Verticle from another verticle and pass the configuration as a depoyment option. 
+One solution to this problem is to load our Verticle from another verticle and pass the configuration as a deployment option.
 
-Let's add a MainVerticle that will load the CartServiceVerticle like this:
+Let's add a `MainVerticle` that will load the `CartServiceVerticle` like this:
 
 ```java
 package com.redhat.coolstore;
@@ -4526,7 +4455,7 @@ public class MainVerticle extends AbstractVerticle {
 
 >**NOTE:** The MainVerticle deploys the `CartServiceVerticle` in a handler that will be called after the retriever has read the configuration. It then passes the new configuration as `DeploymentOptions` to the CartService. Later on we will use this to deploy other Verticles.
 
-**3. Create the configuration file**
+**2. Create the configuration file**
 At the moment we only need one value in the configuration file, but we will add more later.
 
 Copy this into the configuration file (or click the button):
@@ -4541,20 +4470,20 @@ Finally we need to tell the `vertx-maven-plugin` to use the MainVerticle instead
 
 First open the ```pom.xml```
 
-Then Change the `<vertx.verticle>com.redhat.coolstore.MainVerticle</vertx.verticle>` to `<vertx.verticle>com.redhat.coolstore.CartServiceVerticle</vertx.verticle>`
+Then Change the `<vertx.verticle>com.redhat.coolstore.CartServiceVerticle</vertx.verticle>` to `<vertx.verticle>com.redhat.coolstore.MainVerticle</vertx.verticle>`
 
 ```java
 com.redhat.coolstore.MainVerticle
 ```
 
 
-**4. Test the default configuration**
+**3. Test the default configuration**
 
 Restart the application by running the following in the terminal or in clicking the execute button.
 
-``mvn compile vertx:run``⏎
+``mvn compile vertx:run``### Run it!
 
-In the output you should now see that the server is starting on port 8082 and not 10080 like before
+In the output you should now see that the server is starting on port 8082 and not 10080 like before.
 
 Click on the **Local Web Browser** tab in the console frame of this browser window, which will open another tab or window of your browser pointing to port 8082 on your client. 
 
@@ -4590,33 +4519,7 @@ The `Router` in Vert.x is very flexible and makes it easy to deal with complex H
 * Content negotiation
 * Request body handling
 * Body size limits
-* Cookie parsing and handling
-* Multipart forms
-* Multipart file uploads
-* Sub routers
-* Session support - both local (for sticky sessions) and clustered (for non sticky)
-* CORS (Cross Origin Resource Sharing) support
-* Error page handler
-* Basic Authentication
-* Redirect based authentication
-* Authorisation handlers
-* JWT based authorization
-* User/role/permission authorisation
-* Favicon handling
-* Template support for server side rendering, including support for the following template engines out of the box:
-  * Handlebars
-  * Jade,
-  * MVEL
-  * Thymeleaf
-  * Apache FreeMarker
-  * Pebble
-* Response time handler
-* Static file serving, including caching logic and directory listing.
-* Request timeout support
-* SockJS support
-* Event-bus bridge
-* CSRF Cross Site Request Forgery
-* VirtualHost
+* ... and [much more](http://vertx.io/docs/vertx-web/js/)
 
 In our example we will only use basic GET, POST and DELETE routing. Let's get started with the GET operations.
 
@@ -4624,12 +4527,12 @@ In our example we will only use basic GET, POST and DELETE routing. Let's get st
 First we are going to create a very simple endpoint that returns a `ShopppingCart` object as a JSON String using the ```src/main/java/com/redhat/coolstore/utils/Transformers.java```{open} to get a `JsonObject` that we can then return as String
 
 ```java
-    private void getCart(RoutingContext rc) {
-        logger.info("Retrieved " + rc.request().method().name() + " request to " + rc.request().absoluteURI());
-        String cartId = rc.pathParam("cartId");
-        ShoppingCart cart = getCart(cartId);
-        sendCart(cart,rc);
-    }
+private void getCart(RoutingContext rc) {
+    logger.info("Retrieved " + rc.request().method().name() + " request to " + rc.request().absoluteURI());
+    String cartId = rc.pathParam("cartId");
+    ShoppingCart cart = getCart(cartId);
+    sendCart(cart,rc);
+}
 ```
 
 
@@ -4638,15 +4541,15 @@ First we are going to create a very simple endpoint that returns a `ShopppingCar
 Now let's create a bit more complex implementation that returns many `ShoppingCarts` as a JSON array.
 
 ```java
-    private void getCarts(RoutingContext rc) {
-        logger.info("Retrieved " + rc.request().method().name() + " request to " + rc.request().absoluteURI());
-        JsonArray cartList = new JsonArray();
-        carts.keySet().forEach(cartId -> cartList.add(Transformers.shoppingCartToJson(carts.get(cartId))));
-        rc.response()
-            .setStatusCode(200)
-            .putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-            .end(cartList.encodePrettily());
-    }
+private void getCarts(RoutingContext rc) {
+    logger.info("Retrieved " + rc.request().method().name() + " request to " + rc.request().absoluteURI());
+    JsonArray cartList = new JsonArray();
+    carts.keySet().forEach(cartId -> cartList.add(Transformers.shoppingCartToJson(carts.get(cartId))));
+    rc.response()
+        .setStatusCode(200)
+        .putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
+        .end(cartList.encodePrettily());
+}
 ```
 
 The most important line in this method is this:
@@ -4680,10 +4583,11 @@ router.get("/services/carts").handler(rc -> {
 
 Restart the application by running the following in the terminal or in clicking the execute button.
 
-``mvn compile vertx:run``⏎
+``mvn compile vertx:run``### Run it!
 
 Now test the route with a curl command in the terminal like this:
-```curl -X GET http://localhost:8082/services/carts; echo```⏎
+
+```curl -X GET http://localhost:8082/services/carts; echo```### Run it!
 
 This should print the body of the response  that looks somewhat like this. Note that the the content from this is generate from the ```src/main/java/com/redhat/coolstore/utils/Transformers.java``` and will return a random number of products, so you actual content may vary.
 
@@ -4691,67 +4595,27 @@ This should print the body of the response  that looks somewhat like this. Note 
 ```json
 [ {
   "cartId" : "99999",
-  "orderValue" : 1791.85,
-  "retailPrice" : 1741.49,
-  "discount" : 0.0,
-  "shippingFee" : 61.4,
-  "shippingDiscount" : 11.04,
-  "items" : [ {
+  "cartTotal" : 632.36,
+  "retailPrice" : 582.97,
+  "cartItemPromoSavings" : 0.0,
+  "shippingTotal" : 90.28,
+  "shippingPromoSavings" : 40.89,
+  "shoppingCartItemList" : [ {
     "product" : {
       "itemId" : "329299",
-      "price" : 166.89,
+      "price" : 162.49,
       "name" : "Red Fedora",
       "desc" : null,
       "location" : null,
       "link" : null
     },
-    "quantity" : 2
-  }, {
-    "product" : {
-      "itemId" : "329199",
-      "price" : 187.8,
-      "name" : "Forge Laptop Sticker",
-      "desc" : null,
-      "location" : null,
-      "link" : null
-    },
-    "quantity" : 4
-  }, {
-    "product" : {
-      "itemId" : "165613",
-      "price" : 148.02,
-      "name" : "Solid Performance Polo",
-      "desc" : null,
-      "location" : null,
-      "link" : null
-    },
-    "quantity" : 2
-  }, {
-    "product" : {
-      "itemId" : "165614",
-      "price" : 144.83,
-      "name" : "Ogio Caliber Polo",
-      "desc" : null,
-      "location" : null,
-      "link" : null
-    },
     "quantity" : 1
-  }, {
-    "product" : {
-      "itemId" : "165954",
-      "price" : 107.82,
-      "name" : "16 oz. Vortex Tumbler",
-      "desc" : null,
-      "location" : null,
-      "link" : null
-    },
-    "quantity" : 2
   } ]
 } ]
 ```
 
 Also test getting a single cart curl like this:
-```curl -X GET http://localhost:8082/services/cart/99999; echo```⏎
+```curl -X GET http://localhost:8082/services/cart/99999; echo```### Run it!
 
 Click on the **Local Web Browser** tab in the console frame of this browser window, which will open another tab or window of your browser pointing to port 8082 on your client. 
 
@@ -4765,13 +4629,13 @@ Now the default page should have an entry in the table matching the values for y
 
 ## Congratulations
 
-You have now successfully implemented the first out of many endpoints that we need to strangle the monolith. You have also learned that `<object>::<method>` is a convenient way to reference a lambda expression. 
+You have now successfully implemented the first out of many endpoints that we need to continue to strangle the monolith. You have also learned that `<object>::<method>` is a convenient way to reference a lambda expression.
 
 In the next step we will implement another endpoint and this time it will also call out to an external service using rest.
 
 ## Create a REST endpoints for /services/cart
 
-In this step we will implement POST operation for adding a product. The UI in Coolstore Monolith uses a POST operation when a user click `Add to Cart`. 
+In this step we will implement POST operation for adding a product. The UI in Coolstore Monolith uses a POST operation when a user clicks `Add to Cart`.
 
 ![Add To Cart](../assets/reactive-microservices/add-product.png)
 
@@ -4796,31 +4660,31 @@ Our newly create route needs a handler. This method should look like this `void 
 Adding the following at the `//TODO: Add handler for adding a Item to the cart` marker in class `CartServiceVerticle`
 
 ```java
-    private void addToCart(RoutingContext rc) {
-        logger.info("Retrieved " + rc.request().method().name() + " request to " + rc.request().absoluteURI());
+private void addToCart(RoutingContext rc) {
+    logger.info("Retrieved " + rc.request().method().name() + " request to " + rc.request().absoluteURI());
 
-        String cartId = rc.pathParam("cartId");
-        String itemId = rc.pathParam("itemId");
-        int quantity = Integer.parseInt(rc.pathParam("quantity"));
+    String cartId = rc.pathParam("cartId");
+    String itemId = rc.pathParam("itemId");
+    int quantity = Integer.parseInt(rc.pathParam("quantity"));
 
-        ShoppingCart cart = getCart(cartId);
+    ShoppingCart cart = getCart(cartId);
 
-        boolean productAlreadyInCart = cart.getShoppingCartItemList().stream()
-            .anyMatch(i -> i.getProduct().getItemId().equals(itemId));
+    boolean productAlreadyInCart = cart.getShoppingCartItemList().stream()
+        .anyMatch(i -> i.getProduct().getItemId().equals(itemId));
 
-        if(productAlreadyInCart) {
-            cart.getShoppingCartItemList().forEach(item -> {
-                if (item.getProduct().getItemId().equals(itemId)) {
-                    item.setQuantity(item.getQuantity() + quantity);
-                    sendCart(cart,rc);
-                }
-            });
-        } else {
-            ShoppingCartItem newItem = new ShoppingCartItemImpl();
-            newItem.setQuantity(quantity);
+    if(productAlreadyInCart) {
+        cart.getShoppingCartItemList().forEach(item -> {
+            if (item.getProduct().getItemId().equals(itemId)) {
+                item.setQuantity(item.getQuantity() + quantity);
+                sendCart(cart,rc); //TODO: update the shipping fee
+            }
+        });
+    } else {
+        ShoppingCartItem newItem = new ShoppingCartItemImpl();
+        newItem.setQuantity(quantity);
 //TODO: Get product from Catalog service and add it to the ShoppingCartItem
-        }
     }
+}
 ```
 
 We are not completely done with the addToCart method yet. We have a TODO for Getting a product from the `CatalogService`. Since we do not want to block the thread while waiting for the `CatalogService` to respond this should be a async operation. 
@@ -4847,24 +4711,24 @@ We are now ready to create our `getProduct` method
 Adding the following at the `//TODO: Add method for getting products` marker in class `CartServiceVerticle`
 
 ```java
-    private void getProduct(String itemId, Handler<AsyncResult<Product>> resultHandler) {
-        WebClient client = WebClient.create(vertx);
-        Integer port = config().getInteger("catalog.service.port", 8080);
-        String hostname = config().getString("catalog.service.hostname", "localhost");
-        Integer timeout = config().getInteger("catalog.service.timeout", 0);
-        client.get(port, hostname,"/services/product/"+itemId)
-            .timeout(timeout)
-            .send(handler -> {
-                if(handler.succeeded()) {
-                    Product product = Transformers.jsonToProduct(handler.result().body().toJsonObject());
-                    resultHandler.handle(Future.succeededFuture(product));
-                } else {
-                    resultHandler.handle(Future.failedFuture(handler.cause()));
-                }
+private void getProduct(String itemId, Handler<AsyncResult<Product>> resultHandler) {
+    WebClient client = WebClient.create(vertx);
+    Integer port = config().getInteger("catalog.service.port", 8080);
+    String hostname = config().getString("catalog.service.hostname", "localhost");
+    Integer timeout = config().getInteger("catalog.service.timeout", 0);
+    client.get(port, hostname,"/services/product/"+itemId)
+        .timeout(timeout)
+        .send(handler -> {
+            if(handler.succeeded()) {
+                Product product = Transformers.jsonToProduct(handler.result().body().toJsonObject());
+                resultHandler.handle(Future.succeededFuture(product));
+            } else {
+                resultHandler.handle(Future.failedFuture(handler.cause()));
+            }
 
 
-            });
-    }
+        });
+}
 ```
 
 Now we can call this method from the `addToCart` method and pass a Lambda call back. 
@@ -4872,20 +4736,20 @@ Now we can call this method from the `addToCart` method and pass a Lambda call b
 Adding the following at the `//TODO: Get product from Catalog service and add it to the ShoppingCartItem`
 
 ```java
-                this.getProduct(itemId, reply -> {
-                    if (reply.succeeded()) {
-                        newItem.setProduct(reply.result());
-                        cart.addShoppingCartItem(newItem);
-                        sendCart(cart,rc);
-                    } else {
-                        sendError(rc);
-                    }
-                });
+this.getProduct(itemId, reply -> {
+    if (reply.succeeded()) {
+        newItem.setProduct(reply.result());
+        cart.addShoppingCartItem(newItem);
+        sendCart(cart,rc); //TODO: update the shipping fee, here as well
+    } else {
+        sendError(rc);
+    }
+});
 ```
 
 To summarize our `addToCart` handler will now first check if the product already exists in the shopping cart. If it does exist we update the quantity and then send the response. If it doesn't exist we call the catalog service to retrieve the data about the product, create a new ShoppingCartItem, set the quantity, add the retrieved product, add it the `ShoppingCartItem`, add the item to the shopping cart and then finally send the response to the client. 
 
-Phu! That wasn't easy... However, in real life thing are never as easy as they sometimes seem to appear. Rather than present you with a set of Hello World demos we believe that it's much more educational to use a more realistic example. 
+Phew! That wasn't easy... However, in real life thing are never as easy as they sometimes seem to appear. Rather than present you with a set of Hello World demos we believe that it's much more educational to use a more realistic example.
 
 
 **4. Test our changes**
@@ -4893,9 +4757,11 @@ Phu! That wasn't easy... However, in real life thing are never as easy as they s
 Let's first test to update the quantity for a product that is already in the shopping cart
 
 Start the cart service
-``mvn compile vertx:run``⏎
+``mvn compile vertx:run``### Run it!
 
-```curl -s http://localhost:8082/services/cart/99999 | grep -A7  "\"itemId\" : \"329299\"" | grep quantity```⏎
+Then execute this to test retrieving a specific cart and the quantity of item `329299` in the cart:
+
+```curl -s http://localhost:8082/services/cart/99999 | grep -A7  "\"itemId\" : \"329299\"" | grep quantity```### Run it!
 
 This will return the quantity like below, but the actual number may be different.
 
@@ -4903,8 +4769,7 @@ This will return the quantity like below, but the actual number may be different
 
 Now let's call our addToCart method.
 
-```curl -s -X POST http://localhost:8082/services/cart/99999/329299/1 | grep -A7  "\"itemId\" : \"329299\"" | grep quantity```⏎
-
+```curl -s -X POST http://localhost:8082/services/cart/99999/329299/1 | grep -A7  "\"itemId\" : \"329299\"" | grep quantity```### Run it!
 This should now return a shopping cart where one more instance of the product is added, because of our grep commands you would see something like this:
 
 `"quantity" : 4`
@@ -4917,27 +4782,29 @@ The CartService depends on the CatalogService and just like in the Spring Boot e
 
 First lets check if the catalog service is still running locally.
 
-```jps -l | grep com.redhat.coolstore.RestApplication```⏎
+```curl -v http://localhost:8081/services/products 2>&1 | grep "HTTP/1.1 200"```### Run it!
 
-If this command doesn't return anything we need to start the Catalog application in a separate terminal like this:
+If that prints `< HTTP/1.1 200` then our service is responding correctly otherwise we need to start the Catalog application in a separate terminal like this:
 
-```cd ~/projects/catalog; mvn clean spring-boot:run```⏎
+```cd ~/projects/catalog; mvn clean spring-boot:run -DskipTests```### Run it!
 
-To test to add a product we are going to use a new shopping cart id like this.
+Wait for it to complete. You should see `Started RestApplication in xxxxx seconds`.
 
-```curl -s -X POST http://localhost:8082/services/cart/88888/329299/1```⏎
+To test to add a product we are going to use a new shopping cart id. Execute:
+
+```curl -s -X POST http://localhost:8082/services/cart/88888/329299/1 ; echo```### Run it!
 
 This should print the follow:
 
 ```
 {
   "cartId" : "88888",
-  "orderValue" : 34.99,
+  "cartTotal" : 34.99,
   "retailPrice" : 34.99,
-  "discount" : 0.0,
-  "shippingFee" : 0.0,
-  "shippingDiscount" : 0.0,
-  "items" : [ {
+  "cartItemPromoSavings" : 0.0,
+  "shippingTotal" : 0.0,
+  "shippingPromoSavings" : 0.0,
+  "shoppingCartItemList" : [ {
     "product" : {
       "itemId" : "329299",
       "price" : 34.99,
@@ -4948,15 +4815,75 @@ This should print the follow:
     },
     "quantity" : 1
   } ]
-}%   
+}
 ```
+
+**5. Add endpoint for deleting items**
+Since we are now so skilled in writing endpoints lets go ahead and also create the endpoint for removing a product. The only tricky part about removing is that the request might not remove all products in once. E.g. If we have 10 Red Hat Fedoras and the request just decreases 3 we should not remove the Shopping Cart item, but instead lower the quantity to 7. 
+
+
+Adding the following at the `//TODO: Add handler for removing an item from the cart`
+
+```java
+private void removeShoppingCartItem(RoutingContext rc) {
+    logger.info("Retrieved " + rc.request().method().name() + " request to " + rc.request().absoluteURI());
+    String cartId = rc.pathParam("cartId");
+    String itemId = rc.pathParam("itemId");
+    int quantity = Integer.parseInt(rc.pathParam("quantity"));
+    ShoppingCart cart = getCart(cartId);
+
+    //If all quantity with the same Id should be removed then remove it from the list completely. The is the normal use-case
+    cart.getShoppingCartItemList().removeIf(i -> i.getProduct().getItemId().equals(itemId) && i.getQuantity()<=quantity);
+
+    //If not all quantities should be removed we need to update the list
+    cart.getShoppingCartItemList().forEach(i ->  {
+            if(i.getProduct().getItemId().equals(itemId))
+                i.setQuantity(i.getQuantity()-quantity);
+        }
+    );
+    sendCart(cart,rc);
+}
+```
+
+Now let's go ahead and create the route.
+
+Add the following where at the `//TODO: Create remove router` marker in class `CartServiceVerticle.start` 
+```java
+router.delete("/services/cart/:cartId/:itemId/:quantity").handler(this::removeShoppingCartItem);
+```
+
+**6. Test to remove a product**
+
+Let's first test to decreasing the quantity for a product that is already in the shopping cart
+
+Start the cart service
+``mvn compile vertx:run``### Run it!
+
+The run this to get the quantity of item `329299` in the cart:
+
+```curl -s http://localhost:8082/services/cart/99999 | grep -A7  "\"itemId\" : \"329299\"" | grep quantity```### Run it!
+
+This will return the quantity like below, but the actual number may be different.
+
+`"quantity" : 4`
+
+Now let's call our removeShoppingCartItem method.
+
+```curl -s -X DELETE http://localhost:8082/services/cart/99999/329299/1 | grep -A7  "\"itemId\" : \"329299\"" | grep quantity```### Run it!
+
+If this results in an empty cart (quantity =0 ) this command will not return any output.
+
+If you have more than one items remaining in the cart, this will return a shopping cart where one more instance of the product is removed,
+because of our grep commands you would see something like this.
+
+`"quantity" : 3`
 
 
 ## Congratulations
 
 Wow! You have now successfully created a Reactive microservices that are calling another REST service asynchronously. 
 
-However, looking at the output you can see that the discount and shippingFee is 0.0, which also means that the orderValue (price after shipping and discount) and retailPrice (sum of all products prices) are equal. That is because we haven't implemented the Shipping and Promotional Services yet. That's what we are going to do in the next scenario.
+However, looking at the output you can see that the discount and shippingFee is `0.0`, which also means that the orderValue (price after shipping and discount) and retailPrice (sum of all products prices) are equal. That is because we haven't implemented the Shipping and Promotional Services yet. That's what we are going to do in the next scenario.
 
 
 
@@ -4965,11 +4892,427 @@ However, looking at the output you can see that the discount and shippingFee is 
 
 
 
+
+
+## Create a REST endpoints for /services/cart
+
+In the previous steps we have added more and more functionality to the cart service and when we define our microservices it's often done using a domain model approach. The cart service is central, but we probably do not want it to handle things like calculating shipping fees. In our example we do not have enough data to do a complex shipping service since we lack information about the users shipping address as well as weight of the products etc. It does however make sense to create the shipping service so that if when we have that information we can extend upon it.
+
+Since we are going to implement the Shipping service as another Vert.x Verticle we will not use REST this time. Instead we are going to use the Vert.x Event bus.
+
+## The Event bus in Vert.x
+The event bus is the nervous system of Vert.x.
+
+The event bus allows different parts of your application to communicate with each other irrespective of what language they are written in, and whether they’re in the same Vert.x instance, or in a different Vert.x instance.
+
+It can even be bridged to allow client side JavaScript running in a browser to communicate on the same event bus.
+
+The event bus forms a distributed peer-to-peer messaging system spanning multiple server nodes and multiple browsers.
+
+The event bus supports publish/subscribe, point to point, and request-response messaging.
+
+The event bus API is very simple. It basically involves registering handlers, unregistering handlers and sending and publishing messages.
+
+Internally the EventBus is an abstraction and Vert.x have several different implementations that can be used depending on demands. Default it uses a local java implementation that can't be shared between different java processes. However, for clustered solutions the event bus can use an distributed in-memory data store like Infinispan (also know as Red Hat JBoss Data Grid) or Hazelcast. There are also work in progress to be able to use a JMS implementation like Apache ActiveMQ (also known as Red Hat AMQ) 
+
+>**NOTE:** In the near future RHOAR is planned to offer support for Red Hat JBoss Data Grid for clustering use-cases of Vert.x
+
+## The Event bus API
+
+Let's first discuss some Theory:
+
+**Addressing**
+Messages are sent on the event bus to an address.
+
+Vert.x doesn’t bother with any fancy addressing schemes. In Vert.x an address is simply a string. Any string is valid. However it is wise to use some kind of scheme, e.g. using periods to demarcate a namespace.
+
+Some examples of valid addresses are europe.news.feed1, acme.games.pacman, sausages, and X.
+
+**Handlers**
+Messages are received in handlers. You register a handler at an address.
+
+Many different handlers can be registered at the same address.
+
+A single handler can be registered at many different addresses.
+
+**Publish / subscribe messaging**
+The event bus supports publishing messages.
+
+Messages are published to an address. Publishing means delivering the message to all handlers that are registered at that address.
+
+This is the familiar publish/subscribe messaging pattern.
+
+Point to point and Request-Response messaging
+The event bus also supports point to point messaging.
+
+Messages are sent to an address. Vert.x will then route it to just one of the handlers registered at that address.
+
+If there is more than one handler registered at the address, one will be chosen using a non-strict round-robin algorithm.
+
+With point to point messaging, an optional reply handler can be specified when sending the message.
+
+When a message is received by a recipient, and has been handled, the recipient can optionally decide to reply to the message. If they do so the reply handler will be called.
+
+When the reply is received back at the sender, it too can be replied to. This can be repeated ad-infinitum, and allows a dialog to be set-up between two different verticles.
+
+This is a common messaging pattern called the request-response pattern. 
+
+Let’s jump into the API
+
+Getting the event bus
+You get a reference to the event bus as follows:
+
+```java
+EventBus eb = vertx.eventBus();
+```
+
+There is a single instance of the event bus per Vert.x instance.
+
+**Registering Handlers**
+This simplest way to register a handler is using consumer. Here’s an example:
+
+```java
+EventBus eb = vertx.eventBus();
+
+eb.consumer("news.uk.sport", message -> {
+  System.out.println("I have received a message: " + message.body());
+});
+```
+
+**Publishing messages**
+Publishing a message is simple. Just use publish specifying the address to publish it to.
+
+```java
+eventBus.publish("news.uk.sport", "Yay! Someone kicked a ball");
+```
+
+**The Message object**
+The object you receive in a message handler is a `Message`.
+
+The body of the message corresponds to the object that was sent or published. The object has to be serializable, but it's recommended to use JSON encoded String as objects.
+
+The headers of the message are available with headers.
+
+
+**1. Add a Shipping Verticle**
+Since RHOAR currently do not support using distributed event bus we will create the Verticle locally. For now our shipping service will only return a fixed ShippingFee of 37.0. RHOAR is planned to support distributes event bus early 2018. Since the Event Bus API is the same very little code changes (if any) will be required to move this to a separate service in OpenShift in the future.
+
+```java
+package com.redhat.coolstore;
+
+import io.vertx.core.AbstractVerticle;
+import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.eventbus.MessageConsumer;
+import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
+
+public class ShippingServiceVerticle extends AbstractVerticle {
+    private final Logger logger = LoggerFactory.getLogger(ShippingServiceVerticle.class.getName());
+
+    @Override
+    public void start() {
+        logger.info("Starting " + this.getClass().getSimpleName());
+        EventBus eb = vertx.eventBus();
+        MessageConsumer<String> consumer = eb.consumer("shipping");
+        consumer.handler(message -> {
+            logger.info("Shipping Service recieved a message");
+            message.reply(new JsonObject().put("shippingFee", 37.0)); //Hardcoded shipping Fee
+        });
+    }
+}
+```
+
+We also need to start the Verticle by deploying it form the MainVerticle
+
+```java
+vertx.deployVerticle(
+                    ShippingServiceVerticle.class.getName(),
+                    new DeploymentOptions().setConfig(config.result())
+                );
+```
+
+Done! That was easy. :-) We still have to update the shopping cart to use the Shipping service. Let's do that next.
+
+**2. Update the Shopping cart to call the Shipping Service**
+In the future we might want to base the shipping service on the actual content of the Shopping cart so it stands to reason that we call the shipping service every time someone updates the cart. In the training however we will only call the Shopping cart when someone adds a product to it. 
+
+We will implement the shipping fee similary to how we implemented the `getProduct` that called out to the Catalog service. 
+
+In the ``src/main/java/com/redhat/coolstore/CartServiceVerticle.java`` we will add the following method at the marker: `//TODO: Add method for getting the shipping fee`. Copy the content below or click on the CopyToEditor button.
+
+```java
+private void getShippingFee(ShoppingCart cart, Handler<AsyncResult<Double>> resultHandler) {
+    EventBus eb = vertx.eventBus();
+
+    eb.send("shipping",
+        Transformers.shoppingCartToJson(cart).encode(),
+        reply -> {
+            if(reply.succeeded()) {
+                resultHandler.handle(Future.succeededFuture(((JsonObject)reply.result().body()).getDouble("shippingFee")));
+
+            } else {
+                resultHandler.handle(Future.failedFuture(reply.cause()));
+            }
+        }
+    );
+}
+```
+
+Now, lets update the `addProduct` request handler method. Click to add:
+
+```java
+this.getShippingFee(cart, message -> {
+    if(message.succeeded()) {
+        cart.setShippingTotal(message.result());
+        sendCart(cart,rc);
+    } else {
+        sendError(rc);
+    }
+
+});
+```
+
+Since we have the special case of product already exists we need to update it twice.  Click to add:
+
+```java
+this.getShippingFee(cart, message -> {
+    if(message.succeeded()) {
+        cart.setShippingTotal(message.result());
+        sendCart(cart,rc);
+    } else {
+        sendError(rc);
+    }
+
+});
+```
+
+**3. Test our changes**
+
+So now when we add something to the shopping cart it should also update the shipping fee and set it to 37.0
+
+Firstly, build and start the cart service
+``mvn compile vertx:run``### Run it!
+
+Now issue a curl command to add a product that exists
+
+```curl -s -X POST http://localhost:8082/services/cart/99999/329299/1 | grep -A7  "\"itemId\" : \"329299\"" | grep quantity```### Run it!
+
+Let's also make sure that it works with a totally new shopping cart, which would test the second part of our changes:
+
+```curl -s -X POST http://localhost:8082/services/cart/88888/329299/1 | grep -A7  "\"itemId\" : \"329299\"" | grep quantity```### Run it!
+
+This should now return a new shopping cart where one only instance of the product is added, because of our grep commands you would see something like this:
+
+`"quantity" : 1`
+
+The CartService depends on the CatalogService and just like in the Spring Boot example we could have created mocks for calling the Catalog Service, however since our example is already complex, we will simply test it with the CatalogService running. 
+
+## Summary
+
+## Create a REST endpoints for /services/cart
+
+**Red Hat OpenShift Container Platform** is the preferred runtime for cloud native application development
+using **Red Hat OpenShift Application Runtimes**
+like **Spring Boot**. OpenShift Container Platform is based on **Kubernetes** which is the most used Orchestration
+for containers running in production. **OpenShift** is currently the only container platform based on Kubernetes
+that offers multi-tenancy. This means that developers can have their own personal isolated projects to test and
+verify applications before committing them to a shared code repository.
+
+We have already deployed our coolstore monolith, inventory and catalog to OpenShift. In this step we will deploy our new Shopping Cart microservice for our CoolStore application,
+so let's create a separate project to house it and keep it separate from our monolith and our other microservices.
+
+**1. Create project**
+
+Create a new project for the *cart* service:
+
+```oc new-project cart --display-name="CoolStore Shopping Cart Microservice Application"```### Run it!
+
+**3. Open the OpenShift Web Console**
+
+You should be familiar with the OpenShift Web Console by now!
+Click on the "OpenShift Console" tab:
+
+![OpenShift Console Tab](../assets/mono-to-micro-part-2/openshift-console-tab.png)
+
+And navigate to the new _catalog_ project overview page (or use [this quick link](https://$OPENSHIFT_MASTER/console/project/cart/)
+
+![Web Console Overview](../assets/mono-to-micro-part-2/overview.png)
+
+There's nothing there now, but that's about to change.
+
+
+
+## Create a REST endpoints for /services/cart
+
+Now that you've logged into OpenShift, let's deploy our new cart microservice:
+
+
+**Update configuration**
+Create the file by clicking on open ``src/main/resources/config-openshift.json``
+
+Copy the following content to the file:
+
+```java
+{
+    "http.port" : 8080,
+    "catalog.service.port" : 8080,
+    "catalog.service.hostname" : "catalog.catalog.svc.cluster.local"
+}
+```
+
+>**NOTE:** The `config-openshift.json` does not have all values of `config-default.json`, that is because on the values that need to change has to be specified here. Our solution will fallback to the default configuration for values that aren't configured in the environment specific config.
+
+
+**Build and Deploy**
+
+Red Hat OpenShift Application Runtimes includes a powerful maven plugin that can take an
+existing Eclipse Vert.x application and generate the necessary Kubernetes configuration.
+
+You can also add additional config, like ``src/main/fabric8/deployment.yml`` which defines
+the deployment characteristics of the app (in this case we declare a few environment variables which map our credentials
+stored in the secrets file to the application), but OpenShift supports a wide range of [Deployment configuration options](https://docs.openshift.org/latest/architecture/core_concepts/deployments.html) for apps).
+
+Let's add a deployment.yml that will set the system property to use our `config-openshift.json` config.
+
+Create the file by clicking on open ``src/main/fabric8/deployment.yml``
+
+Add the following content by clicking on *Copy to Editor*:
+
+```java
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: ${project.artifactId}
+spec:
+  template:
+    spec:
+      containers:
+        - env:
+            - name: JAVA_OPTIONS
+              value: "-Dvertx.profiles.active=openshift -Dvertx.disableDnsResolver=true"
+
+```
+
+We also need to add a route.yml like this:
+
+Create the file by clicking on open ``src/main/fabric8/route.yml``
+
+Add the following content by clicking on *Copy to Editor*:
+
+```java
+apiVersion: v1
+kind: Route
+metadata:
+  name: ${project.artifactId}
+spec:
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: ${project.artifactId}
+```
+
+Build and deploy the project using the following command, which will use the maven plugin to deploy:
+
+`mvn package fabric8:deploy -Popenshift`### Run it!
+
+The build and deploy may take a minute or two. Wait for it to complete. You should see a **BUILD SUCCESS** at the
+end of the build output.
+
+After the maven build finishes it will take less than a minute for the application to become available.
+To verify that everything is started, run the following command and wait for it complete successfully:
+
+`oc rollout status -w dc/cart`### Run it!
+
+**3. Access the application running on OpenShift**
+
+This sample project includes a simple UI that allows you to access the Inventory API. This is the same
+UI that you previously accessed outside of OpenShift which shows the CoolStore inventory. Click on the
+[route URL](http://cart-cart.$OPENSHIFT_MASTER)
+to access the sample UI.
+
+> You can also access the application through the link on the OpenShift Web Console Overview page.
+
+![Overview link](../assets/reactive-microservices/routelink.png)
+
+
+## Congratulations!
+
+You have deployed the Catalog service as a microservice which in turn calls into the Inventory service to retrieve inventory data.
+However, our monolih UI is still using its own built-in services. Wouldn't it be nice if we could re-wire the monolith to use the
+new services, **without changing any code**? That's next!
+
+
+## Create a REST endpoints for /services/cart
+
+So far we haven't started [strangling the monolith](https://www.martinfowler.com/bliki/StranglerApplication.html). To do this
+we are going to make use of routing capabilities in OpenShift. Each external request coming into OpenShift (unless using
+ingress, which we are not) will pass through a route. In our monolith the web page uses client side REST calls to load
+different parts of pages.
+
+For the home page the product list is loaded via a REST call to *http://<monolith-hostname>/services/products*. At the moment
+calls to that URL will still hit product catalog in the monolith. By using a
+[path based route](https://docs.openshift.com/container-platform/3.7/architecture/networking/routes.html#path-based-routes) in
+OpenShift we can route these calls to our newly created catalog services instead and end up with something like:
+
+![Greeting](../assets/mono-to-micro-part-2/goal.png)
+
+
+Flow the steps below to create a path based route.
+
+**1. Obtain hostname of monolith UI from our Dev environment**
+
+`oc get route/www -n coolstore-dev`### Run it!
+
+The output of this command shows us the hostname:
+
+```console
+NAME      HOST/PORT                                 PATH      SERVICES    PORT      TERMINATION   WILDCARD
+www       www-coolstore-dev.apps.127.0.0.1.nip.io             coolstore   <all>                   None
+```
+
+My hostname is `www-coolstore-dev.apps.127.0.0.1.nip.io` but **yours will be different**.
+
+**2. Open the openshift console for [Cart - Applications - Routes](https://$OPENSHIFT_MASTER/console/project/cart/browse/routes)**
+
+**3. Click on Create Route, and set**
+
+* **Name**: `cart-redirect`
+* **Hostname**: _the hostname from above_
+* **Path**: `/services/cart`
+* **Service**: `cart`
+
+![Greeting](../assets/reactive-microservices/route-vals.png)
+
+Leave other values set to their defaults, and click **Save**
+
+**4. Test the route**
+
+Test the route by running `curl http://www-coolstore-dev.$OPENSHIFT_MASTER/services/cart/99999`### Run it!
+
+You should get a complete set of products, along with their inventory.
+
+**5. Test the UI**
+
+Open the monolith UI and observe that the new catalog is being used along with the monolith:
+
+![Greeting](../assets/mono-to-micro-part-2/coolstore-web.png)
+
+## Congratulations!
+
+You have now successfully begun to _strangle_ the monolith. Part of the monolith's functionality (Inventory and Catalog) are
+now implemented as microservices, without touching the monolith. But there's a few more things left to do, which we'll do in the
+next steps.
 
 
 ## Summary
 
-In this scenario you used did things. Congrats!
+In this scenario, you learned a bit more about what Reactive Systems and Reactive programming are and why it's useful when building Microservices. Note that some of the code in here may have been hard to understand and part of that is that we are not using an IDE, like JBoss Developer Studio (based on Eclipse) or IntelliJ. Both of these have excellent tooling to build Vert.x applications. 
+
+You created a new product catalog microservice almost finalizing the migration from a monolith to microservices. There are a couple of things that are also required. Firstly the checkout of the shopping cart was never implemented, and secondly, the monolith also has an order service. These were removed from this exercise because of time constraints. You have however so far almost completed a migration, so good work. You deserve a promotion. :-)
+
+In the next chapter, we will talk more about how to make resilient microservices. 
 
 # SCENARIO 7: Prevent and detect issues in a distributed system
 
@@ -5033,7 +5376,7 @@ user will need to run things in a privileged way, or even with containers as roo
 
 Run the following to login as admin:
 
-`oc login $OPENSHIFT_MASTER -u admin -p admin --insecure-skip-tls-verify=true`⏎
+`oc login $OPENSHIFT_MASTER -u admin -p admin --insecure-skip-tls-verify=true`### Run it!
 
 **If you are unable to login as admin or get any failures, ask an instructor for help.**
 
@@ -5043,11 +5386,11 @@ to save memory and CPU. Execute this command to _scale_ the services down to 0 i
 `oc scale --replicas=0 dc/coolstore dc/coolstore-postgresql -n coolstore-dev ; \
  oc scale --replicas=0 dc/inventory dc/inventory-database -n inventory ; \
  oc scale --replicas=0 dc/catalog dc/catalog-database -n catalog ; \
- oc scale --replicas=0 dc/cart -n cart`⏎
+ oc scale --replicas=0 dc/cart -n cart`### Run it!
 
 Next, run the following command:
 
-`sh ~/install-istio.sh`⏎
+`sh ~/install-istio.sh`### Run it!
 
 This command:
 
@@ -5069,7 +5412,7 @@ Execute the following commands to wait for the deployment to complete and result
  oc rollout status -w deployment/prometheus && \
  oc rollout status -w deployment/grafana && \
  oc rollout status -w deployment/servicegraph && \
- oc rollout status -w deployment/jaeger-deployment`⏎
+ oc rollout status -w deployment/jaeger-deployment`### Run it!
 
 While you wait for the command to report success you can read a bit more about the [Istio](https://istio.io/docs) architecture below:
 
@@ -5147,7 +5490,7 @@ The end-to-end architecture of the application is shown below.
 
 Run the following command:
 
-`sh ~/install-sample-app.sh`⏎
+`sh ~/install-sample-app.sh`### Run it!
 
 The application consists of the usual objects like Deployments, Services, and Routes.
 
@@ -5162,7 +5505,7 @@ Execute the following commands to wait for the deployment to complete and result
  oc rollout status -w deployment/reviews-v2 && \
  oc rollout status -w deployment/reviews-v3 && \
  oc rollout status -w deployment/details-v1 && \
- oc rollout status -w deployment/ratings-v1`⏎
+ oc rollout status -w deployment/ratings-v1`### Run it!
 
 ## Access Bookinfo
 
@@ -5189,14 +5532,12 @@ You should now have your OpenShift Pods running and have an Envoy sidecar in eac
 alongside the microservice. The microservices are productpage, details, ratings, and
 reviews. Note that you'll have three versions of the reviews microservice:
 
-`oc get pods`⏎
+`oc get pods --selector app=reviews`### Run it!
 
 ```console
-...
 reviews-v1-1796424978-4ddjj          2/2       Running   0          28m
 reviews-v2-1209105036-xd5ch          2/2       Running   0          28m
 reviews-v3-3187719182-7mj8c          2/2       Running   0          28m
-...
 ```
 
 Notice that each of the microservices shows `2/2` containers ready for each service (one for the service and one for its
@@ -5243,7 +5584,7 @@ the application and generate load. We'll open up a separate terminal just for th
     curl -o /dev/null -s -w "%{http_code}\n" \
       http://istio-ingress-istio-system.$OPENSHIFT_MASTER/productpage
   sleep .2
-done`⏎
+done`### Run it!
 
 This command will endlessly access the application and report the HTTP status result in a separate terminal window.
 
@@ -5261,7 +5602,7 @@ Open the Prometheus UI:
 * [Prometheus UI](http://prometheus-istio-system.$OPENSHIFT_MASTER)
 
 In the “Expression” input box at the top of the web page, enter the text: `istio_request_count`.
-Then, click the Execute button.
+Then, click the **Execute** button.
 
 You should see a listing of each of the application's services along with a count of how many times it was accessed.
 
@@ -5367,19 +5708,19 @@ versions of a service in a random fashion, and anytime you hit `v1` version you'
 
 First, let's set an environment variable to point to Istio:
 
-`export ISTIO_VERSION=0.4.0; export ISTIO_HOME=${HOME}/istio-${ISTIO_VERSION}; export PATH=${PATH}:${ISTIO_HOME}/bin; cd ${ISTIO_HOME}`⏎
+`export ISTIO_VERSION=0.4.0; export ISTIO_HOME=${HOME}/istio-${ISTIO_VERSION}; export PATH=${PATH}:${ISTIO_HOME}/bin; cd ${ISTIO_HOME}`### Run it!
 
 Now let's install a default set of routing rules which will direct all traffic to the `reviews:v1` service version:
 
-`oc create -f samples/bookinfo/kube/route-rule-all-v1.yaml`⏎
+`oc create -f samples/bookinfo/kube/route-rule-all-v1.yaml`### Run it!
 
 You can see this default set of rules with:
 
-`oc get routerules -o yaml`⏎
+`oc get routerules -o yaml`### Run it!
 
 There are default routing rules for each service, such as the one that forces all traffic to the `v1` version of the `reviews` service:
 
-`oc get routerules/reviews-default -o yaml`⏎
+`oc get routerules/reviews-default -o yaml`### Run it!
 
 ```yaml
     apiVersion: config.istio.io/v1alpha2
@@ -5412,11 +5753,11 @@ Scroll down to the `ratings` service and notice that the requests coming from th
 ## A/B Testing with Istio
 Lets enable the ratings service for a test user named “jason” by routing `productpage` traffic to `reviews:v2`, but only for our test user. Execute:
 
-`oc create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml`⏎
+`oc create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml`### Run it!
 
 Confirm the rule is created:
 
-`oc get routerule reviews-test-v2 -o yaml`⏎
+`oc get routerule reviews-test-v2 -o yaml`### Run it!
 
 Notice the `match` element:
 
@@ -5431,7 +5772,7 @@ Notice the `match` element:
 This says that for any incoming HTTP request that has a cookie set to the `jason` user to direct traffic to
 `reviews:v2`.
 
-Now, [access the application](http://istio-ingress-istio-system.$OPENSHIFT_MASTER/productpage) and click **Login** and login with:
+Now, [access the application](http://istio-ingress-istio-system.$OPENSHIFT_MASTER/productpage) and click **Sign In** (at the upper right) and sign in with:
 
 * Username: `jason`
 * Password: `jason`
@@ -5500,11 +5841,11 @@ Since the `reviews:v2` service has a
 built-in 10 second timeout for its calls to the ratings service, we expect the end-to-end flow
 to continue without any errors. Execute:
 
-`oc create -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml`⏎
+`oc create -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml`### Run it!
 
 And confirm that the delay rule was created:
 
-`oc get routerule ratings-test-delay -o yaml`⏎
+`oc get routerule ratings-test-delay -o yaml`### Run it!
 
 Notice the `httpFault` element:
 
@@ -5562,7 +5903,7 @@ this task will migrate the traffic from `reviews:v1` to `reviews:v3` in just two
 Now that we've identified and fixed the bug, let's undo our previous testing routes. Execute:
 
 `oc delete -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml \
-           -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml`⏎
+           -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml`### Run it!
 
 At this point, we are back to sending all traffic to `reviews:v1`. [Access the application](http://istio-ingress-istio-system.$OPENSHIFT_MASTER/productpage)
 and verify that no matter how many times you reload your browser, you'll always get no ratings stars, since
@@ -5591,11 +5932,11 @@ clicking on `productpage.istio-system-v1 -> v1 : 200`. This shows a graph of all
 To start the process, let's send half (50%) of the users to our new `v3` version with the fix, to do a canary test.
 Execute the following command which replaces the `reviews-default` rule with a new rule:
 
-`oc replace -f samples/bookinfo/kube/route-rule-reviews-50-v3.yaml`⏎
+`oc replace -f samples/bookinfo/kube/route-rule-reviews-50-v3.yaml`### Run it!
 
 Inspect the new rule:
 
-`oc get routerule reviews-default -o yaml`⏎
+`oc get routerule reviews-default -o yaml`### Run it!
 
 Notice the new `weight` elements:
 
@@ -5624,7 +5965,7 @@ and verify that you either get no ratings stars (`v1`) or _red_ ratings stars (`
 
 We are now happy with the new version `v3` and want to migrate everyone to it. Execute:
 
-`oc replace -f samples/bookinfo/kube/route-rule-reviews-v3.yaml`⏎
+`oc replace -f samples/bookinfo/kube/route-rule-reviews-v3.yaml`### Run it!
 
 Once again, open the Grafana dashboard and verify this:
 
@@ -5709,7 +6050,7 @@ oc create -f - <<EOF
           httpDetectionInterval: 10s
           httpMaxEjectionPercent: 100
 EOF
-```⏎
+```### Run it!
 
 We set the `ratings` service's maximum connections to 1 and maximum pending requests to 1. Thus, if we send more
 than 2 requests within a short period of time to the reviews service, 1 will go through, 1 will be pending,
@@ -5730,7 +6071,7 @@ Execute this to simulate a number of users attampting to access the application 
     for i in {1..10} ; do
         curl 'http://istio-ingress-istio-system.$OPENSHIFT_MASTER/productpage?foo=[1-1000]' >& /dev/null &
     done
-```⏎
+```### Run it!
 
 Due to the very conservative circuit breaker, many of these calls will fail with HTTP 503 (Server Unavailable). To see this,
 open the Grafana console:
@@ -5751,7 +6092,7 @@ That's the circuit breaker in action, limiting the number of requests to the ser
 
 Before moving on, stop the traffic generator by clicking here to stop them:
 
-`for i in {1..10} ; do kill %${i} ; done`⏎
+`for i in {1..10} ; do kill %${i} ; done`### Run it!
 
 ## Pod Ejection
 
@@ -5779,7 +6120,7 @@ oc replace -f - <<EOF
           httpDetectionInterval: 10s
           httpMaxEjectionPercent: 100
 EOF
-```⏎
+```### Run it!
 
 This policy says that if any instance of the `ratings` service fails more than once, it will be ejected for
 15 minutes.
@@ -5787,11 +6128,11 @@ This policy says that if any instance of the `ratings` service fails more than o
 Next, deploy a new instance of the `ratings` service which has been misconfigured and will return a failure
 (HTTP 500) value for any request. Execute:
 
-`${ISTIO_HOME}/bin/istioctl kube-inject -f ~/projects/ratings/broken.yaml | oc create -f -`⏎
+`${ISTIO_HOME}/bin/istioctl kube-inject -f ~/projects/ratings/broken.yaml | oc create -f -`### Run it!
 
 Verify that the broken pod has been added to the `ratings` load balancing service:
 
-`oc get pods -l app=ratings`⏎
+`oc get pods -l app=ratings`### Run it!
 
 You should see 2 pods, including the broken one:
 
@@ -5800,6 +6141,10 @@ NAME                                 READY     STATUS    RESTARTS   AGE
 ratings-v1-3080059732-5ts95          2/2       Running   0          3h
 ratings-v1-broken-1694306571-c6zlk   2/2       Running   0          7s
 ```
+
+Save the name of this pod to an environment variable:
+
+`BROKEN_POD_NAME=$(oc get pods -l app=ratings,broken=true -o jsonpath='{.items[?(@.status.phase=="Running")].metadata.name}')`### Run it!
 
 Requests to the `ratings` service will be load-balanced across these two pods. The circuit breaker will
 detect the failures in the broken pod and eject it from the load balancing pool for a minimum of 15 minutes.
@@ -5813,15 +6158,13 @@ To trigger this, simply access the application:
 * [Application Link](http://istio-ingress-istio-system.$OPENSHIFT_MASTER/productpage)
 
 Reload the webpage 5-10 times (click the reload icon, or press `CMD-R`, or `CTRL-R`) and notice that you
-only see no stars ONE time, due to the
+only see a failure (no stars) ONE time, due to the
 circuit breaker's policy for `httpConsecutiveErrors=1`.  After the first error, the pod is ejected from
 the load balancing pool for 15 minutes and you should see red stars from now on.
 
 Verify that the broken pod only received one request that failed:
 
-`oc logs -c ratings [PODNAME]`⏎
-
-> Replace `[PODNAME]` above with the name of the broken pod (e.g. `ratings-v1-broken-XXXX-YYYY`)
+`oc logs -c ratings $BROKEN_POD_NAME`### Run it!
 
 You should see:
 
@@ -5867,7 +6210,7 @@ different customers based on policy and contractual requirements
 
 Before moving on, in case your simulated user loads are still running, kill them with:
 
-`for i in {1..10} ; do kill %${i}; done`⏎
+`for i in {1..10} ; do kill %${i}; done`### Run it!
 
 ## More references
 
@@ -5896,7 +6239,7 @@ As before, let's start up some processes to generate load on the app. Execute th
     curl -o /dev/null -s -w "%{http_code}\n" \
       http://istio-ingress-istio-system.$OPENSHIFT_MASTER/productpage
   sleep .2
-done`⏎
+done`### Run it!
 
 This command will endlessly access the application and report the HTTP status result in a separate terminal window.
 
@@ -5906,7 +6249,7 @@ With this application load running, we can witness rate limits in action.
 
 Execute the following command:
 
-`oc create -f samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml`⏎
+`oc create -f samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml`### Run it!
 
 This configuration specifies a default 1 qps (query per second) rate limit. Traffic reaching
 the `ratings` service is subject to a 1qps rate limit. Verify this with Grafana:
@@ -5928,7 +6271,7 @@ rate-limited to 1 query per second:
 
 Take a look at the new rule:
 
-`oc get memquota handler -o yaml`⏎
+`oc get memquota handler -o yaml`### Run it!
 
 In particular, notice the _dimension_ that causes the rate limit to be applied:
 
@@ -5954,7 +6297,7 @@ You can also conditionally rate limit based on other dimensions, such as:
 
 Before moving on, execute the following to remove our rate limit:
 
-`oc delete -f samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml`⏎
+`oc delete -f samples/bookinfo/kube/mixer-rule-ratings-ratelimit.yaml`### Run it!
 
 Verify that the rate limit is no longer in effect. Open the dashboard:
 
@@ -6077,7 +6420,7 @@ Istio’s fault injection rules and tracing capabilities help you identify such 
 ## Before moving on
 
 Let's stop the load generator running against our app. Navigate to **Terminal 2** and type
-`CTRL-C` to stop the generator or click `clear`⏎.
+`CTRL-C` to stop the generator or click `clear`### Run it!.
 
 ## Congratulations!
 
