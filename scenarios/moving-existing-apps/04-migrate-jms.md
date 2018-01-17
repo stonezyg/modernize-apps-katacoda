@@ -5,32 +5,13 @@ Our application uses [JMS](https://en.wikipedia.org/wiki/Java_Message_Service) t
 a JMS Topic, which is then consumed by listeners (subscribers) to that topic to process the order using [Message-driven beans](https://docs.oracle.com/javaee/6/tutorial/doc/gipko.html), a form
 of Enterprise JavaBeans (EJBs) that allow Java EE applications to process messages asynchronously.
 
-In this case, `InventoryNotificationMDB` is subscribed to and listening for messages from `ShoppingCartService.java`. When
+In this case, `InventoryNotificationMDB` is subscribed to and listening for messages from `ShoppingCartService`. When
 an order comes through the `ShoppingCartService`, a message is placed on the JMS Topic. At that point, the `InventoryNotificationMDB`
 receives a message and if the inventory service is below a pre-defined threshold, sends a message to the log indicating that
 the supplier of the product needs to be notified.
 
 Unfortunately this MDB was written a while ago and makes use of weblogic-proprietary interfaces to configure and operate the
 MDB. RHAMT has flagged this and reported it using a number of issues.
-
-**1. Review the issues**
-
-[Open the Issues report](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/monolith/reports/migration_issues.html).
-
-In the list of issues for our migration, RHAMT has identified several issues with our use of weblogic MDB interfaces:
-
-* **Call of JNDI lookup** - Our apps use a weblogic-specific [JNDI](https://en.wikipedia.org/wiki/Java_Naming_and_Directory_Interface) lookup scheme.
-* **Proprietary InitialContext initialization** - Weblogic has a very different lookup mechanism for InitialContext objects
-* **WebLogic InitialContextFactory** - This is related to the above, essentially a Weblogic proprietary mechanism
-* **WebLogic T3 JNDI binding** - The way EJBs communicate in Weblogic is over T2, a proprietary implementation of Weblogic.
-
-All of the above interfaces have equivalents in JBoss, however they are greatly simplified and overkill for our application which uses
-JBoss EAP's internal message queue implementation provided by [Apache ActiveMQ Artemis](https://activemq.apache.org/artemis/).
-
-**2. Understand the changes necessary**
-
-Open `src/main/java/com/redhat/coolstore/service/InventoryNotificationMDB.java`{{open}}. The main logic of this class is in the `onMessage` method.
- ll of the other code in the class is related to the initialization and lifecycle management of the MDB itself in the Weblogic environment, which we need to remove.
 
 JBoss EAP provides and even more efficient and declarative way
 to configure and manage the lifecycle of MDBs. In this case, we can use annotations to provide the necessary initialization
@@ -45,14 +26,27 @@ possibilities for EJBs and MDBs in this file, but luckily our application only u
 long to complete (over 30 seconds), then the transaction is rolled back and exceptions are thrown. This interface is
 Weblogic-specific so we'll need to find an equivalent in JBoss.
 
-> You should be aware that this type of migration is more involved than the previous migrations, and in real world applications
+> You should be aware that this type of migration is more involved than the previous steps, and in real world applications
 it will rarely be as simple as changing one line at a time for a migration. Consult the [RHAMT documentation](https://access.redhat.com/documentation/en/red-hat-application-migration-toolkit) for more detail on Red Hat's
 Application Migration strategies or contact your local Red Hat representative to learn more about how Red Hat can help you
 on your migration path.
 
-**3. Remove the Weblogic EJB Descriptor**
+**1. Review the issues**
 
-The first step is to remove the unneeded `weblogic-ejb-jar.xml` file. This file is not recognized or processed by JBoss
+From the [RHAMT Issues report](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/monolith/reports/migration_issues.html)
+we will fix the remaining issues:
+
+* **Call of JNDI lookup** - Our apps use a weblogic-specific [JNDI](https://en.wikipedia.org/wiki/Java_Naming_and_Directory_Interface) lookup scheme.
+* **Proprietary InitialContext initialization** - Weblogic has a very different lookup mechanism for InitialContext objects
+* **WebLogic InitialContextFactory** - This is related to the above, essentially a Weblogic proprietary mechanism
+* **WebLogic T3 JNDI binding** - The way EJBs communicate in Weblogic is over T2, a proprietary implementation of Weblogic.
+
+All of the above interfaces have equivalents in JBoss, however they are greatly simplified and overkill for our application which uses
+JBoss EAP's internal message queue implementation provided by [Apache ActiveMQ Artemis](https://activemq.apache.org/artemis/).
+
+**2. Remove the weblogic EJB Descriptors**
+
+The first step is to remove the unneeded `weblogic-ejb-jar.xml` file. This file is proprietary to Weblogic and not recognized or processed by JBoss
 EAP. Type or click the following command to remove it:
 
 `rm -f src/main/webapp/WEB-INF/weblogic-ejb-jar.xml`{{execute T1}}
@@ -62,45 +56,11 @@ Run or click on this command to remove them:
 
 `rm -rf src/main/java/weblogic`{{execute T1}}
 
-**4. Remove unneeded class variables and methods**
+**3. Fix the code**
 
 Open `src/main/java/com/redhat/coolstore/service/InventoryNotificationMDB.java`{{open}}.
 
-JBoss EAP and Java EE define a much richer and more efficient way to configure MDBs through annotations. You can remove
-the class variables `JNDI_FACTORY`, `JMS_FACTORY`, `TOPIC`, `tcon`, `tsession` and `tsubscriber` variables from near the
-top of the class definition.
-
-Also remove unneeded methods `init()`, `close()`, and `getInitialContext()`. This is handled by JBoss EAP internally.
-
-**5. Add MDB annotations**
-
-To properly initialize and allow JBoss EAP to manage the MDB, add the following annotations to the class definition.
-Don't forget the new import statements!
-
-```java
-import javax.ejb.ActivationConfigProperty;
-import javax.ejb.MessageDriven;
-
-...
-
-@MessageDriven(name = "InventoryNotificationMDB", activationConfig = {
-	@ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "topic/orders"),
-	@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic"),
-	@ActivationConfigProperty(propertyName = "transactionTimeout", propertyValue = "30"),
-	@ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge")})
-public class OrderServiceMDB implements MessageListener {
-
-...
-
-```
-
-Remember the `<trans-timeout-seconds>` setting from the `weblogic-ejb-jar.xml` file? This is now set as an
-`@ActivationConfigProperty` above. There are pros and cons to using annotations vs. XML descriptors and care should be
-taken to consider the needs of the application.
-
-Your MDB should now be properly migrated to JBoss EAP.
-
-The final class code should look like this (click **Copy To Editor** to automatically copy this to the editor and replace the entire code):
+Click **Copy To Editor** to fix the code:
 
 <pre class="file" data-filename="./src/main/java/com/redhat/coolstore/service/InventoryNotificationMDB.java" data-target="replace">
 package com.redhat.coolstore.service;
@@ -158,10 +118,11 @@ public class InventoryNotificationMDB implements MessageListener {
 }
 </pre>
 
-When we run our newly-migrated application later you will be able to verify the inventory notification works correctly
-by inspecting the log file output.
+Remember the `<trans-timeout-seconds>` setting from the `weblogic-ejb-jar.xml` file? This is now set as an
+`@ActivationConfigProperty` in the new code. There are pros and cons to using annotations vs. XML descriptors and care should be
+taken to consider the needs of the application.
 
-We'll run the report again to verify our changes in the next step.
+Your MDB should now be properly migrated to JBoss EAP.
 
 ## Test the build
 
@@ -171,5 +132,3 @@ Build and package the app using Maven to make sure you code still compiles:
 
 If builds successfully (you will see `BUILD SUCCESS`), then let's move on to the next issue! If it does not compile,
 verify you made all the changes correctly and try the build again.
-
-Once it builds, let's move on to the next issue!
