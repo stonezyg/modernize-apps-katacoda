@@ -92,21 +92,9 @@ name and database constraint and **@Id** marks the primary key for the table.
 WildFly Swarm configuration is done to a large extent through detecting the intent of the
 developer and automatically adding the required dependencies configurations to make sure it can
 get out of the way and developers can be productive with their code rather than Googling for
-configuration snippets. As an example, configuration database access with JPA is composed of
-the following steps:
-
-1. Adding the `org.wildfly.swarm:jpa` dependency to **pom.xml**
-2. Adding the database driver (e.g. `org.postgresql:postgresql`) to ** pom.xml**
-3. Adding database connection details in **src/main/resources/project-stages.yml**
-
-Examine `pom.xml`{{open}} and note the `org.wildfly.swarm:jpa` that is already added to enable JPA:
-
-```xml
-<dependency>
-    <groupId>org.wildfly.swarm</groupId>
-    <artifactId>jpa</artifactId>
-</dependency>
-```
+configuration snippets. As an example, configuration database access with JPA is done
+by adding the JPA _fraction_ and a database driver to the `pom.xml`, and then configuring
+the database connection details in `src/main/resources/project-stages.yml`.
 
 Examine `src/main/resources/META-INF/persistence.xml`{{open}} to see the JPA datasource configuration
 for this project. Also note that the configurations uses `src/main/resources/META-INF/load.sql`{{open}} to import

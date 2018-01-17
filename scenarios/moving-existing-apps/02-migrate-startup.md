@@ -10,7 +10,7 @@ code in the `postStart` and `preStop` methods which are executed after Weblogic 
 
 **1. Review the issue related to `ApplicationLifecycleListener`**
 
-[Open the Issues report](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/reports/migration_issues.html):
+[Open the Issues report](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/monolith/reports/migration_issues.html):
 
 ![Issues](/redhat-middleware-workshops/assets/moving-existing-apps/project-issues.png)
 
