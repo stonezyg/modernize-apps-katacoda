@@ -31,6 +31,9 @@ elif [ "$(oc whoami)" == "admin" ]; then
   echo "Already logged in as admin. Switching to developer"
   MASTER_EXTERNAL_URL=$(oc get route/docker-registry -n default | grep -v NAME | awk '{print $2}' | sed 's/docker\-registry\-default\.//' | sed 's/\-80\-/\-8443\-/')
   oc login $MASTER_EXTERNAL_URL -u developer -p developer --insecure-skip-tls-verify=true
+  echo "Starting nginx RHAMT report server..."
+  mkdir -p ${HOME}/rhamt-reports
+  docker run --privileged -v ${HOME}/rhamt-reports:/usr/share/nginx/html:ro,z -p 9000:80 nginx
 else
   echo "Skipping init since user is not system:admin anymore." | tee -a ${HOME}/.init.log
 fi

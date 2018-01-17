@@ -33,7 +33,7 @@ done
 
 # cleanup any stuff this scenario will create
 pkill java || echo "No java running"
-rm -rf $HOME/rhamt-report $HOME/jboss-eap-7.1
+rm -rf $HOME/rhamt-reports/monolith $HOME/jboss-eap-7.1
 
 # start in right directory
 echo "---"

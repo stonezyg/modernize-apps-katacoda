@@ -9,30 +9,18 @@ mvn clean && \
 ~/rhamt-cli-4.0.0.Beta4/bin/rhamt-cli \
   --sourceMode \
   --input ~/projects/monolith \
-  --output ~/rhamt-report \
+  --output ~/rhamt-reports/monolith \
   --overwrite \
   --source weblogic \
-  --target eap:7
+  --target eap:7 \
+  --packages com.redhat weblogic
 ```{{execute T1}}
 
-**Wait for it to complete before continuing!**. You should see `Report created: /root/rhamt-report/index.html`.
+**Wait for it to complete before continuing!**. You should see `Report created: /root/rhamt-reports/monolith/index.html`.
 
 **2. View the results**
 
-The RHAMT CLI generates an updated HTML report.
-
-To view the updated report, first stop the web server:
-
-`clear`{{execute T2 interrupt}}
-
-Then start it again:
-
-`docker run --privileged -v ~/rhamt-report:/usr/share/nginx/html:ro,z -p 9000:80 -it nginx`{{execute T2}}
-
-If this does not work you may need to manually click into the **Terminal 2** and type `CTRL-C` to stop the web server, then restart using
-the above command.
-
-Then [reload the report web page](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/)
+[Reload the report web page](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/monolith)
 
 And verify that it now reports 0 Story Points:
 
@@ -40,10 +28,6 @@ You have successfully migrated
 this app to JBoss EAP, congratulations!
 
 ![Issues](/redhat-middleware-workshops/assets/moving-existing-apps/project-issues-story.png)
-
-> You can ignore the remaining issues, as they are for informational purposes only.
-
-![Issues](/redhat-middleware-workshops/assets/moving-existing-apps/project-issues-gone.png)
 
 ## Migration Complete!
 

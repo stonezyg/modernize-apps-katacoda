@@ -69,26 +69,21 @@ to execute the RHAMT CLI and analyze the existing project:
 ~/rhamt-cli-4.0.0.Beta4/bin/rhamt-cli \
   --sourceMode \
   --input ~/projects/monolith \
-  --output ~/rhamt-report \
+  --output ~/rhamt-reports/monolith \
   --overwrite \
   --source weblogic \
-  --target eap:7
+  --target eap:7 \
+  --packages com.redhat weblogic
 ```{{execute T1}}
 
 > Note the use of the ``--source`` and ``--target`` options. This allows you to target specific migration paths supported by RHMAT. Other
 migration paths include **IBM® WebSphere® Application Server** and **JBoss EAP** 5/6/7.
 
-**Wait for it to complete before continuing!**. You should see `Report created: /root/rhamt-report/index.html`.
+**Wait for it to complete before continuing!**. You should see `Report created: /root/rhamt-reports/monolith/index.html`.
 
 **3. View the results**
 
-The RHAMT CLI generated an HTML report. To view the report, first startup a simple web server in a separate terminal:
-
-```docker run --privileged -v ~/rhamt-report:/usr/share/nginx/html:ro,z -p 9000:80 -it nginx```{{execute T2}}
-
-> **NOTE**: This command will not output anything
-
-Then [click to view the report](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/)
+Next, [click to view the report](https://[[HOST_SUBDOMAIN]]-9000-[[KATACODA_HOST]].environments.katacoda.com/monolith)
 
 You should see the landing page for the report:
 
@@ -114,6 +109,8 @@ The level of effort will vary greatly depending on the size and complexity of th
 
 There are several other sub-pages accessible by the menu near the top. Cick on each one and observe the results for each of these pages:
 
+* **All Applications** Provides a list of all applications scanned.
+* **Dashboard** Provides an overview for a specific application.
 * **Issues** Provides a concise summary of all issues that require attention.
 * **Application Details** provides a detailed overview of all resources found within the application that may need attention during the migration.
 * **Unparsable** shows all files that RHAMT could not parse in the expected format. For instance, a file with a .xml or .wsdl suffix is assumed to be an XML file. If the XML parser fails, the issue is reported here and also where the individual file is listed.
@@ -122,11 +119,6 @@ There are several other sub-pages accessible by the menu near the top. Cick on e
 * **EJBs** vontains a list of EJBs found within the application.
 * **JBPM** vontains all of the JBPM-related resources that were discovered during analysis.
 * **JPA** vontains details on all JPA-related resources that were found in the application.
-* **Hibernate** vontains details on all Hibernate-related resources that were found in the application.
-* **Server Resources** Displays all server resources (for example, JNDI resources) in the input application.
-* **Spring Beans** Contains a list of Spring beans found during the analysis.
-* **Hard-coded IP Addresses** Provides a list of all hard-coded IP addresses that were found in the application.
-* **Ignored Files** Lists the files found in the application that, based on certain rules and RHAMT configuration, were not processed. See the --userIgnorePath option for more information.
 * **About** Describes the current version of RHAMT and provides helpful links for further assistance.
 
 > Some of the above sections may not appear depending on what was detected in the project.
