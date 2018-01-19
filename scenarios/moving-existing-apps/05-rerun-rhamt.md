@@ -34,6 +34,3 @@ this app to JBoss EAP, congratulations!
 Now that we've migrated the app, let's deploy it and test it out and start to explore some of the features that JBoss EAP
 plus Red Hat OpenShift bring to the table.
 
-## Before moving on
-
-Stop the report web server by clicking in **Terminal 2** and type CTRL-C to stop the server (or click this command: `clear`{{execute T2 interrupt}})

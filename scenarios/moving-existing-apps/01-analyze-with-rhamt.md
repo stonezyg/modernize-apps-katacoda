@@ -48,8 +48,6 @@ You should see:
         ├── openshift
         ├── resources
         └── webapp
-
-6 directories, 3 files
 ```
 
 This is a minimal Java EE project which uses [JAX-RS](https://docs.oracle.com/javaee/7/tutorial/jaxrs.htm) for building
