@@ -89,7 +89,7 @@ Wait for a `BUILD SUCCESS` message. If it fails, check that you made all the cor
 
 We are now ready to deploy the application
 
-``mvn wildfly:run``{{execute T1}}
+``export JBOSS_HOME=$HOME/jboss-eap-7.1 ; mvn wildfly:run``{{execute T1}}
 
 Wait for the server to startup. You should see `Deployed "ROOT.war" (runtime-name: "ROOT.war")`
 ## Test the application

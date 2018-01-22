@@ -64,11 +64,10 @@ Re-visit the app by reloading the Coolstore webpage (or clicking again on the [C
 
 You should now see the red header:
 
-> **NOTE** Some browsers (most, actually) will cache the web content including CSS files. If you don't see the read
-header or get errors, first try to reload the page a few times. If it still doesn't show the changed
-header you may need to [clear the browser
-cache](https://www.lifewire.com/how-to-clear-cache-2617980) to see the changes! You can also open a separate browser or
-an "incognito" or "private browsing" tab and visit the same URL.
+> **NOTE** If you don't see the red header, you may need to do a full reload of the webpage.
+On Windows/Linuox press `CTRL`+`F5` or hold down `CTRL` and press the Reload button, or try
+`CTRL`+`SHIFT`+`F5`. On Mac OS X, press `SHIFT`+`CMD`+`R`, or hold `SHIFT` while pressing the
+Reload button.
 
 ![Red](/redhat-middleware-workshops/assets/developer-intro/nav-red.png)
 
