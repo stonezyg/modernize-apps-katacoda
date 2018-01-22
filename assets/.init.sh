@@ -57,7 +57,7 @@ echo "Checking out the latest version of the git projects" |& tee -a ${HOME}/.in
 git --git-dir=/root/projects/.git --work-tree=/root/projects pull |& tee -a ${HOME}/.init.log
 
 echo "Importing images" |& tee -a ${HOME}/.init.log
-for is in {"jboss-eap71-openshift","postgresql","redhat-openjdk18-openshift"}
+for is in {"registry.access.redhat.com/jboss-eap-7/eap70-openshift","registry.access.redhat.com/rhscl/postgresql-94-rhel7","registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift"}
 do 
   oc import-image $is --all --confirm --as=system:admin |& tee -a ${HOME}/.init.log
 done
