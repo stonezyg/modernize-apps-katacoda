@@ -32,6 +32,11 @@ git pull
 git checkout solution
 git pull
 cd monolith
+
+# undo code changes from this scenario
+git checkout master -- src/main/java/com/redhat/coolstore/utils/Transformers.java
+git checkout master -- src/main/webapp/app/css/coolstore.css
+
 oc new-project coolstore-dev --display-name="Coolstore Monolith - Dev" || { echo "cant create project; ensure all projects gone with 'oc get projects' and try again"; exit 1; }
 oc new-app coolstore-monolith-binary-build
 mvn clean package -Popenshift
