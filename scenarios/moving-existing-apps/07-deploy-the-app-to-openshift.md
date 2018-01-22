@@ -56,6 +56,9 @@ Click **Create Project**, fill in the fields, and click **Create**:
 * Display Name: `Coolstore Monolith - Dev`
 * Description: _leave this field empty_
 
+> **NOTE**: YOU **MUST** USE `coolstore-dev` AS THE PROJECT NAME, as this name is referenced later
+on and you will experience failures if you do not name it `coolstore-dev`!
+
 ![OpenShift Console](/redhat-middleware-workshops/assets/moving-existing-apps/create-dialog.png)
 
 Click on the name of the newly-created project:
