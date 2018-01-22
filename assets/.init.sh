@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 echo "Running init commands" |& tee ${HOME}/.init.log
 
-for i in {1..200}; do oc version && break || echo "Waiting for OpenShift" | tee -a ${HOME}/.init.log; sleep 3; done
 
+if [ ! -f /opt/katacoda-completed ]; then
+  printf "Waiting for the Environment to start" | tee -a ${HOME}/.init.log
+  while [ ! -f /opt/katacoda-completed ]; do; printf "." | tee -a ${HOME}/.init.log; sleep 3; done
+fi
+
+echo "The currently logged in to OpenShift as  $(oc whoami)" |& tee -a ${HOME}/.init.log
 if [ "$(oc whoami)" == "system:admin" ]; then
-  echo "User is system:admin" |& tee -a ${HOME}/.init.log
-
+  # Clean out extra directories that will cause the report generation to fail
   find /root/rhamt-cli-4.0.0.Beta4 -name \*\._\* -print | xargs rm -f |& tee -a ${HOME}/.init.log
   
   echo "Adding Policy rules" |& tee -a ${HOME}/.init.log
