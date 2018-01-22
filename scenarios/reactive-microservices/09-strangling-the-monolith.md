@@ -1,15 +1,11 @@
-So far we haven't started [strangling the monolith](https://www.martinfowler.com/bliki/StranglerApplication.html). To do this
-we are going to make use of routing capabilities in OpenShift. Each external request coming into OpenShift (unless using
-ingress, which we are not) will pass through a route. In our monolith the web page uses client side REST calls to load
-different parts of pages.
+In earlier scenarios we started [strangling the monolith](https://www.martinfowler.com/bliki/StranglerApplication.html) by redirecting
+calls the product catalog microservice. We will now do the same with our new shopping cart microservice. To do this
+we are going to again make use of routing capabilities in OpenShift.
 
-For the home page the product list is loaded via a REST call to *http://<monolith-hostname>/services/products*. At the moment
-calls to that URL will still hit product catalog in the monolith. By using a
+Adding items to, or removing items from your cart in the monolith UI is accomplished via a REST call to *http://<monolith-hostname>/services/cart*. At the moment
+calls to that URL will still hit embedded cart service in the monolith. By using a
 [path based route](https://docs.openshift.com/container-platform/3.7/architecture/networking/routes.html#path-based-routes) in
-OpenShift we can route these calls to our newly created catalog services instead and end up with something like:
-
-![Greeting](/redhat-middleware-workshops/assets/mono-to-micro-part-2/goal.png)
-
+OpenShift we can route these calls to our newly created cart services instead, just like we did with the Catalog microservice!
 
 Flow the steps below to create a path based route.
 
@@ -51,8 +47,14 @@ Open the monolith UI and observe that the new catalog is being used along with t
 
 ![Greeting](/redhat-middleware-workshops/assets/mono-to-micro-part-2/coolstore-web.png)
 
+Add some items to your cart, then visit the **Shopping Cart** tab to observe the new shipping fees we hard-coded earlier:
+
+![Greeting](/redhat-middleware-workshops/assets/reactive-microservices/fees.png)
+
+The **Checkout** functionality is yet to be implemented, so won't work, but it's not too far away and if you have time
+after this workshop feel free to contribute the changes and make this workshop even better!
+
 ## Congratulations!
 
-You have now successfully begun to _strangle_ the monolith. Part of the monolith's functionality (Inventory and Catalog) are
-now implemented as microservices, without touching the monolith. But there's a few more things left to do, which we'll do in the
-next steps.
+You have now successfully begun to _strangle_ the monolith. Part of the monolith's functionality (Inventory, Catalog and Shopping Cart) are
+now implemented as microservices, without touching the monolith.
