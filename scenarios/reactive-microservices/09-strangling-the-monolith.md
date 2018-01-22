@@ -2,7 +2,7 @@ In earlier scenarios we started [strangling the monolith](https://www.martinfowl
 calls the product catalog microservice. We will now do the same with our new shopping cart microservice. To do this
 we are going to again make use of routing capabilities in OpenShift.
 
-Adding items to, or removing items from your cart in the monolith UI is accomplished via a REST call to *http://<monolith-hostname>/services/cart*. At the moment
+Adding items to, or removing items from your cart in the monolith UI is accomplished via a REST call to `http://<monolith-hostname>/services/cart`. At the moment
 calls to that URL will still hit embedded cart service in the monolith. By using a
 [path based route](https://docs.openshift.com/container-platform/3.7/architecture/networking/routes.html#path-based-routes) in
 OpenShift we can route these calls to our newly created cart services instead, just like we did with the Catalog microservice!
