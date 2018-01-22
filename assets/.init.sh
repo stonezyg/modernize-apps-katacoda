@@ -4,7 +4,7 @@ echo "Running init commands" |& tee ${HOME}/.init.log
 
 if [ ! -f /opt/katacoda-completed ]; then
   printf "Waiting for the Environment to start" | tee -a ${HOME}/.init.log
-  while [ ! -f /opt/katacoda-completed ]; do; printf "." | tee -a ${HOME}/.init.log; sleep 3; done
+  while [ ! -f /opt/katacoda-completed ]; do printf "." | tee -a ${HOME}/.init.log; sleep 3; done
 fi
 
 echo "The currently logged in to OpenShift as  $(oc whoami)" |& tee -a ${HOME}/.init.log
