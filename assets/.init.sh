@@ -57,7 +57,7 @@ echo "Checking out the latest version of the git projects" |& tee -a ${HOME}/.in
 git --git-dir=/root/projects/.git --work-tree=/root/projects pull |& tee -a ${HOME}/.init.log
 
 echo "Importing images" |& tee -a ${HOME}/.init.log
-for is in $(oc get is -o name -n openshift | sed 's/imagestreams\///'); 
+for is in {"jboss-eap71-openshift","postgresql","redhat-openjdk18-openshift"}
 do 
   oc import-image $is --all --confirm --as=system:admin |& tee -a ${HOME}/.init.log
 done
