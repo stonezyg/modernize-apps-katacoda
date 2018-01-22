@@ -15,7 +15,7 @@ if [ "$(oc whoami)" == "system:admin" ]; then
   echo "Adding Policy rules" |& tee -a ${HOME}/.init.log
   oc adm policy add-role-to-user system:image-puller system:anonymous |& tee -a ${HOME}/.init.log
   oc adm policy add-cluster-role-to-user cluster-admin admin |& tee -a ${HOME}/.init.log
-  oc adm policy add-role-to-user sudoer developer |& tee -a ${HOME}/.init.log
+  oadm policy add-cluster-role-to-user sudoer developer |& tee -a ${HOME}/.init.log
 
   oc import-image jenkins:v3.7 --from='registry.access.redhat.com/openshift3/jenkins-2-rhel7:v3.7' --confirm -n openshift |& tee -a ${HOME}/.init.log
   oc export template jenkins-persistent -n openshift -o json | sed 's/jenkins:latest/jenkins:v3.7/g' | oc replace -f - -n openshift |& tee -a ${HOME}/.init.log
@@ -27,9 +27,6 @@ if [ "$(oc whoami)" == "system:admin" ]; then
 
   echo "Disable namespace ownership for router" |& tee -a ${HOME}/.init.log
   oc env dc/router ROUTER_DISABLE_NAMESPACE_OWNERSHIP_CHECK=true -n default |& tee -a ${HOME}/.init.log
-
-  echo "Installing tree" |& tee -a ${HOME}/.init.log
-  yum install tree -y |& tee -a ${HOME}/.init.log
 
   echo "Logging in as developer" |& tee -a ${HOME}/.init.log
   MASTER_EXTERNAL_URL=$(oc get route/docker-registry -n default | grep -v NAME | awk '{print $2}' | sed 's/docker\-registry\-default\.//' | sed 's/\-80\-/\-8443\-/')
@@ -56,7 +53,7 @@ else
   echo "Skipping init since user is not system:admin anymore." |& tee -a ${HOME}/.init.log
 fi
 
-echo "Doing final cleanup" |& tee -a ${HOME}/.init.log
+echo "Checking out the latest version of the git projects" |& tee -a ${HOME}/.init.log
 git --git-dir=/root/projects/.git --work-tree=/root/projects pull |& tee -a ${HOME}/.init.log
 
 echo "Importing images" |& tee -a ${HOME}/.init.log
@@ -65,4 +62,4 @@ do
   oc import-image $is --all --confirm --as=system:admin |& tee -a ${HOME}/.init.log
 done
 
-echo "Init was successful" |& tee -a ${HOME}/.init.log
+echo "Done!" |& tee -a ${HOME}/.init.log
