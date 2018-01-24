@@ -1,7 +1,7 @@
 Now that you've logged into OpenShift, let's deploy our new cart microservice:
 
-
 **Update configuration**
+
 Create the file by clicking on open ``src/main/resources/config-openshift.json``{{open}}
 
 Copy the following content to the file:

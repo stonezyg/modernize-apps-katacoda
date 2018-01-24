@@ -20,27 +20,27 @@
                 "text": "03-environment-specific-configuration.md"
             },
             {
-                "title": "Create a REST endpoints for /services/carts",
+                "title": "Create REST endpoints for retrieving carts",
                 "text": "04-create-get-carts-endpoint.md"
             },
             {
-                "title": "Create a REST endpoints for /services/cart",
+                "title": "Create REST endpoints for adding and deleting products",
                 "text": "05-create-post-item-endpoint.md"
             },
             {
-                "title": "Create a REST endpoints for /services/cart",
+                "title": "Using the Vert.x Event Bus for shipping services",
                 "text": "06-create-a-shipping-service.md"
             },
             {
-                "title": "Create a REST endpoints for /services/cart",
+                "title": "Create an OpenShift Project for the Cart microservice",
                 "text": "07-create-project.md"
             },
             {
-                "title": "Create a REST endpoints for /services/cart",
+                "title": "Deploy Cart microservice to OpenShift",
                 "text": "08-deploy-to-openshift.md"
             },
             {
-                "title": "Create a REST endpoints for /services/cart",
+                "title": "Replace (Strangle) monolith Cart services",
                 "text": "09-strangling-the-monolith.md"
             }
         ],

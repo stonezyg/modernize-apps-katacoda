@@ -209,5 +209,3 @@ This should now return a new shopping cart where one only instance of the produc
 `"quantity" : 1`
 
 The CartService depends on the CatalogService and just like in the Spring Boot example we could have created mocks for calling the Catalog Service, however since our example is already complex, we will simply test it with the CatalogService running. 
-
-## Summary
